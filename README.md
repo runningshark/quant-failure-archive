@@ -11,7 +11,7 @@
 | # | 策略 | 结论 | 关键数字 | 仓库 |
 |---|------|------|----------|------|
 | 01 | ETH 择时 · 遗传规划（GP） | **确认失败**（外部复核，不是原作者自评） | 样本外 **−5.3%**，最大回撤 **−58.4%** | [gp_eth_failureprove](https://github.com/runningshark/gp_eth_failureprove) |
-| 02 | 双向马丁格尔（网格） | 待整理 | — | — |
+| 02 | ETH 择时 · 1 小时（趋势 + 动量） | **确认失败**（且「参数寻优」是假的） | 全区间 **−85.5%**，回撤 **−90.5%**，612 笔；零成本仍 **−50.7%** | [eth_1h_failureprove](https://github.com/runningshark/eth_1h_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -30,6 +30,23 @@ git clone https://github.com/runningshark/gp_eth_failureprove
 cd gp_eth_failureprove
 py main.py tests          # 27/27
 py verify/01_gp_holdout.py
+```
+
+### 02 · ETH 择时（1 小时）
+
+报告写着「1h 参数寻优后 −85.4%」。复核发现这句话本身是空的：
+
+- **训练区间 64 组参数，0 组是正的**（中位 −79.6%，最好 −41.5%）。优化器只保留正收益 + 正夏普，返回空列表后代码静默回退 `DEFAULT_PARAMS`，报告把这个默认值写成了「最佳参数」。
+- **不是手续费的问题。** 零成本仍然 **−50.7%**，平均每笔 −0.050%；多头腿 −33.9%、空头腿 −25.3%，两个方向都在亏。10 bps 只是把 −51% 放大成 −85%。
+- **训练区间就已经 −72.7%**，报告只披露了「样本外 −46.4%」。
+
+同一份信号在 1 天上是 +2331%（买入持有 +1858%），样本外 +283% vs 买入持有 −32.9%，216 组参数样本外全正——但那段样本外是 ETH 单边下跌，趋势策略顺风，单品种单区间，只能算「值得再验」，不能算 edge。
+
+```bash
+git clone https://github.com/runningshark/eth_1h_failureprove
+cd eth_1h_failureprove
+py verify/01_reproduce.py        # 8/8：−85.5% / −90.5% / 612 笔
+py verify/02_grid_and_costs.py   # 1h 参数面 0/64、成本阶梯
 ```
 
 ---
