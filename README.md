@@ -12,6 +12,9 @@
 |---|------|------|----------|------|
 | 01 | ETH 择时 · 遗传规划（GP） | **确认失败**（外部复核，不是原作者自评） | 样本外 **−5.3%**，最大回撤 **−58.4%** | [gp_eth_failureprove](https://github.com/runningshark/gp_eth_failureprove) |
 | 02 | ETH 择时 · 1 小时（趋势 + 动量） | **确认失败**（且「参数寻优」是假的） | 全区间 **−85.5%**，回撤 **−90.5%**，612 笔；零成本仍 **−50.7%** | [eth_1h_failureprove](https://github.com/runningshark/eth_1h_failureprove) |
+| 03 | 1 小时 · 超卖接多（带止损） | **确认失败**（零成本也亏） | 样本外 BTC **−51%** / ETH **−83%**；零成本 BTC 全期 **−64%** | [h1_dip_stop_failureprove](https://github.com/runningshark/h1_dip_stop_failureprove) |
+| 04 | 1 小时 · 超卖接多（不止损） | **确认失败**（高胜率陷阱） | 胜率 89%–94%，样本外 BTC **−31%** / ETH **−56%**，单笔扛单 **−12.7%** | [h1_dip_nostop_failureprove](https://github.com/runningshark/h1_dip_nostop_failureprove) |
+| 05 | 1 小时 · 反转（跌了就买） | **确认失败**（被手续费吃光） | 样本外 BTC **−65%** / ETH **−62%**；零成本 **+213%**，约 3,500 笔换手 | [h1_reversal_failureprove](https://github.com/runningshark/h1_reversal_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -47,6 +50,47 @@ git clone https://github.com/runningshark/eth_1h_failureprove
 cd eth_1h_failureprove
 py verify/01_reproduce.py        # 8/8：−85.5% / −90.5% / 612 笔
 py verify/02_grid_and_costs.py   # 1h 参数面 0/64、成本阶梯
+```
+
+### 03 · 1 小时超卖接多（带止损）
+
+急跌到 24 小时低点、RSI < 35 就接多，+1% 止盈、−2% 止损。
+
+- **胜率 62%–65%，但盈亏比 1:2 要 66.7% 以上才打平**，所以零成本也是亏的。
+- 六个币 × 九组参数，扣成本后**全部为负**。
+- 2026-11-21 暴跌时连续三个小时接刀、连续止损，纸面账户一周 **−12.9%**。
+
+```bash
+git clone https://github.com/runningshark/h1_dip_stop_failureprove
+cd h1_dip_stop_failureprove
+py verify.py
+```
+
+### 04 · 1 小时超卖接多（不止损）
+
+和 03 一样，只是不止损、亏了就扛。
+
+- **胜率接近 90%**，带单页面一片绿，但少数大亏吃掉全部小赚：2026-11-13 买入的 BTC 扛到 11-20，这一笔 **−12.7%**。
+- 六个币四个亏。BNB 样本外 +30%，但同一套规则在其他五个币都亏——对品种和参数敏感，判为过拟合。
+
+```bash
+git clone https://github.com/runningshark/h1_dip_nostop_failureprove
+cd h1_dip_nostop_failureprove
+py verify.py
+```
+
+### 05 · 1 小时反转
+
+收盘价低于 24 小时前就持多，否则空仓。
+
+- **零成本 BTC 全期 +213%、ETH +182%**——小时级短期反转确实有一点统计倾向。
+- 但七年多换手约 **3,500 次**，单边 0.05% 成本后六个币**全部亏损**（BTC −91%）。
+- 回看窗口 6 到 336 小时**全部为负**，不是参数没调好。
+
+```bash
+git clone https://github.com/runningshark/h1_reversal_failureprove
+cd h1_reversal_failureprove
+py verify.py
 ```
 
 ---
