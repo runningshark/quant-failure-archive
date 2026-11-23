@@ -17,6 +17,7 @@
 | 05 | 1 小时 · 反转（跌了就买） | **确认失败**（被手续费吃光） | 样本外 BTC **−65%** / ETH **−62%**；零成本 **+213%**，约 3,500 笔换手 | [h1_reversal_failureprove](https://github.com/runningshark/h1_reversal_failureprove) |
 | 06 | 日线 · 均值回归（连跌接多） | **不值得交易**（没亏，但赚得太少） | 7 年 BTC **+1.8%** / ETH **+5.5%**；样本外六币 −1.9%～+2.4%，同期持有 BTC +39%；81 组参数夏普全部 < 0.5 | [d1_meanrev_failureprove](https://github.com/runningshark/d1_meanrev_failureprove) |
 | 07 | 1 小时 · 突破（48 小时，海龟式） | **确认失败**（样本外衰减，做空版亏损） | 只做多样本外夏普中位 **0.27**（训练段约 1.0），BTC +11% vs 持有 +42%；允许做空后全期 BTC **−27%**、XRP **−86%** | [h1_breakout_failureprove](https://github.com/runningshark/h1_breakout_failureprove) |
+| 08 | 1 小时 · 动量（168 小时） | **确认失败**（手续费吃掉全部优势） | 只做多样本外 BTC **−4%**（持有 +48%），六币三亏；最近一年六币全亏；零成本样本外全正，扣成本后一半变负；允许做空 BNB **−65%** | [h1_momentum_failureprove](https://github.com/runningshark/h1_momentum_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -122,6 +123,21 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/h1_breakout_failureprove
 cd h1_breakout_failureprove
+py verify.py
+```
+
+### 08 · 1 小时动量（168 小时）
+
+当前小时收盘高于 168 小时（7 天）前就持有，低于就平仓；可选做空。每小时判断一次。
+
+- **"手续费决定生死"的标准案例**：样本外每年约 150 次换仓，不扣成本六个币全是正的（BTC +47%、ETH +84%），扣单边 0.05% 后 BTC −4%、BNB −9%、DOGE −8%。平均夏普从训练段约 1.05 掉到 0.26。
+- 最近一年六个币全亏（−10% 到 −51%），只是比买入持有亏得少。
+- 做空版样本外六个币五个亏（BTC −49%、BNB −65%）：小时级下跌常被很快拉回，交易次数和手续费翻倍。
+- 回看越短越差（24 小时 BTC −65%、ETH −84%）。336 小时样本外很好，但是孤立尖峰：312 小时做空版六币全亏，属于幸运参数。360～720 小时较稳，但那已经等于日线动量。
+
+```bash
+git clone https://github.com/runningshark/h1_momentum_failureprove
+cd h1_momentum_failureprove
 py verify.py
 ```
 
