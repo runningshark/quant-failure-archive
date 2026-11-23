@@ -15,6 +15,7 @@
 | 03 | 1 小时 · 超卖接多（带止损） | **确认失败**（零成本也亏） | 样本外 BTC **−51%** / ETH **−83%**；零成本 BTC 全期 **−64%** | [h1_dip_stop_failureprove](https://github.com/runningshark/h1_dip_stop_failureprove) |
 | 04 | 1 小时 · 超卖接多（不止损） | **确认失败**（高胜率陷阱） | 胜率 89%–94%，样本外 BTC **−31%** / ETH **−56%**，单笔扛单 **−12.7%** | [h1_dip_nostop_failureprove](https://github.com/runningshark/h1_dip_nostop_failureprove) |
 | 05 | 1 小时 · 反转（跌了就买） | **确认失败**（被手续费吃光） | 样本外 BTC **−65%** / ETH **−62%**；零成本 **+213%**，约 3,500 笔换手 | [h1_reversal_failureprove](https://github.com/runningshark/h1_reversal_failureprove) |
+| 06 | 日线 · 均值回归（连跌接多） | **不值得交易**（没亏，但赚得太少） | 7 年 BTC **+1.8%** / ETH **+5.5%**；样本外六币 −1.9%～+2.4%，同期持有 BTC +39%；81 组参数夏普全部 < 0.5 | [d1_meanrev_failureprove](https://github.com/runningshark/d1_meanrev_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -90,6 +91,21 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/h1_reversal_failureprove
 cd h1_reversal_failureprove
+py verify.py
+```
+
+### 06 · 日线均值回归（连跌接多）
+
+上升趋势（收盘在 200 日均线上方）里，连跌 3 天后次日开盘买入；回到 5 日均线上方或持满 5 天卖出；3 倍 ATR 止损，每笔风险 1%。
+
+- **胜率 64%–76%，回撤只有 1%–4%，但几乎不赚钱**：平均每笔约 +0.25R，7 年合计约 +5R；BTC 全期 +1.8%，同期一直持有 +470%。
+- 一年只出手 8～10 次、持仓时间占 6%–9%，仓位只有账户的几个百分点，钱大部分时间闲着。
+- **唯一有用的是趋势过滤**：81 组参数里，去掉 200 / 100 日均线过滤的 27 组**全部为负**；连跌天数、出场均线、持有天数怎么调都差不多，最好的夏普只有 0.27。
+- 不算"亏损失败"，算"性价比失败"：在系统里占一个位置，却几乎不产生收益。
+
+```bash
+git clone https://github.com/runningshark/d1_meanrev_failureprove
+cd d1_meanrev_failureprove
 py verify.py
 ```
 
