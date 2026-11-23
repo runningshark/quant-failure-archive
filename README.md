@@ -22,6 +22,7 @@
 | 10 | 日线 · 资金费套息（现货多 + 永续空） | **收益衰减**（不亏钱，但已不值得占用资金） | 6 币全期都为正（+20%～+54%），但年化 2024 年前 5.6% → 2024 年后 2.1% → 2025 年后 **0.4%**；105 组参数最好一组 2025 年后也只有 1.1% | [d1_funding_carry_failureprove](https://github.com/runningshark/d1_funding_carry_failureprove) |
 | 11 | 日线 · 布林带收缩突破（squeeze） | **指标无效**（收缩条件越严越差） | 收缩分位 10% → 25% → 60% → 不要求收缩：样本外 +23R → +76R → +105R → +101R；默认版两段都输给普通 20 日突破（+159R vs +223R / +76R vs +84R），BTC 样本外亏损 | [d1_squeeze_failureprove](https://github.com/runningshark/d1_squeeze_failureprove) |
 | 12 | 日线 · 均线择时（100 日，满仓） | **基准·待改进**（不是失败） | 2024 年后 6 币 5 个跑赢持有（ETH +43% vs −27%），夏普 0.56，和突破策略相当；但满仓无止损，平均最大回撤 **−51%**（最深 −69%） | [d1_ma_baseline_failureprove](https://github.com/runningshark/d1_ma_baseline_failureprove) |
+| 13 | 4H · 维纳斯通道引擎（Vegas 隧道 + 主区 + MACD + 斐位） | **确认失败**（前视偏差 + 参数过拟合） | 看板原声称 **+87.4%**；前视 **+19.0%** vs 实时 **−1.0%**；参数样本内最优 **+76.3% → 样本外 −4.1%**，样本外 36 组全负 | [vegas_channel_failureprove](https://github.com/runningshark/vegas_channel_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -202,6 +203,22 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/d1_ma_baseline_failureprove
 cd d1_ma_baseline_failureprove
+py verify.py
+```
+
+### 13 · 维纳斯通道引擎
+
+Vegas 隧道 EMA144/169 + EMA12 过滤 + 主区 EMA576/676 + MACD + 斐波那契打分定仓位，执行层后改用 S1 日线 EMA20/60 主区作开关。
+
+- **+87.4% 是前视偏差**：用「当天日线最终收盘」判断主区，08:00 的 4H bar 偷看到 23:59 的收盘。同一窗口前视 **+19.0%**，当天进行中（看板口径）**−1.0%**，昨日已收盘 −2.5%。
+- **参数调不出 edge**：36 组网格样本内最优 **+76.3%** 到样本外 **−4.1%**；样本外 36 组全负，最好也只有 −0.9%，样本内/外收益相关系数 0.507。
+- **不是某个指标没用**：消融里去掉主区 / 隧道 / 过滤 / MACD / 斐位任一项都更差（去龙虾 −15.4% → −18.1%～−22.8%），失败来自整套信号在该窗口没有 edge；旧 4H 主区作开关（−15.7%）明显差于 S1 日线开关（−1.0%）。
+- **5% 龙虾撑场**：去龙虾短窗口 −1.0%，含龙虾 +3.8%；项目看板同口径 +1.2% → +8.8%。去掉个别币就基本不赚钱。
+- 剩下的线索：S1 日线 EMA20/60 作为「该不该空仓」的风控开关确实有效（回撤 −9.3% vs 旧主区 −22.7%、买入持有 −38.1%），可以拆出来单独当风控条件用，但不能当收益引擎。
+
+```bash
+git clone https://github.com/runningshark/vegas_channel_failureprove
+cd vegas_channel_failureprove
 py verify.py
 ```
 
