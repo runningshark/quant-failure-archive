@@ -16,6 +16,7 @@
 | 04 | 1 小时 · 超卖接多（不止损） | **确认失败**（高胜率陷阱） | 胜率 89%–94%，样本外 BTC **−31%** / ETH **−56%**，单笔扛单 **−12.7%** | [h1_dip_nostop_failureprove](https://github.com/runningshark/h1_dip_nostop_failureprove) |
 | 05 | 1 小时 · 反转（跌了就买） | **确认失败**（被手续费吃光） | 样本外 BTC **−65%** / ETH **−62%**；零成本 **+213%**，约 3,500 笔换手 | [h1_reversal_failureprove](https://github.com/runningshark/h1_reversal_failureprove) |
 | 06 | 日线 · 均值回归（连跌接多） | **不值得交易**（没亏，但赚得太少） | 7 年 BTC **+1.8%** / ETH **+5.5%**；样本外六币 −1.9%～+2.4%，同期持有 BTC +39%；81 组参数夏普全部 < 0.5 | [d1_meanrev_failureprove](https://github.com/runningshark/d1_meanrev_failureprove) |
+| 07 | 1 小时 · 突破（48 小时，海龟式） | **确认失败**（样本外衰减，做空版亏损） | 只做多样本外夏普中位 **0.27**（训练段约 1.0），BTC +11% vs 持有 +42%；允许做空后全期 BTC **−27%**、XRP **−86%** | [h1_breakout_failureprove](https://github.com/runningshark/h1_breakout_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -106,6 +107,21 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/d1_meanrev_failureprove
 cd d1_meanrev_failureprove
+py verify.py
+```
+
+### 07 · 1 小时突破（48 小时）
+
+小时收盘创 48 小时新高、且在 200 小时均线上方就买，跌破 24 小时新低就卖；可选对称做空。
+
+- **训练段夏普约 1.0，2024 年后中位数只剩 0.27**：BTC +11%（同期持有 +42%），SOL −23%、BNB −9%。全期的大收益主要来自 2019–2021 年牛市。
+- **做空部分六个币全部亏损**：200 小时均线只有 8 天，牛市回调也被当成下跌；创新低时跌势往往已近尾声，随后的轧空打掉离场线；交易次数和手续费翻倍。打开做空后 BTC 全期 −27%、XRP −86%，回撤 −84% 到 −99%。
+- 手续费吃掉约一半：零成本 BTC 样本外 +29%，扣成本后 +11%。
+- 剩下的线索：窗口拉长到 7～14 天明显更好（但那已是日线突破）；做空只在日线下跌趋势里做，空单从全亏变成接近不亏——这一条是事后挑出来的，需要新数据再确认。
+
+```bash
+git clone https://github.com/runningshark/h1_breakout_failureprove
+cd h1_breakout_failureprove
 py verify.py
 ```
 
