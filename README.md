@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -44,6 +44,9 @@
 | 32 | 周 · 每周卖出 ETH 平值跨式（不对冲） | **确认失败**（权利金抵不掉赔付） | 年化 **−3.8%**，t −0.24，回撤 **−86.9%**；每周收 7.26%、赔 7.27% | [w1_short_straddle_failureprove · V2](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/32_V2_eth_short_straddle.md) |
 | 33 | 周 · 每周卖出 BTC 平值跨式（每天对冲） | **确认失败**（对冲后仍不显著） | 年化 +6.8%，t **0.98**；对冲成本每年 5.5%；权利金打 95 折 → **−8.5%** | [w1_short_straddle_failureprove · V3](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/33_V3_btc_short_straddle_hedged.md) |
 | 34 | 周 · 每周卖出 ETH 平值跨式（每天对冲） | **确认失败**（对冲后仍为负） | 年化 **−5.0%**，t −0.59；训练段、验证段都为负 | [w1_short_straddle_failureprove · V4](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/34_V4_eth_short_straddle_hedged.md) |
+| 35 | 日线 · 距离法配对交易 | **确认失败**（零成本也不赚） | 年化 **−2.7%**，t −0.78；零成本也是 −1.0%；4 个变体全负 | [pairs_trading_failureprove · S1](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/35_S1_distance_pairs.md) |
+| 36 | 日线 · 协整配对交易 | **确认失败**（方向相反） | 年化 **−16.7%**，t **−3.24**（方向相反），每年都亏；反过来扣成本后 t 2.44，没到门槛 | [pairs_trading_failureprove · S2](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/36_S2_cointegration_pairs.md) |
+| 37 | 日线 · ETH/BTC 比值回归 | **确认失败**（没有信号） | 年化 +0.7%，t **0.09**；验证段 −1.4%；六年多只开仓 36 次 | [pairs_trading_failureprove · S3](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/37_S3_ethbtc_ratio.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -590,6 +593,59 @@ py verify.py V3
 git clone https://github.com/runningshark/w1_short_straddle_failureprove
 cd w1_short_straddle_failureprove
 py verify.py V4
+```
+
+### 35–37 · 第五轮事先登记的研究：配对交易（共用一个仓库）
+
+前面测的都是单个币的择时、按指标排队的多空，或者卖期权。这一轮测“两个币之间的价差会收回来”这一类。规则和通过标准同样是事先登记的（[事先登记_第五轮.md](https://github.com/runningshark/pairs_trading_failureprove/blob/master/事先登记_第五轮.md)）。**3 个全部失败。**
+
+- 累计 28 个候选，门槛是 t ≥ 3.2。成本单边 0.10%，多空都用永续合约并计入资金费。
+- 这 3 条共用一个仓库 [pairs_trading_failureprove](https://github.com/runningshark/pairs_trading_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/pairs_trading_failureprove/blob/master/FAILURE_REPORT.md)。
+
+### 35 · 距离法配对交易
+
+每 4 周在成交额最高的 30 个币里，挑过去 180 天走势最贴近的 10 对；之后 4 周里，一对的价差超过 2 倍标准差就做空高的、做多低的，价差收回来平仓。配对交易最经典的做法。（[档案](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/35_S1_distance_pairs.md)）
+
+- **零成本也不赚。** 全区间年化 −2.7%（t = −0.78），不扣成本也是 −1.0%（t = −0.30）：价差拉开之后并没有收回来的倾向。
+- **两段都为负。** 训练段年化 −3.3%，验证段 −2.0%；7 年里 2021、2022、2023、2024、2025、2026 年为负。
+- **4 个邻近变体全部为负。** 依次是 −3.4%、−2.6%、−3.7%、−8.4%（阈值 1.5σ、阈值 2.5σ、形成期 90 天、取 20 对）。
+- **拆开看。** 做空的一侧（涨得多的那个币）每年在价格上亏 6.0%，做多的一侧赚 +5.3%，合起来接近零，再扣成本每年 1.7%。
+
+```bash
+git clone https://github.com/runningshark/pairs_trading_failureprove
+cd pairs_trading_failureprove
+py verify.py S1
+```
+
+### 36 · 协整配对交易
+
+和 35 一样，选对的方法换成协整检验：用对数价格回归，挑残差最像“会回到均值”的 10 对。（[档案](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/36_S2_cointegration_pairs.md)）
+
+- **方向是反的，而且显著。** 全区间年化 −16.7%（t = −3.24），零成本也是 −14.6%（t = −2.84），7 年里每一年都亏，最大回撤 −71.3%。
+- **形成期里看起来协整，到了交易期继续拉开。** 做空的一侧每年在价格上亏 24.0%，做多的一侧只赚 +9.5%：被判成“偏高”的币之后继续跑赢。
+- **变体。** 开仓阈值 1.5σ 是 −21.8%，2.5σ 是 −12.6%，取 20 对是 −18.2%，形成期 90 天是 −1.0%。
+- **反过来做是事后的方向，也没到门槛。** 把方向反过来（赌价差继续拉开；不是登记的候选，只作说明）：零成本年化 +14.6%（t = 2.84），扣成本后 +12.5%（t = 2.44），训练段 t 1.58，验证段 t 2.07。
+- 剩下的线索：在成交额最高的这批币里，价差拉开之后更常见的是继续拉开，而不是收回来。这和合集第 14 条（一周动量在零成本下为正）、第 18 条（一日反转零成本也亏）是同一件事的不同侧面。反过来做扣成本后 t = 2.44，没到门槛，而且是事后看到的方向，需要新数据确认，不能当成结论。
+
+```bash
+git clone https://github.com/runningshark/pairs_trading_failureprove
+cd pairs_trading_failureprove
+py verify.py S2
+```
+
+### 37 · ETH/BTC 比值回归
+
+ETH/BTC 的比值相对过去 90 天偏离超过 2 倍标准差，就赌它回来：偏高做空 ETH、做多 BTC，偏低反过来。（[档案](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/37_S3_ethbtc_ratio.md)）
+
+- **没有信号。** 全区间年化 +0.7%（t = 0.09），零成本 +2.0%（t = 0.29）。
+- **样本外为负。** 训练段年化 +2.4%，验证段 −1.4%；2025 年一年 −19.3%。
+- **变体有正有负。** 窗口 60 天、180 天，阈值 1.5、2.5，依次是 −5.4%、−0.7%、−1.6%、+3.1%。
+- **次数太少。** 六年多只开仓 36 次，就算有效果，统计上也说明不了。
+
+```bash
+git clone https://github.com/runningshark/pairs_trading_failureprove
+cd pairs_trading_failureprove
+py verify.py S3
 ```
 
 ---
