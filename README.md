@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24 来自同一次研究，共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -34,6 +34,11 @@
 | 22 | 周线 · 跨资产趋势（25 个市场） | **确认失败**（成本吃掉一半，仍不显著） | 19.9 年：零成本夏普 0.47 → 扣成本 **0.25**（t 1.21）；成本翻倍 0.04；2023–2025 连亏 | [factor_study_failureprove · T5](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/22_T5_cross_asset_trend.md) |
 | 23 | 周线 · 资金费篮子（挑费率最高的币） | **收益衰减** | 超过国债利率：训练段每年 +8.7% → 样本外每年 **−3.5%**；2022 年起年年为负 | [factor_study_failureprove · C1](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/23_C1_funding_basket.md) |
 | 24 | 周线 · 多 BTC 空山寨 | **确认失败**（不显著，山寨季巨亏） | t **0.76**；2021 年 **−51.4%**，回撤 −56.1%；训练段年化 −2.7% | [factor_study_failureprove · S1](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/24_S1_btc_vs_alts.md) |
+| 25 | 周线 · 做空新上线的币（第 7–90 天） | **确认失败**（新币会跌，但做空不赚钱） | 新币第 7–90 天 76% 下跌（中位数 −39.0%），做空却年化 **−8.5%**、回撤 **−81.3%**；做空一年要付约 11.6% 资金费 | [factor_study2_failureprove · N1](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/25_N1_new_listing_short_7_90.md) |
+| 26 | 周线 · 做空新上线的币（第 91–365 天） | **确认失败**（牛市里被逼空） | 年化 **−8.1%**，t −0.82；2021 年 **−44.1%**；5 个变体全负 | [factor_study2_failureprove · N2](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/26_N2_new_listing_short_91_365.md) |
+| 27 | 周线 · 散户多空比（反向） | **确认失败**（样本外反转） | 训练段 t 2.10 → 验证段 **−12.0%**（t −1.18）；全区间 t **0.62**；收益主要是资金费 | [factor_study2_failureprove · P1](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/27_P1_retail_ls_ratio.md) |
+| 28 | 周线 · 大户持仓多空比（跟随） | **确认失败**（跟着大户反而亏） | 年化 **−8.5%**，t **−1.49**；两段都亏，4 个变体全负 | [factor_study2_failureprove · P2](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/28_P2_top_trader_ratio.md) |
+| 29 | 周线 · 持仓量增速（反向） | **确认失败**（方向相反） | 年化 **−20.5%**，t **−3.12**（方向相反）；反过来扣成本后 t 1.23，验证段 +0.3% | [factor_study2_failureprove · P3](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/29_P3_oi_growth.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -411,6 +416,91 @@ py verify.py C1
 git clone https://github.com/runningshark/factor_study_failureprove
 cd factor_study_failureprove
 py verify.py S1
+```
+
+### 25–29 · 第二轮事先登记的研究（共用一个仓库）
+
+14–24 的失败集中在成本、样本外衰减、收益来自大盘三种，所以第二轮只挑换手低、说得出是谁在付钱、多空对冲的做法：做空新上线的币，以及三个持仓拥挤度指标。测之前同样把规则、参数和通过标准写死（[事先登记_第二轮.md](https://github.com/runningshark/factor_study2_failureprove/blob/master/事先登记_第二轮.md)，并记下文件的 SHA-256）。**5 个全部失败**，没有一个进入“待观察”。
+
+- **门槛随累计个数提高到 t ≥ 3.1。** 两轮累计 19 个候选。下面每一条的 t 都按这个门槛读。
+- 数据是币安全部 U 本位永续（含已下架的）的日线、成交额、资金费，加上官方归档的持仓量和多空比；成本单边 0.10%，计入资金费；训练段到 2023 年底，验证段从 2024 年起。
+- 这 5 条共用一个仓库 [factor_study2_failureprove](https://github.com/runningshark/factor_study2_failureprove)（需要 pandas、numpy），每条用自己的编号单独复现。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/factor_study2_failureprove/blob/master/FAILURE_REPORT.md)。
+
+### 25 · 做空新上线的币（第 7–90 天）
+
+每周日收盘，做空上线第 7 到 90 天、日成交额不低于 1000 万美元的新币永续（每个最多占资金的 5%，合计最多 50%），同时等额做多 20 个最活跃的老币对冲。检验的是“新币上线后都会跌，所以做空它”。（[档案](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/25_N1_new_listing_short_7_90.md)）
+
+- **新币确实跌，但做空吃不到这个跌幅。** 不经过回测直接统计：442 个新币从上线第 7 天持有到第 90 天，76% 下跌，中位数 −39.0%，平均却是 +12.3%，因为少数暴涨的币把平均数拉成了正的。做空吃的是平均数，不是中位数：空头一侧的价格盈亏是每年 −9.1%。
+- **牛市里被逼空。** 2021 年和 2024 年，空头一侧在价格上分别亏掉 56.9% 和 34.5%（按日盈亏相加，占资金的比例）；最差的一周组合亏 37.9%，最大回撤 −81.3%。
+- **新币下跌的年份，资金费把利润吃掉。** 2025、2026 年空头一侧在价格上赚了 5.7%、34.7%，但付出的资金费是 41.2%、23.3%（同样按日相加）。窗口内做空平均每年要付约 11.6% 的资金费，说明做空新币的人已经很多了。
+- **对冲和变体都救不了。** 全区间年化 −8.5%（t = −0.59），训练段 +3.8%，验证段 −23.3%；只用 BTC 对冲是 −2.2%；5 个邻近变体全部为负。
+- 剩下的线索：新币会跌这件事是真的：上线第 7 天买入、持有到第 90 天，76% 的币是亏的，中位数 −39.0%。能用的结论是“别在上线头几个月买新币”，而不是“做空它”。负的资金费说明做空这个方向已经很拥挤。
+
+```bash
+git clone https://github.com/runningshark/factor_study2_failureprove
+cd factor_study2_failureprove
+py verify.py N1
+```
+
+### 26 · 做空新上线的币（第 91–365 天）
+
+和 25 一样，换成上线第 91 到 365 天的币，避开刚上线时的炒作。（[档案](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/26_N2_new_listing_short_91_365.md)）
+
+- **同样是少数暴涨拉高平均。** 380 个新币从上线第 91 天持有到第 365 天，74% 下跌，中位数 −51.2%，平均却是 +58.7%。空头一侧的价格盈亏是每年 −17.7%。
+- **2021 年一年亏掉近一半。** 组合 2021 年 −44.1%：上线不到一年的币在牛市里涨得比老币多得多，空头一侧的亏损远大于多头一侧的盈利。
+- **两段都是负的。** 训练段年化 −9.3%（t = −0.72），验证段 −6.6%（t = −0.43）；5 个邻近变体、3 项压力测试全部为负。
+- **这个窗口里资金费不是问题**（空头一侧每年 +0.3%），亏在价格上。
+- 剩下的线索：和第 25 条一样：上线第 91 天买入、持有到第 365 天，74% 下跌，中位数 −51.2%。结论同样是不要买，而不是做空。
+
+```bash
+git clone https://github.com/runningshark/factor_study2_failureprove
+cd factor_study2_failureprove
+py verify.py N2
+```
+
+### 27 · 散户多空比（反向）
+
+每周日收盘，在成交额最高的 30 个有永续合约的币里，做多“全部账户多空人数比”最低的 10 个、做空最高的 10 个，等权，持有一周。检验的是“多空比是反向指标”。（[档案](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/27_P1_retail_ls_ratio.md)）
+
+- **样本外反过来了。** 训练段（到 2023 年底）年化 +18.8%（t = 2.10），验证段 −12.0%（t = −1.18）；2023 年一年 +71.2%，之后三年是 −8.7%、−9.5%、−19.2%。
+- **赚的主要是资金费，不是指标。** 拆开看：两侧的资金费合计约每年 +4.7%，价格盈亏合计约 +2.6%，成本 2.8%。散户扎堆做多的币正好是资金费高的币，这个指标大体上是资金费的另一种读法。
+- **换一种算法就变号。** 信号改成一周的变化，年化 −12.6%（t = −1.96）；每边 6 个时 t = 0.57。
+- **全区间不显著。** t = 0.62，零成本也只有 1.04。
+
+```bash
+git clone https://github.com/runningshark/factor_study2_failureprove
+cd factor_study2_failureprove
+py verify.py P1
+```
+
+### 28 · 大户持仓多空比（跟随）
+
+和 27 一样，信号换成“大户持仓多空比”，方向是跟随：做多大户最偏多的 10 个、做空最偏空的 10 个。（[档案](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/28_P2_top_trader_ratio.md)）
+
+- **方向是负的。** 年化 −8.5%（t = −1.49），训练段 −7.0%、验证段 −10.2% 都亏；4 个邻近变体全部为负（t 从 −2.43 到 −1.25）。
+- **跟着大户还要倒贴资金费。** 两侧资金费合计每年约 −4.4%：大户持仓偏多的币资金费更高，做多它们要付钱。
+- **可用的数据很短。** 归档里这个字段 2022 年几乎是空的，321 周里实际有仓位的只有 216 周，主要在 2023 年以后，训练段只有一年左右。
+
+```bash
+git clone https://github.com/runningshark/factor_study2_failureprove
+cd factor_study2_failureprove
+py verify.py P2
+```
+
+### 29 · 持仓量增速（反向）
+
+和 27 一样，信号换成持仓量一周的增速：做多增长最慢的 10 个、做空增长最快的 10 个。检验的是“持仓量暴增说明杠杆过热”。（[档案](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/29_P3_oi_growth.md)）
+
+- **方向和流行说法相反。** 做空持仓量增长最快的、做多最慢的：年化 −20.5%（t = −3.12），零成本也是 −14.2%（t = −2.18）；有仓位以来每一年都亏。
+- **亏在多头一侧。** 持仓量增长最慢（常常是在减少）的币之后继续走弱：多头一侧的价格盈亏每年 −16.9%，空头一侧 +2.6%。
+- **换手高。** 年换手 63 倍，成本每年 6.3%。
+- **反过来做也不够。** 把方向反过来（不是登记的候选，只作说明）：零成本年化 +14.1%（t = 2.20），扣成本后 +7.9%（t = 1.23），验证段 +0.3%（t = 0.03）。
+- 剩下的线索：持仓量增长快的币之后表现更好，方向和商品期货上的文献（Hong、Yogo）一致。但扣成本后不显著，验证段接近零，而且这是事后看到的方向，不能当成结论。
+
+```bash
+git clone https://github.com/runningshark/factor_study2_failureprove
+cd factor_study2_failureprove
+py verify.py P3
 ```
 
 ---
