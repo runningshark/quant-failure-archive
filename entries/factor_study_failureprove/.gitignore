@@ -1,5 +1,0 @@
-__pycache__/
-*.pyc
-raw/
-# 来自 Yahoo 财经的 ETF 日线不随仓库分发，用 py download_data.py --yahoo 下载
-data/yahoo_adjclose.csv.gz

@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24 是同一次研究里的 11 条，共用代码和数据，放在本仓库的 [entries/factor_study_failureprove](entries/factor_study_failureprove/)。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24 来自同一次研究，共用一个仓库。）
 
 ---
 
@@ -23,17 +23,17 @@
 | 11 | 日线 · 布林带收缩突破（squeeze） | **指标无效**（收缩条件越严越差） | 收缩分位 10% → 25% → 60% → 不要求收缩：样本外 +23R → +76R → +105R → +101R；默认版两段都输给普通 20 日突破（+159R vs +223R / +76R vs +84R），BTC 样本外亏损 | [d1_squeeze_failureprove](https://github.com/runningshark/d1_squeeze_failureprove) |
 | 12 | 日线 · 均线择时（100 日，满仓） | **基准·待改进**（不是失败） | 2024 年后 6 币 5 个跑赢持有（ETH +43% vs −27%），夏普 0.56，和突破策略相当；但满仓无止损，平均最大回撤 **−51%**（最深 −69%） | [d1_ma_baseline_failureprove](https://github.com/runningshark/d1_ma_baseline_failureprove) |
 | 13 | 4H · 维纳斯通道引擎（Vegas 隧道 + 主区 + MACD + 斐位） | **确认失败**（前视偏差 + 参数过拟合） | 看板原声称 **+87.4%**；前视 **+19.0%** vs 实时 **−1.0%**；参数样本内最优 **+76.3% → 样本外 −4.1%**，样本外 36 组全负 | [vegas_channel_failureprove](https://github.com/runningshark/vegas_channel_failureprove) |
-| 14 | 周线 · 横截面动量（7 天） | **确认失败**（零成本勉强，扣成本后不显著） | 零成本 t 2.48，扣成本后 t **1.75**；年换手 73 倍；成本翻倍 t 1.03 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/14_X1_xs_momentum_7d.md) |
-| 15 | 周线 · 横截面动量（28 天） | **确认失败**（没有信号） | 年化 +9.0%，t **0.85**；样本外年化 +3.6%（t 0.28） | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/15_X2_xs_momentum_28d.md) |
-| 16 | 周线 · 横截面动量（90 天） | **确认失败**（方向相反） | 年化 **−14.0%**，回撤 **−76.9%**；样本外年化 −28.2%（t −2.19）；5 个变体全负 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/16_X3_xs_momentum_90d.md) |
-| 17 | 周线 · 资金费 30 天多空 | **确认失败**（信号被平均掉） | 年化 +4.0%，t **0.44**；晚一天执行 −0.6%；样本外累计 −3.7% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/17_X5_funding_30d.md) |
-| 18 | 日线 · 横截面一日反转 | **确认失败**（零成本也亏） | 零成本年化 **−5.0%**；年换手 495 倍，净年化 **−54.5%**，回撤 −97.8% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/18_X8_xs_reversal_1d.md) |
-| 19 | 周线 · 30 币分散趋势（现货） | **确认失败**（对 BTC 没有超额） | 夏普 0.53，对 BTC 超额 t **0.20**（贝塔 0.30）；样本外累计 **−13.5%** | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/19_T1_trend_spot.md) |
-| 20 | 周线 · 30 币分散趋势（永续多空） | **确认失败**（样本外转负） | 训练段 t 2.01 → 样本外 t **−0.32**；2024–2026 年 +0.0% / −3.7% / −15.1% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/20_T2_trend_perp.md) |
-| 21 | 周线 · 波动率管理的 BTC | **指标无效**（没有超额） | 夏普 0.57 vs 持有 0.59；对 BTC 超额 t **0.20**；回撤 −64.9% vs −81.2% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/21_T3_btc_vol_managed.md) |
-| 22 | 周线 · 跨资产趋势（25 个市场） | **确认失败**（成本吃掉一半，仍不显著） | 19.9 年：零成本夏普 0.47 → 扣成本 **0.25**（t 1.21）；成本翻倍 0.04；2023–2025 连亏 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/22_T5_cross_asset_trend.md) |
-| 23 | 周线 · 资金费篮子（挑费率最高的币） | **收益衰减** | 超过国债利率：训练段每年 +8.7% → 样本外每年 **−3.5%**；2022 年起年年为负 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/23_C1_funding_basket.md) |
-| 24 | 周线 · 多 BTC 空山寨 | **确认失败**（不显著，山寨季巨亏） | t **0.76**；2021 年 **−51.4%**，回撤 −56.1%；训练段年化 −2.7% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/24_S1_btc_vs_alts.md) |
+| 14 | 周线 · 横截面动量（7 天） | **确认失败**（零成本勉强，扣成本后不显著） | 零成本 t 2.48，扣成本后 t **1.75**；年换手 73 倍；成本翻倍 t 1.03 | [factor_study_failureprove · X1](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/14_X1_xs_momentum_7d.md) |
+| 15 | 周线 · 横截面动量（28 天） | **确认失败**（没有信号） | 年化 +9.0%，t **0.85**；样本外年化 +3.6%（t 0.28） | [factor_study_failureprove · X2](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/15_X2_xs_momentum_28d.md) |
+| 16 | 周线 · 横截面动量（90 天） | **确认失败**（方向相反） | 年化 **−14.0%**，回撤 **−76.9%**；样本外年化 −28.2%（t −2.19）；5 个变体全负 | [factor_study_failureprove · X3](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/16_X3_xs_momentum_90d.md) |
+| 17 | 周线 · 资金费 30 天多空 | **确认失败**（信号被平均掉） | 年化 +4.0%，t **0.44**；晚一天执行 −0.6%；样本外累计 −3.7% | [factor_study_failureprove · X5](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/17_X5_funding_30d.md) |
+| 18 | 日线 · 横截面一日反转 | **确认失败**（零成本也亏） | 零成本年化 **−5.0%**；年换手 495 倍，净年化 **−54.5%**，回撤 −97.8% | [factor_study_failureprove · X8](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/18_X8_xs_reversal_1d.md) |
+| 19 | 周线 · 30 币分散趋势（现货） | **确认失败**（对 BTC 没有超额） | 夏普 0.53，对 BTC 超额 t **0.20**（贝塔 0.30）；样本外累计 **−13.5%** | [factor_study_failureprove · T1](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/19_T1_trend_spot.md) |
+| 20 | 周线 · 30 币分散趋势（永续多空） | **确认失败**（样本外转负） | 训练段 t 2.01 → 样本外 t **−0.32**；2024–2026 年 +0.0% / −3.7% / −15.1% | [factor_study_failureprove · T2](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/20_T2_trend_perp.md) |
+| 21 | 周线 · 波动率管理的 BTC | **指标无效**（没有超额） | 夏普 0.57 vs 持有 0.59；对 BTC 超额 t **0.20**；回撤 −64.9% vs −81.2% | [factor_study_failureprove · T3](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/21_T3_btc_vol_managed.md) |
+| 22 | 周线 · 跨资产趋势（25 个市场） | **确认失败**（成本吃掉一半，仍不显著） | 19.9 年：零成本夏普 0.47 → 扣成本 **0.25**（t 1.21）；成本翻倍 0.04；2023–2025 连亏 | [factor_study_failureprove · T5](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/22_T5_cross_asset_trend.md) |
+| 23 | 周线 · 资金费篮子（挑费率最高的币） | **收益衰减** | 超过国债利率：训练段每年 +8.7% → 样本外每年 **−3.5%**；2022 年起年年为负 | [factor_study_failureprove · C1](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/23_C1_funding_basket.md) |
+| 24 | 周线 · 多 BTC 空山寨 | **确认失败**（不显著，山寨季巨亏） | t **0.76**；2021 年 **−51.4%**，回撤 −56.1%；训练段年化 −2.7% | [factor_study_failureprove · S1](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/24_S1_btc_vs_alts.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -233,46 +233,184 @@ cd vegas_channel_failureprove
 py verify.py
 ```
 
-### 14–24 · 事先登记的 14 个因子候选（11 个失败）
+### 14–24 · 同一次事先登记的研究（共用一个仓库）
 
-把量化机构和学术界公开的几类做法（横截面动量、套息、趋势跟随、波动率管理、多空配对）搬到币安上集中测了一遍。和前面的条目不同的地方：
+14 到 24 这 11 条来自同一次研究：把量化机构和学术界公开的几类做法（横截面动量、套息、趋势跟随、波动率管理、多空配对）搬到币安上，测之前把 14 个候选的规则、参数和通过标准写死（[事先登记.md](https://github.com/runningshark/factor_study_failureprove/blob/master/事先登记.md)），之后不改、不调参。14 个里**没有一个通过，11 个失败**，下面逐条列出；另外 3 个没有被判为失败，属于“待观察”，不在这里。
 
-- **事先登记。** 测之前把 14 个候选的规则、参数和通过标准写死（[事先登记.md](entries/factor_study_failureprove/事先登记.md)），之后不改、不调参。
-- **不用幸存者。** 数据包含已下架的币（588 个品种里 194 个已下架）；每个调仓日只用当时的成交额取前 30。
-- **门槛是 t ≥ 3。** 同时测 14 个，碰巧有一个 t 超过 2 的概率接近一半。
-- 成本单边 0.10%，永续合约持仓计入资金费；训练段到 2023 年底，验证段从 2024 年起。
+- **不用幸存者。** 数据包含已下架的币（588 个品种里 194 个已下架）；每个调仓日只用当时的成交额取前 30。成本单边 0.10%，永续合约持仓计入资金费；训练段到 2023 年底，验证段从 2024 年起。
+- **门槛是 t ≥ 3，不是 2。** 同时测 14 个，碰巧有一个 t 超过 2 的概率接近一半。下面每一条的 t 都按这个门槛读。
+- **共用一个仓库。** 这 11 条共用一套代码和数据，拆开会丢掉“同时测了 14 个”这个前提，所以放在 [factor_study_failureprove](https://github.com/runningshark/factor_study_failureprove) 一个仓库里，每条用自己的编号单独复现（需要 pandas、numpy）。总览和三个共同的死法（成本、样本外衰减、收益来自大盘而不是信号）见 [FAILURE_REPORT.md](https://github.com/runningshark/factor_study_failureprove/blob/master/FAILURE_REPORT.md)。
 
-结果：**没有一个通过，11 个失败。** 这 11 条共用一套代码和数据，所以放在同一个文件夹里，没有各建一个仓库；拆开会丢掉“同时测了 14 个”这个前提。总览见 [FAILURE_REPORT.md](entries/factor_study_failureprove/FAILURE_REPORT.md)。
+### 14 · 横截面动量（7 天）
 
-三个共同的死法：
+每周日收盘，在成交额最高的 30 个有永续合约的币里，做多过去 7 天涨得最多的 10 个、做空涨得最少的 10 个，等权，持有一周。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/14_X1_xs_momentum_7d.md)）
 
-- **成本。** 动量 7 天零成本 t **2.48**，扣成本后 **1.75**；跨资产趋势夏普 **0.47 → 0.25**；资金费篮子年化 **+8.4% → +3.1%**。
-- **样本外衰减。** 30 币多空趋势训练段 t 2.01，2024 年以后 **−0.32**；资金费篮子 2022 年起每年都跑不赢国债。
-- **收益来自大盘，不是信号。** 30 币趋势（现货）和波动率管理的 BTC，相对 BTC 的超额 t 都只有 **0.20**。
-
-各条一句话：
-
-- **14 · 横截面动量 7 天**：零成本 t 2.48，扣单边 0.10% 成本后只剩 1.75，不显著。 [档案](entries/factor_study_failureprove/reports/14_X1_xs_momentum_7d.md)
-- **15 · 横截面动量 28 天**：年化 +9.0%，t 0.85；验证段 t 0.28，没有信号。 [档案](entries/factor_study_failureprove/reports/15_X2_xs_momentum_28d.md)
-- **16 · 横截面动量 90 天**：方向相反：年化 −14.0%，验证段 −28.2%（t −2.19）。 [档案](entries/factor_study_failureprove/reports/16_X3_xs_momentum_90d.md)
-- **17 · 资金费 30 天多空（多低空高）**：年化 +4.0%，t 0.44；晚一天执行就转负。 [档案](entries/factor_study_failureprove/reports/17_X5_funding_30d.md)
-- **18 · 横截面一日反转（每天调仓）**：零成本年化 −5.0%，加成本后 −54.5%，回撤 −97.8%。 [档案](entries/factor_study_failureprove/reports/18_X8_xs_reversal_1d.md)
-- **19 · 30 币分散趋势·现货只做多**：夏普 0.53，但相对 BTC 的超额 t 只有 0.20，验证段亏损。 [档案](entries/factor_study_failureprove/reports/19_T1_trend_spot.md)
-- **20 · 30 币分散趋势·永续多空**：训练段 t 2.01，验证段 t −0.32；全区间 t 1.33。 [档案](entries/factor_study_failureprove/reports/20_T2_trend_perp.md)
-- **21 · 波动率管理的 BTC 持有**：回撤 −81.2% 降到 −64.9%，夏普 0.57 对 0.59，没有超额。 [档案](entries/factor_study_failureprove/reports/21_T3_btc_vol_managed.md)
-- **22 · 跨资产趋势·多空**：零成本夏普 0.47，扣成本后 0.25；19.9 年 t 只有 1.21。 [档案](entries/factor_study_failureprove/reports/22_T5_cross_asset_trend.md)
-- **23 · 资金费篮子（现货多 + 永续空）**：超过国债利率的部分：训练段每年 +8.7%，验证段 −3.5%。 [档案](entries/factor_study_failureprove/reports/23_C1_funding_basket.md)
-- **24 · 做多 BTC、做空山寨篮子**：全区间 t 0.76；2021 年一年亏 51.4%，回撤 −56.1%。 [档案](entries/factor_study_failureprove/reports/24_S1_btc_vs_alts.md)
-
-剩下的线索：对照组里最简单的 BTC 100 日均线择时（第 12 条）夏普 **0.92**、回撤 −59.8%，仍然是方向性规则里最好的，把趋势分散到 30 个币没有多出东西；一周动量和慢的跨资产趋势在零成本下是真实但很弱的信号。14 个候选里另外 3 个没有被判为失败，属于“待观察”，不在这里。
+- **成本。** 零成本年化 +25.1%（t = 2.48）；年换手 73 倍，单边 0.10% 一年吃掉约 7.3%，净 t 只剩 1.75；成本翻倍后 t = 1.03。
+- **信号衰减得快。** 晚一天执行，年化从 +17.8% 掉到 +11.8%。
+- **邻近变体不稳。** 池子 20 个 t = 0.89、按波动率倒数加权 t = 0.90、每天调仓 t = 1.18，只有“每边 6 个”接近 2（1.95）。
+- **两段都不显著，分年很不均匀。** 训练段 t = 1.11，验证段 t = 1.52；2020 下半年 +58.5%，2021–2023 三年分别是 +5.5%、−8.2%、+4.1%。
+- 剩下的线索：一周动量在零成本下是有的（t = 2.48），方向和文献一致。要让它在扣成本后接近显著，单边成本大约要压到这里假设的一半以下；能不能做到没有验证。
 
 ```bash
-git clone https://github.com/runningshark/quant-failure-archive
-cd quant-failure-archive/entries/factor_study_failureprove
-pip install pandas numpy
-py download_data.py --yahoo   # 只有第 22 条需要：ETF 日线不随仓库分发
-py verify.py                  # 末尾一行：11 / 11 条和归档数字一致
-py verify.py X1               # 只跑一条
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py X1
+```
+
+### 15 · 横截面动量（28 天）
+
+和 14 一样，排序换成过去 28 天的涨幅。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/15_X2_xs_momentum_28d.md)）
+
+- **没有信号。** 全区间 t = 0.85，零成本也只有 1.25。
+- **验证段几乎为零。** 年化 +3.6%（t = 0.28），累计 +1.7%，期间最大回撤 −32.7%。
+- **变体里没有一个 t 到 2。** 从 0.50 到 1.58。2021、2022、2024、2026 四年为负（−13.4%、−5.2%、−3.0%、−22.0%）。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py X2
+```
+
+### 16 · 横截面动量（90 天）
+
+和 14 一样，排序换成过去 90 天的涨幅，也就是“强者恒强”轮动的依据。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/16_X3_xs_momentum_90d.md)）
+
+- **方向和声称相反。** 做多过去 90 天涨得多的、做空涨得少的：年化 −14.0%，累计 −67.8%，最大回撤 −76.9%。
+- **怎么改都是负的。** 5 个邻近变体、3 项压力测试全部为负，零成本也是 −11.1%。
+- **越近越差。** 训练段年化 −2.2%（t = −0.13），验证段 −28.2%（t = −2.19）；2021 年以后只有 2023 年勉强为正（+1.0%）。
+- **不是成本问题。** 年换手只有 29 倍。
+- 剩下的线索：在 90 天这个周期上，大币更像反转而不是延续（验证段 t = −2.19）。但这是事后看到的方向，反过来用需要新数据确认，不能当成结论。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py X3
+```
+
+### 17 · 资金费 30 天多空
+
+每周日收盘，在成交额最高的 30 个有永续合约的币里，做多过去 30 天平均资金费率最低的 10 个、做空最高的 10 个，等权，持有一周。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/17_X5_funding_30d.md)）
+
+- **没有信号。** 年化 +4.0%，t = 0.44；零成本 t = 0.75。
+- **晚一天执行就转负。** 年化 −0.6%。
+- **验证段没有收益。** 年化 +0.8%（t = 0.06），累计 −3.7%，期间最大回撤 −41.7%；2022、2023、2025、2026 四年为负。
+- **变体也不显著。** 最好的是池子 50 个（t = 1.80），其余都在 1.4 以下。
+- 剩下的线索：资金费率的信息集中在最近几天，30 天的平均把它抹平了。同一研究里更短回看期的版本没有被判为失败，仍在纸面观察，不属于本档案。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py X5
+```
+
+### 18 · 横截面一日反转
+
+每天收盘，在成交额最高的 30 个有永续合约的币里，做多当天跌得最多的 10 个、做空涨得最多的 10 个，等权，持有一天。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/18_X8_xs_reversal_1d.md)）
+
+- **信号本身就是负的。** 零成本年化 −5.0%（t = −0.56）。在流动性最高的 30 个币上，当天跌得多的第二天并不反弹。
+- **每天调仓的成本压垮一切。** 年换手 495 倍，单边 0.10% 一年约 49%；净年化 −54.5%，累计 −97.5%。
+- **降低换手也没用。** 改成每周调仓，年化 −4.9%（t = −0.49）。
+- **每一年都亏。** 从 −30.7% 到 −64.8%。
+- 和第 05 条对照：小时级的反转在零成本下是正的；到了日线、换成大币的横截面，连零成本都不成立。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py X8
+```
+
+### 19 · 30 币分散趋势（现货）
+
+每周日收盘，对成交额最高的 30 个币（现货）各看 30 / 90 / 180 / 365 天四个回看期：现价高于其中几个回看期之前的价格，趋势分就是几分之几；仓位按趋势分和波动率定，只做多，不加杠杆。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/19_T1_trend_spot.md)）
+
+- **没有超过 BTC 的部分。** 对 BTC 回归：贝塔 0.30，超额年化 +1.4%，t = 0.20。收益来自对大盘的敞口，不是趋势信号。
+- **验证段亏损。** 年化 −1.9%，累计 −13.5%；同期一直持有 BTC 年化 +23.3%。相对 BTC 的超额是每年 −10.5%（t = −1.04）。
+- **对回看期敏感。** 只用 30 天时超额 t = 1.63，只用 90 天、180 天时超额为负（−2.5%、−7.2%）。
+- **夏普不如持有 BTC。** 这里 0.53，同期一直持有 BTC 是 0.70，BTC 100 日均线择时（2018 起）是 0.92。
+- 剩下的线索：作为风控是有用的，最大回撤 −38.6%，而等权持有同一批币是 −96.3%。但同样的事，只对 BTC 一个币做均线择时（第 12 条）就能做到，分散到 30 个币没有多出东西。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py T1
+```
+
+### 20 · 30 币分散趋势（永续多空）
+
+和 19 一样，换成永续合约：四个回看期按涨跌方向投票，趋势向下就做空，计入资金费。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/20_T2_trend_perp.md)）
+
+- **样本外没有了。** 训练段年化 +26.0%（t = 2.01），验证段 −4.1%（t = −0.32）；2024、2025、2026 年分别是 +0.0%、−3.7%、−15.1%。
+- **对回看期敏感。** 只用 30 天 t = 2.52，只用 180 天为负（−3.5%）。四个回看期平均以后，全区间 t = 1.33。
+- **对 BTC 回归后的超额不显著。** 超额年化 +10.5%，t = 1.09。
+- 剩下的线索：2020 到 2023 年是赚钱的（训练段夏普 1.02）。只用 30 天回看的变体 t = 2.52，但这是事后挑出来的。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py T2
+```
+
+### 21 · 波动率管理的 BTC
+
+BTC 现货仓位 = min(1, 40% ÷ 过去 30 天的年化波动率)，每周日收盘调一次，不加杠杆。检验的是“按波动率管理仓位，相对一直持有有超额”。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/21_T3_btc_vol_managed.md)）
+
+- **没有超额。** 对 BTC 回归：贝塔 0.64，超额年化 +1.1%，t = 0.20。夏普 0.57，一直持有是 0.59。
+- **只是把仓位缩小了。** 最大回撤从 −81.2% 降到 −64.9%，年化收益也从 +37.7% 降到 +24.9%，风险和收益同比例下降。
+- **怎么调都一样。** 目标波动率 30% / 50%、窗口 14 天 / 60 天，超额的 t 都在 0.3 以下。
+- 剩下的线索：可以当成降低回撤的旋钮，不能当成收益来源。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py T3
+```
+
+### 22 · 跨资产趋势（25 个市场）
+
+25 个市场（股指、贵金属、能源、农产品、外汇，加上 BTC、ETH，用 ETF 日线作代理），每周按 21 / 63 / 126 / 252 个交易日四个回看期的涨跌方向定多空、按波动率定仓位，也就是管理期货基金最经典的做法。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/22_T5_cross_asset_trend.md)）
+
+- **成本吃掉一半。** 零成本年化 +1.7%（夏普 0.47，t = 2.26）；组合波动只有 3.6%，年换手 7.8 倍，单边 0.10% 一年约 0.78%，净夏普 0.25；成本翻倍后夏普 0.04。
+- **快的回看期是负的。** 只用 21 天年化 −0.4%；只用 126 天、252 天 t = 1.45、1.73，也没到 2。
+- **近年是亏的。** 验证段年化 −0.4%；2023、2024、2025 年分别是 −1.7%、−2.1%、−0.8%。
+- **19.9 年的 t 只有 1.21。** 加上 BTC 和 ETH 并没有改变结论：去掉加密后 t = 0.87。
+- 剩下的线索：慢的趋势（半年、一年）在零成本下是一个真实但很弱的溢价，而且危机年份为正（2008 年 +7.2%、2020 年 +3.7%、2022 年 +2.6%）。对交易成本只有这里十分之一的机构，它仍然成立；对按零售成本交易的个人，不成立。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py download_data.py --yahoo   # ETF 日线不随仓库分发，先下载一次
+py verify.py T5
+```
+
+### 23 · 资金费篮子（挑费率最高的币）
+
+每周日收盘，在成交额最高的 30 个有永续合约的币里，挑过去 7 天平均资金费率最高的 5 个（年化超过 10% 才持有），买现货、做空等量永续，只收资金费。检验的是“每周挑费率最高的币”能不能把第 10 条里衰减掉的收益找回来。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/23_C1_funding_basket.md)）
+
+- **收益衰减。** 超过国债利率的部分：2020 下半年 +10.6%、2021 年 +32.9%，2022 年起每年都是负的（−4.5%、−3.6%、−0.7%、−4.3%、−5.1%）。
+- **成本。** 零成本年化 +8.4%，两条腿的换仓成本一年约 5.3%；成本翻倍后全区间为负（−2.1%）。
+- **挑币救不回来。** 选 3 个、5 个、10 个差别不大（+3.0%、+3.1%、+3.6%）；门槛从 10% 提到 20% 是 +4.0%，降到 0% 是 +0.6%。训练段每年 +8.7%，验证段每年 −3.5%。
+- **回测还偏乐观。** 没有算基差变动、空头一侧被强平、交易所本身的风险。
+- 剩下的线索：和第 10 条一样，可以当成“市场热度”的指标，资金费重新回到高位时才值得看。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py C1
+```
+
+### 24 · 多 BTC 空山寨
+
+每周日收盘，BTC 永续多单占资金的 50%，成交额前 30 里其余 29 个币等权做空，合计也占 50%。检验的是“山寨币长期跑输比特币”。（[档案](https://github.com/runningshark/factor_study_failureprove/blob/master/reports/24_S1_btc_vs_alts.md)）
+
+- **不显著。** 全区间 t = 0.76，训练段年化 −2.7%（t = −0.19）。
+- **山寨季的尾部风险。** 2021 年一年 −51.4%，最大回撤 −56.1%。
+- **收益都来自 2024 年以后。** 训练段（到 2023 年底）合计是亏的，全区间的收益都来自 2024 年以后（年化 +19.9%，t = 1.51）；3 个变体的 t 都在 0.8 以下。
+- 剩下的线索：山寨币相对 BTC 的弱势在 2022 年以后确实存在（2022 到 2025 年每年为正），但一次山寨季就能亏掉几年的积累，而且统计上不显著。
+
+```bash
+git clone https://github.com/runningshark/factor_study_failureprove
+cd factor_study_failureprove
+py verify.py S1
 ```
 
 ---
