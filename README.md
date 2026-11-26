@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24 是同一次研究里的 11 条，共用代码和数据，放在本仓库的 [entries/factor_study_failureprove](entries/factor_study_failureprove/)。）
 
 ---
 
@@ -23,6 +23,17 @@
 | 11 | 日线 · 布林带收缩突破（squeeze） | **指标无效**（收缩条件越严越差） | 收缩分位 10% → 25% → 60% → 不要求收缩：样本外 +23R → +76R → +105R → +101R；默认版两段都输给普通 20 日突破（+159R vs +223R / +76R vs +84R），BTC 样本外亏损 | [d1_squeeze_failureprove](https://github.com/runningshark/d1_squeeze_failureprove) |
 | 12 | 日线 · 均线择时（100 日，满仓） | **基准·待改进**（不是失败） | 2024 年后 6 币 5 个跑赢持有（ETH +43% vs −27%），夏普 0.56，和突破策略相当；但满仓无止损，平均最大回撤 **−51%**（最深 −69%） | [d1_ma_baseline_failureprove](https://github.com/runningshark/d1_ma_baseline_failureprove) |
 | 13 | 4H · 维纳斯通道引擎（Vegas 隧道 + 主区 + MACD + 斐位） | **确认失败**（前视偏差 + 参数过拟合） | 看板原声称 **+87.4%**；前视 **+19.0%** vs 实时 **−1.0%**；参数样本内最优 **+76.3% → 样本外 −4.1%**，样本外 36 组全负 | [vegas_channel_failureprove](https://github.com/runningshark/vegas_channel_failureprove) |
+| 14 | 周线 · 横截面动量（7 天） | **确认失败**（零成本勉强，扣成本后不显著） | 零成本 t 2.48，扣成本后 t **1.75**；年换手 73 倍；成本翻倍 t 1.03 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/14_X1_xs_momentum_7d.md) |
+| 15 | 周线 · 横截面动量（28 天） | **确认失败**（没有信号） | 年化 +9.0%，t **0.85**；样本外年化 +3.6%（t 0.28） | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/15_X2_xs_momentum_28d.md) |
+| 16 | 周线 · 横截面动量（90 天） | **确认失败**（方向相反） | 年化 **−14.0%**，回撤 **−76.9%**；样本外年化 −28.2%（t −2.19）；5 个变体全负 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/16_X3_xs_momentum_90d.md) |
+| 17 | 周线 · 资金费 30 天多空 | **确认失败**（信号被平均掉） | 年化 +4.0%，t **0.44**；晚一天执行 −0.6%；样本外累计 −3.7% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/17_X5_funding_30d.md) |
+| 18 | 日线 · 横截面一日反转 | **确认失败**（零成本也亏） | 零成本年化 **−5.0%**；年换手 495 倍，净年化 **−54.5%**，回撤 −97.8% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/18_X8_xs_reversal_1d.md) |
+| 19 | 周线 · 30 币分散趋势（现货） | **确认失败**（对 BTC 没有超额） | 夏普 0.53，对 BTC 超额 t **0.20**（贝塔 0.30）；样本外累计 **−13.5%** | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/19_T1_trend_spot.md) |
+| 20 | 周线 · 30 币分散趋势（永续多空） | **确认失败**（样本外转负） | 训练段 t 2.01 → 样本外 t **−0.32**；2024–2026 年 +0.0% / −3.7% / −15.1% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/20_T2_trend_perp.md) |
+| 21 | 周线 · 波动率管理的 BTC | **指标无效**（没有超额） | 夏普 0.57 vs 持有 0.59；对 BTC 超额 t **0.20**；回撤 −64.9% vs −81.2% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/21_T3_btc_vol_managed.md) |
+| 22 | 周线 · 跨资产趋势（25 个市场） | **确认失败**（成本吃掉一半，仍不显著） | 19.9 年：零成本夏普 0.47 → 扣成本 **0.25**（t 1.21）；成本翻倍 0.04；2023–2025 连亏 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/22_T5_cross_asset_trend.md) |
+| 23 | 周线 · 资金费篮子（挑费率最高的币） | **收益衰减** | 超过国债利率：训练段每年 +8.7% → 样本外每年 **−3.5%**；2022 年起年年为负 | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/23_C1_funding_basket.md) |
+| 24 | 周线 · 多 BTC 空山寨 | **确认失败**（不显著，山寨季巨亏） | t **0.76**；2021 年 **−51.4%**，回撤 −56.1%；训练段年化 −2.7% | [entries/factor_study_failureprove](entries/factor_study_failureprove/reports/24_S1_btc_vs_alts.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -220,6 +231,48 @@ Vegas 隧道 EMA144/169 + EMA12 过滤 + 主区 EMA576/676 + MACD + 斐波那契
 git clone https://github.com/runningshark/vegas_channel_failureprove
 cd vegas_channel_failureprove
 py verify.py
+```
+
+### 14–24 · 事先登记的 14 个因子候选（11 个失败）
+
+把量化机构和学术界公开的几类做法（横截面动量、套息、趋势跟随、波动率管理、多空配对）搬到币安上集中测了一遍。和前面的条目不同的地方：
+
+- **事先登记。** 测之前把 14 个候选的规则、参数和通过标准写死（[事先登记.md](entries/factor_study_failureprove/事先登记.md)），之后不改、不调参。
+- **不用幸存者。** 数据包含已下架的币（588 个品种里 194 个已下架）；每个调仓日只用当时的成交额取前 30。
+- **门槛是 t ≥ 3。** 同时测 14 个，碰巧有一个 t 超过 2 的概率接近一半。
+- 成本单边 0.10%，永续合约持仓计入资金费；训练段到 2023 年底，验证段从 2024 年起。
+
+结果：**没有一个通过，11 个失败。** 这 11 条共用一套代码和数据，所以放在同一个文件夹里，没有各建一个仓库；拆开会丢掉“同时测了 14 个”这个前提。总览见 [FAILURE_REPORT.md](entries/factor_study_failureprove/FAILURE_REPORT.md)。
+
+三个共同的死法：
+
+- **成本。** 动量 7 天零成本 t **2.48**，扣成本后 **1.75**；跨资产趋势夏普 **0.47 → 0.25**；资金费篮子年化 **+8.4% → +3.1%**。
+- **样本外衰减。** 30 币多空趋势训练段 t 2.01，2024 年以后 **−0.32**；资金费篮子 2022 年起每年都跑不赢国债。
+- **收益来自大盘，不是信号。** 30 币趋势（现货）和波动率管理的 BTC，相对 BTC 的超额 t 都只有 **0.20**。
+
+各条一句话：
+
+- **14 · 横截面动量 7 天**：零成本 t 2.48，扣单边 0.10% 成本后只剩 1.75，不显著。 [档案](entries/factor_study_failureprove/reports/14_X1_xs_momentum_7d.md)
+- **15 · 横截面动量 28 天**：年化 +9.0%，t 0.85；验证段 t 0.28，没有信号。 [档案](entries/factor_study_failureprove/reports/15_X2_xs_momentum_28d.md)
+- **16 · 横截面动量 90 天**：方向相反：年化 −14.0%，验证段 −28.2%（t −2.19）。 [档案](entries/factor_study_failureprove/reports/16_X3_xs_momentum_90d.md)
+- **17 · 资金费 30 天多空（多低空高）**：年化 +4.0%，t 0.44；晚一天执行就转负。 [档案](entries/factor_study_failureprove/reports/17_X5_funding_30d.md)
+- **18 · 横截面一日反转（每天调仓）**：零成本年化 −5.0%，加成本后 −54.5%，回撤 −97.8%。 [档案](entries/factor_study_failureprove/reports/18_X8_xs_reversal_1d.md)
+- **19 · 30 币分散趋势·现货只做多**：夏普 0.53，但相对 BTC 的超额 t 只有 0.20，验证段亏损。 [档案](entries/factor_study_failureprove/reports/19_T1_trend_spot.md)
+- **20 · 30 币分散趋势·永续多空**：训练段 t 2.01，验证段 t −0.32；全区间 t 1.33。 [档案](entries/factor_study_failureprove/reports/20_T2_trend_perp.md)
+- **21 · 波动率管理的 BTC 持有**：回撤 −81.2% 降到 −64.9%，夏普 0.57 对 0.59，没有超额。 [档案](entries/factor_study_failureprove/reports/21_T3_btc_vol_managed.md)
+- **22 · 跨资产趋势·多空**：零成本夏普 0.47，扣成本后 0.25；19.9 年 t 只有 1.21。 [档案](entries/factor_study_failureprove/reports/22_T5_cross_asset_trend.md)
+- **23 · 资金费篮子（现货多 + 永续空）**：超过国债利率的部分：训练段每年 +8.7%，验证段 −3.5%。 [档案](entries/factor_study_failureprove/reports/23_C1_funding_basket.md)
+- **24 · 做多 BTC、做空山寨篮子**：全区间 t 0.76；2021 年一年亏 51.4%，回撤 −56.1%。 [档案](entries/factor_study_failureprove/reports/24_S1_btc_vs_alts.md)
+
+剩下的线索：对照组里最简单的 BTC 100 日均线择时（第 12 条）夏普 **0.92**、回撤 −59.8%，仍然是方向性规则里最好的，把趋势分散到 30 个币没有多出东西；一周动量和慢的跨资产趋势在零成本下是真实但很弱的信号。14 个候选里另外 3 个没有被判为失败，属于“待观察”，不在这里。
+
+```bash
+git clone https://github.com/runningshark/quant-failure-archive
+cd quant-failure-archive/entries/factor_study_failureprove
+pip install pandas numpy
+py download_data.py --yahoo   # 只有第 22 条需要：ETF 日线不随仓库分发
+py verify.py                  # 末尾一行：11 / 11 条和归档数字一致
+py verify.py X1               # 只跑一条
 ```
 
 ---
