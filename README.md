@@ -39,6 +39,7 @@
 | 27 | 周线 · 散户多空比（反向） | **确认失败**（样本外反转） | 训练段 t 2.10 → 验证段 **−12.0%**（t −1.18）；全区间 t **0.62**；收益主要是资金费 | [factor_study2_failureprove · P1](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/27_P1_retail_ls_ratio.md) |
 | 28 | 周线 · 大户持仓多空比（跟随） | **确认失败**（跟着大户反而亏） | 年化 **−8.5%**，t **−1.49**；两段都亏，4 个变体全负 | [factor_study2_failureprove · P2](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/28_P2_top_trader_ratio.md) |
 | 29 | 周线 · 持仓量增速（反向） | **确认失败**（方向相反） | 年化 **−20.5%**，t **−3.12**（方向相反）；反过来扣成本后 t 1.23，验证段 +0.3% | [factor_study2_failureprove · P3](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/29_P3_oi_growth.md) |
+| 30 | 日线 · 技术指标规则大全（467 条，30 币等权） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.85，校正“试了 467 条”后 p **0.16**；成本翻倍 p 0.34；训练段最好的规则验证段 t **0.48**；KD 12 条全负 | [d1_indicator_zoo_failureprove](https://github.com/runningshark/d1_indicator_zoo_failureprove) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -501,6 +502,22 @@ py verify.py P2
 git clone https://github.com/runningshark/factor_study2_failureprove
 cd factor_study2_failureprove
 py verify.py P3
+```
+
+### 30 · 技术指标规则大全（467 条，30 币等权）
+
+把常见技术指标（均线、MACD、RSI、布林带、KD、通道突破、一目均衡表、SuperTrend 等 21 类）展开成 467 条只做多的日线规则，每周日选成交额最高的 30 个币，每条规则在每个币上各自给信号。规则清单和通过标准同样是事先登记的。问的不是“哪一条好”，而是“最好的那一条，扣掉试了 467 条的运气之后还剩不剩”。
+
+- **最好的一条经不起“试了 467 条”的校正。** 超额 t 最高的是“距 50 日低点涨 5% 买 距高点跌 5% 卖”，t = 2.85。如果 467 条全都没有择时能力，光靠运气，最大 t 的 95% 分位就有 3.28。Reality Check 的 p = 0.16，离登记的门槛 0.0024 很远。
+- **成本。** 零成本时 p = 0.065（最大 t 3.20）；扣单边 0.10% 后 p = 0.16；成本翻倍后 p = 0.34（最大 t 2.50）。
+- **样本外。** 只看训练段，最好的规则是“30 日涨幅 >5% 持有”（训练段 t 2.63），它在验证段的超额 t 只有 0.48。训练段前 10% 的 46 条规则合在一起，验证段 t 也只有 0.90。均线两类在验证段的 t 中位数是 0.00 和 −0.19。
+- **逆势、摆动类没有择时能力。** 随机指标 KD 的 12 条规则超额全部为负（t 中位数 −2.05）。布林带回归、RSI 超卖买入、连跌接多、日历这几类，在类内部做同样的检验，p 都在 0.33 以上。
+- 剩下的线索：趋势类规则（均线、MACD、布林带突破、SuperTrend、一目均衡表等）超额为正的占 89% 到 100%，方向一致，但没有一条单独显著。它们实在的作用是降回撤：一直持有这 30 个币，夏普 0.43、最大回撤 −94.9%；467 条里夏普超过持有的占 58%，夏普最高的一条（距 50 日低点涨 5% 买 距高点跌 5% 卖）夏普 1.18、最大回撤 −21.1%。可以当风控，不能当成稳定的超额来源。
+
+```bash
+git clone https://github.com/runningshark/d1_indicator_zoo_failureprove
+cd d1_indicator_zoo_failureprove
+py verify.py
 ```
 
 ---
