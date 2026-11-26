@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -40,6 +40,10 @@
 | 28 | 周线 · 大户持仓多空比（跟随） | **确认失败**（跟着大户反而亏） | 年化 **−8.5%**，t **−1.49**；两段都亏，4 个变体全负 | [factor_study2_failureprove · P2](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/28_P2_top_trader_ratio.md) |
 | 29 | 周线 · 持仓量增速（反向） | **确认失败**（方向相反） | 年化 **−20.5%**，t **−3.12**（方向相反）；反过来扣成本后 t 1.23，验证段 +0.3% | [factor_study2_failureprove · P3](https://github.com/runningshark/factor_study2_failureprove/blob/master/reports/29_P3_oi_growth.md) |
 | 30 | 日线 · 技术指标规则大全（467 条，30 币等权） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.85，校正“试了 467 条”后 p **0.16**；成本翻倍 p 0.34；训练段最好的规则验证段 t **0.48**；KD 12 条全负 | [d1_indicator_zoo_failureprove](https://github.com/runningshark/d1_indicator_zoo_failureprove) |
+| 31 | 周 · 每周卖出 BTC 平值跨式（不对冲） | **确认失败**（权利金刚好抵掉赔付） | 年化 **+1.9%**，t 0.12，回撤 **−77.3%**；每周收权利金 5.94%、赔 5.83%；最差一周亏 38.8% | [w1_short_straddle_failureprove · V1](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/31_V1_btc_short_straddle.md) |
+| 32 | 周 · 每周卖出 ETH 平值跨式（不对冲） | **确认失败**（权利金抵不掉赔付） | 年化 **−3.8%**，t −0.24，回撤 **−86.9%**；每周收 7.26%、赔 7.27% | [w1_short_straddle_failureprove · V2](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/32_V2_eth_short_straddle.md) |
+| 33 | 周 · 每周卖出 BTC 平值跨式（每天对冲） | **确认失败**（对冲后仍不显著） | 年化 +6.8%，t **0.98**；对冲成本每年 5.5%；权利金打 95 折 → **−8.5%** | [w1_short_straddle_failureprove · V3](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/33_V3_btc_short_straddle_hedged.md) |
+| 34 | 周 · 每周卖出 ETH 平值跨式（每天对冲） | **确认失败**（对冲后仍为负） | 年化 **−5.0%**，t −0.59；训练段、验证段都为负 | [w1_short_straddle_failureprove · V4](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/34_V4_eth_short_straddle_hedged.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -518,6 +522,74 @@ py verify.py P3
 git clone https://github.com/runningshark/d1_indicator_zoo_failureprove
 cd d1_indicator_zoo_failureprove
 py verify.py
+```
+
+### 31–34 · 第四轮事先登记的研究：卖波动率（共用一个仓库）
+
+前三轮没有一个通过，这一轮测机构里最经典的“有人付钱给你”的收益：期权的波动率溢价。数据是 Deribit 期权的历史逐笔成交，成交价用“主动卖出”的成交（卖给买一价）。规则和通过标准同样是事先登记的（[事先登记_第四轮.md](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/事先登记_第四轮.md)）。**4 个全部失败。**
+
+- 累计 25 个候选，门槛是 t ≥ 3.1。
+- 这 4 条共用一个仓库 [w1_short_straddle_failureprove](https://github.com/runningshark/w1_short_straddle_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/FAILURE_REPORT.md)。
+
+### 31 · 每周卖出 BTC 平值跨式（不对冲）
+
+每个周五在 Deribit 上卖出下周五到期的 BTC 平值看涨和看跌各一张（按买一侧的真实成交价），持有到期，每周的名义金额等于全部资金。检验的是“卖期权收波动率溢价”。（[档案](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/31_V1_btc_short_straddle.md)）
+
+- **收到的权利金和赔出去的几乎一样多。** 平均每周收权利金 5.94%，到期平均赔付 5.83%（都按进场时的现货价计）。按买一价卖出时，成交的隐含波动率平均 55%，而之后一周实际走出来的波动率是 60%：在周度平值期权上，“隐含高于实现”这个前提在这段样本里不成立。
+- **亏损集中在少数几周。** 385 周里赚钱的周占 63%，但全部加起来只有 +14%，其中最差的 5 周合计 −134%。最差的一周（2020-03-13 到期）亏 38.8%，最大回撤 −77.3%。
+- **对成交价极其敏感。** 权利金打 95 折（成交价再差 5%），年化变成 −13.4%；打 90 折是 −28.7%；费用翻倍是 −2.0%。
+- **全区间 t = 0.12。** 训练段年化 +0.7%（t = 0.03），验证段 +3.7%（t = 0.21）；2020、2021、2023、2024 年为负。
+- 剩下的线索：卖方的优势如果存在，也薄到被买卖价差吃掉：用全部成交的均价（接近中间价）再打 97 折是 −6.4%，按买一价是 +1.9%，差别就在这几个点的成交价上。对做市商（挂单、赚价差）和对散户（吃单、付价差）来说，这是两个不同的策略。
+
+```bash
+git clone https://github.com/runningshark/w1_short_straddle_failureprove
+cd w1_short_straddle_failureprove
+py verify.py V1
+```
+
+### 32 · 每周卖出 ETH 平值跨式（不对冲）
+
+和 31 一样，换成 ETH。（[档案](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/32_V2_eth_short_straddle.md)）
+
+- **权利金抵不掉赔付。** 平均每周收权利金 7.26%，到期平均赔付 7.27%。成交的隐含波动率平均 67%，之后一周实际的波动率是 71%。
+- **两段都是负的。** 全区间年化 −3.8%（t = −0.24），训练段 −3.2%，验证段 −4.8%；2020、2021、2022、2023、2024、2025 年为负，最大回撤 −86.9%。
+- **变体全部为负。** 下午进场 −5.0%，全部成交均价打 97 折 −23.5%，宽跨式 −14.1%。
+- **成交稀疏。** 382 周里只有 332 周找得到两条腿都有主动卖出成交的行权价，每周用到的成交笔数中位数只有 18 笔。
+
+```bash
+git clone https://github.com/runningshark/w1_short_straddle_failureprove
+cd w1_short_straddle_failureprove
+py verify.py V2
+```
+
+### 33 · 每周卖出 BTC 平值跨式（每天对冲）
+
+和 31 一样，另外每天用永续合约把 delta 对冲掉，只留下波动率的敞口。（[档案](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/33_V3_btc_short_straddle_hedged.md)）
+
+- **对冲把风险降下来了，收益仍然不显著。** 每天对冲之后，最差的一周从 38.8% 降到 17.8%，最大回撤从 −77.3% 降到 −38.5%，年化 +6.8%，但 t 只有 0.98（训练段 0.65，验证段 0.97）。
+- **对冲本身要花钱。** 每天调一次，对冲成本每年约 5.5%。
+- **对成交价同样敏感。** 权利金打 95 折，年化变成 −8.5%；打 90 折 −23.8%；费用翻倍 −2.5%。
+- **变体不稳。** 下午进场 +14.4%（t = 2.21），全部成交均价打 97 折 +0.8%，宽跨式 +3.8%（t = 0.88）：同一个策略换个进场时间差一倍，说明结果很依赖成交价的细节。
+- 剩下的线索：每天对冲的 BTC 版本是四个里唯一为正的（年化 +6.8%，下午进场的变体 t = 2.21），但没有过任何一条门槛，而且下午进场是事后看到的。要判断它需要更细的数据（挂单价、盘口深度），日线级别的回测判断不了。
+
+```bash
+git clone https://github.com/runningshark/w1_short_straddle_failureprove
+cd w1_short_straddle_failureprove
+py verify.py V3
+```
+
+### 34 · 每周卖出 ETH 平值跨式（每天对冲）
+
+和 33 一样，换成 ETH。（[档案](https://github.com/runningshark/w1_short_straddle_failureprove/blob/master/reports/34_V4_eth_short_straddle_hedged.md)）
+
+- **对冲之后还是负的。** 年化 −5.0%（t = −0.59），训练段 −1.9%，验证段 −9.9%；最大回撤 −62.0%。
+- **权利金本来就不够。** 平均每周收 7.26%，赔 7.27%；对冲成本每年还要约 5.7%。
+- **压力测试和多数变体为负。** 权利金打 95 折 −21.4%，费用翻倍 −13.4%；全部成交均价打 97 折 −13.0%，宽跨式 −10.5%。
+
+```bash
+git clone https://github.com/runningshark/w1_short_straddle_failureprove
+cd w1_short_straddle_failureprove
+py verify.py V4
 ```
 
 ---
