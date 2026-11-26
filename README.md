@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -47,6 +47,9 @@
 | 35 | 日线 · 距离法配对交易 | **确认失败**（零成本也不赚） | 年化 **−2.7%**，t −0.78；零成本也是 −1.0%；4 个变体全负 | [pairs_trading_failureprove · S1](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/35_S1_distance_pairs.md) |
 | 36 | 日线 · 协整配对交易 | **确认失败**（方向相反） | 年化 **−16.7%**，t **−3.24**（方向相反），每年都亏；反过来扣成本后 t 2.44，没到门槛 | [pairs_trading_failureprove · S2](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/36_S2_cointegration_pairs.md) |
 | 37 | 日线 · ETH/BTC 比值回归 | **确认失败**（没有信号） | 年化 +0.7%，t **0.09**；验证段 −1.4%；六年多只开仓 36 次 | [pairs_trading_failureprove · S3](https://github.com/runningshark/pairs_trading_failureprove/blob/master/reports/37_S3_ethbtc_ratio.md) |
+| 38 | 1 小时 · CME 缺口回补 | **确认失败**（高胜率陷阱） | 赚钱的占 72%，年化 **−19.5%**，回撤 −88.0%；回补的平均赚 2.4%，没回补的平均亏 7.9%；零成本也是 −14.0% | [h1_calendar_failureprove · G1](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/38_G1_cme_gap.md) |
+| 39 | 1 小时 · 议息前 24 小时做多 | **确认失败**（只有 2020 年有效） | 年化 +4.8%，t **1.41**；验证段 −2.6%；去掉 2020 年只剩 +0.3% | [h1_calendar_failureprove · F1](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/39_F1_pre_fomc.md) |
+| 40 | 1 小时 · 每天 21–23 点（UTC）做多 | **确认失败**（被手续费吃光） | 年化 **−47.4%**（成本一年 73%）；零成本 +25.6%（t 4.35），但每笔只有 +0.07% | [h1_calendar_failureprove · T1](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/40_T1_hours_21_23.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -646,6 +649,60 @@ ETH/BTC 的比值相对过去 90 天偏离超过 2 倍标准差，就赌它回�
 git clone https://github.com/runningshark/pairs_trading_failureprove
 cd pairs_trading_failureprove
 py verify.py S3
+```
+
+### 38–40 · 第七轮事先登记的研究：日历和时段（共用一个仓库）
+
+这一轮测要用小时线才能检验的三种说法，都是“到了某个时刻就该做什么”。规则和通过标准同样是事先登记的（[事先登记_第七轮.md](https://github.com/runningshark/h1_calendar_failureprove/blob/master/事先登记_第七轮.md)）。**3 个全部失败。**
+
+- 累计 36 个候选（第六轮的 5 个同样全部失败，暂时没有公开），门槛是 t ≥ 3.2。用 BTC 永续的 1 小时线，每次开仓、平仓各付 0.10%，计入资金费。
+- 这 3 条共用一个仓库 [h1_calendar_failureprove](https://github.com/runningshark/h1_calendar_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/h1_calendar_failureprove/blob/master/FAILURE_REPORT.md)。
+
+### 38 · CME 缺口回补
+
+CME 的比特币期货周五收盘、周日开盘，中间价格跳开的那一段叫缺口。缺口不小于 1% 时，周日开盘就往回补的方向做（向上的缺口做空，向下的做多），碰到周五收盘价就平，一周没碰到也平。（[档案](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/38_G1_cme_gap.md)）
+
+- **回补比例没有流传的那么高，而且不回补的时候亏得多。** 360 个周末里缺口不小于 1% 的有 186 个，一周内回补的占 69%（24 小时内 42%）。回补的平均赚 2.4%，没回补的 57 笔平均亏 7.9%。合起来赚钱的占 72%，平均每笔却是 −0.74%。
+- **不是成本问题。** 全区间年化 −19.5%（t = −1.60），最大回撤 −88.0%；不扣成本也是 −14.0%。7 年里 6 年为负。
+- **亏的那几笔都在大行情里。** 2020-03-08 那个周末向下跳了 9.5%，往回做之后一周亏 35.2%；2023-03-12 向上跳了 5.9%，亏 25.9%。周末跳得大，往往是有事发生，行情接着走。
+- **和 CME 关系不大。** 把“周五收盘”换成一周里别的日子，同样隔两天、同样的规则，回补比例是 46% 到 63%，年化 −36.6% 到 +0.5%。价格本来就来回波动，两天前的价位之后被碰到是常事。
+- **变体。** 门槛 0.5%、门槛 2%、最多拿 48 小时、加止损，依次是 −23.2%、−18.5%、−17.8%、−23.3%；换成 ETH 是 +11.6%（t = 0.60），不显著，也和 BTC 的结果相反。
+
+```bash
+git clone https://github.com/runningshark/h1_calendar_failureprove
+cd h1_calendar_failureprove
+py verify.py G1
+```
+
+### 39 · 议息前 24 小时做多
+
+美联储每次例行议息声明前 24 小时做多 BTC，声明发布时平仓。股票上有名的“议息前漂移”搬到 BTC 上。（[档案](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/39_F1_pre_fomc.md)）
+
+- **全靠 2020 年。** 54 次里上涨的占 63%，不扣成本平均每次 +0.81%。分年看 2020 年 +35.6%，之后是 2021 −6.0%、2022 +11.9%、2023 +3.1%、2024 −3.4%、2025 −0.7%、2026 −4.0%；去掉 2020 年，年化只剩 +0.3%（t = 0.10）。
+- **样本外为负。** 训练段年化 +10.3%（t = 1.95），验证段 −2.6%（t = −0.74）。
+- **不是议息带来的。** 把同样的 24 小时挪到前一周、后一周、前两周、后两周（都不是议息的日子），不扣成本平均每次是 +0.72%、+0.22%、+0.28%、+0.58%。这几年 BTC 本来就是涨的，随便哪个 24 小时平均都是正的。
+- **统计上不显著。** 全区间年化 +4.8%，t = 1.41，对 BTC 回归后的超额 t = 1.13；4 个变体依次是 +4.1%、+5.2%、+4.4%、+0.3%。
+
+```bash
+git clone https://github.com/runningshark/h1_calendar_failureprove
+cd h1_calendar_failureprove
+py verify.py F1
+```
+
+### 40 · 每天 21–23 点（UTC）做多
+
+每天 UTC 21 点买入 BTC、23 点卖出。出处是 Quantpedia 收录的一篇论文，称这两个小时的收益明显更高。（[档案](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/40_T1_hours_21_23.md)）
+
+- **手续费。** 每天一进一出，单边 0.10% 一年就是 73%。全区间年化 −47.4%（t = −8.05），每一年都亏，累计 −96.5%。
+- **这个时段效应本身是真的。** 不扣成本年化 +25.6%（t = 4.35），训练段 t = 3.24，验证段 t = 2.99；在 23 个两小时时段里排第 1，紧挨着的 20–22 点是 +22.9%；ETH 上也有（+31.4%，t = 4.01）。原文是 2022 年发表的，在它之后的年份里这个现象还在（不扣成本时 2022 年 −13.7%、2026 年 −3.9%，其余年份为正）。
+- **但每笔只有 +0.07%。** 来回的成本超过这个数就是亏的：单边 0.05% 是 −10.9%；按挂单费率单边 0.02% 算是 +11.0%（t = 1.87），而且挂单不保证成交。
+- **变体全部为负。** 20–22 点、22–24 点、只做周一到周五、换成 ETH，依次是 −50.1%、−71.3%、−33.2%、−41.6%。
+- 剩下的线索：UTC 21 点到 23 点这两个小时，BTC 平均是涨的：不扣成本 t = 4.35，训练段和验证段各自都接近 3，ETH 上也成立，窗口是原文事先给定的，不是这里挑出来的。它不够付吃单的手续费，不能当成一个策略。能想到的用处是“反正要成交的时候挑时间”：同一笔买入放在 21 点比放在 23 点平均便宜约 0.07%。这个用法没有单独检验过。
+
+```bash
+git clone https://github.com/runningshark/h1_calendar_failureprove
+cd h1_calendar_failureprove
+py verify.py T1
 ```
 
 ---
