@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -87,6 +87,12 @@
 | 75 | 1 小时 · 保本止损 | **确认失败**（没有改进） | 改进 **−0.004**R，t −1.20；胜率 34% → 30% | [h1_position_mgmt_failureprove · E4](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/75_E4_breakeven_stop.md) |
 | 76 | 1 小时 · 分批止盈 | **确认失败**（胜率变高，赚的一样） | 改进 **−0.001**R，t −0.13；胜率 34% → 50%，赚的一样 | [h1_position_mgmt_failureprove · E5](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/76_E5_partial_take_profit.md) |
 | 77 | 1 小时 · 浮盈加仓 | **确认失败**（多赚的被成本吃光） | 改进 **−0.001**R，t −0.02；不扣成本多 +0.147R（t 3.18），被成本吃光 | [h1_position_mgmt_failureprove · E6](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/77_E6_pyramiding.md) |
+| 78 | 日线 · 负资金费做多 | **确认失败**（2024 年起没有了） | 每笔净 **+0.79%**，t 1.70；超出随手进场 +1.12%（t 2.45），验证段只有 +0.20% | [d1_funding_rotation_factors_failureprove · H1](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/78_H1_negative_funding_long.md) |
+| 79 | 日线 · 升水过高做空 | **确认失败**（牛市里做空，还是亏） | 每笔净 **−0.87%**，t −0.73；随手做空更亏（−1.75%）；拿掉 LUNA 那一笔是 −1.13% | [d1_funding_rotation_factors_failureprove · H2](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/79_H2_high_basis_short.md) |
+| 80 | 1 小时 · BTC 领涨、山寨补涨 | **确认失败**（落后的不补涨） | 每笔净 **−0.31%**，t −1.58；超出随手进场 −0.27%（t −1.35），落后的没有补涨 | [d1_funding_rotation_factors_failureprove · H3](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/80_H3_btc_lead_alt_catchup.md) |
+| 81 | 日线 · BTC 强势之后换山寨 | **确认失败**（没有规律） | 每笔净 **+0.05%**，t 0.07；做多篮子 +1.60%，反过来 −1.36% | [d1_funding_rotation_factors_failureprove · H4](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/81_H4_btc_alt_rotation.md) |
+| 82 | 周度 · 低贝塔（Betting Against Beta） | **确认失败**（主要是拿着 BTC） | 年化 **+20.8%**，t 1.74；平均净多头 40%，对市场和 BTC 回归后截距 +8.4%（t 0.82） | [d1_funding_rotation_factors_failureprove · H5](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/82_H5_low_beta_bab.md) |
+| 83 | 周度 · 偏度（彩票效应） | **确认失败**（做空彩票币亏钱） | 年化 **−15.2%**，t −1.20；超出随手选币 −6.8%（t −0.55） | [d1_funding_rotation_factors_failureprove · H6](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/83_H6_skewness_lottery.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1402,6 +1408,107 @@ py verify.py E5
 git clone https://github.com/runningshark/h1_position_mgmt_failureprove
 cd h1_position_mgmt_failureprove
 py verify.py E6
+```
+
+### 78–83 · 第十四轮事先登记的研究：资金费和基差的极端值、BTC 和山寨的轮动、低贝塔和偏度（共用一个仓库）
+
+清单上还没测的三个方向：资金费和基差的极端值（负资金费做多、升水过高做空），BTC 和山寨的轮动（领涨补涨、相对强势之后换山寨），以及两个没测过的横截面因子（低贝塔、偏度）。规则和通过标准同样是事先登记的（[事先登记_第十四轮.md](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/事先登记_第十四轮.md)）。**登记 6 个，6 个失败**。
+
+- 累计 75 个候选，门槛是 t ≥ 3.5。币安现货和 U 本位永续的日线、日资金费，H3 用 1 小时 K 线；每个季度按成交额选 10 个币（共 48 个合约，含后来下架的），2020-04 到 2026-10，训练段到 2023 年底。每边成本 0.10%，资金费照算。
+- 前四个是事件，和**随手进场**比（同一个币、同一个方向、同样拿多久，进场时刻在前后 30 天里随机抽）；后两个是周度多空组合，和**随手选币**比。
+- 负资金费做多在 2024 年以前比随手进场好，之后没有了；升水高时做空只是比随手做空亏得少；落后于 BTC 的山寨不补涨；轮动没有规律；低贝塔的收益主要来自拿着 BTC；做空“彩票”币亏钱。
+- 这 6 条共用一个仓库 [d1_funding_rotation_factors_failureprove](https://github.com/runningshark/d1_funding_rotation_factors_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/FAILURE_REPORT.md)。数据来自 Binance Vision（CC BY-NC-SA 4.0）。
+
+### 78 · 负资金费做多
+
+“资金费很负说明空头太拥挤，会被挤空”。规则：某个币当天的资金费合计 ≤ −0.03%，当天收盘做多永续合约，拿 3 天。（[档案](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/78_H1_negative_funding_long.md)）
+
+- **扣成本后每笔 +0.79%，不显著（t 1.70）。** 801 笔（每年约 122 笔），胜率 52%，平均赚 7.09%、亏 5.98%。不扣成本每笔 +0.99%（其中平均收到 0.23% 的资金费），成本 0.20%。
+- **比随手进场好，但只在 2024 年以前。** 同一个币、同样做多 3 天，随手进场平均 −0.13%，真实的 +0.99%，超出 +1.12%（t 2.45）。训练段超出 +1.62%（t 2.56），验证段只有 +0.20%（t 0.37）。
+- **验证段不赚钱。** 训练段每笔 +1.32%（t 2.02），验证段 −0.17%（t −0.32）。2022 年笔数最多（294 笔，熊市里资金费常常是负的），每笔 −0.23%，其中 LUNA 的 22 笔平均 −5.27%；2025 年每笔 −0.83%。拿掉 2022 年，每笔 +1.39%（t 2.57，登记之外）。
+- **邻近变体都为正，但只有两个 t 过 1.5。** 门槛 −0.1% 246 笔 +1.89%（t 2.16），只要是负的 1,944 笔 +0.18%（t 0.52），拿 1 天 1,163 笔 +0.24%（t 0.71），拿 7 天 547 笔 +2.35%（t 2.34）；压力测试 成本翻倍 +0.59%（t 1.27），晚一天进场 +0.72%（t 1.35）。
+- **集中在少数几个币。** BNB 一个币就有 177 笔（22%），每笔 +1.36%。
+
+```bash
+git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
+cd d1_funding_rotation_factors_failureprove
+py verify.py H1
+```
+
+### 79 · 升水过高做空
+
+“永续合约升水过高说明市场过热”。规则：永续收盘价比现货高 0.15% 以上（不到 5%），当天收盘做空，拿 3 天。（[档案](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/79_H2_high_basis_short.md)）
+
+- **扣成本后每笔亏 0.87%（t −0.73）。** 376 笔，胜率 54%，平均赚 7.53%、亏 10.83%；不扣成本每笔 −0.67%（其中平均收到 0.59% 的资金费），收到的资金费抵不过价格继续涨。
+- **亏得比随手做空少，差别不显著。** 347 笔在 2020–2021 年（基差 ≥ +0.15% 几乎只在那时的牛市里出现），这时随手做空 3 天平均 −1.75%，升水信号做空 −0.67%，超出 +1.08%（t 0.92）。
+- **唯一的一大笔是 LUNA。** 2022-05-10 收盘做空，合约 2022-05-12 之后停止交易，在最后一个收盘价平仓，+95.7%；拿掉这一笔，每笔 −1.13%（t −0.97，登记之外）。
+- **两段都亏。** 训练段每笔 −0.93%（t −0.74），验证段 −0.02%（t −0.01，只有 22 笔）。
+- **邻近变体、压力测试全是负的。** 门槛 +0.1% 873 笔 −1.11%（t −1.67），门槛 +0.3% 52 笔 −0.12%（t −0.04），拿 1 天 519 笔 −0.15%（t −0.33），拿 7 天 257 笔 −2.48%（t −0.96）；成本翻倍 −1.07%（t −0.89），晚一天进场 −1.28%（t −0.97）。
+
+```bash
+git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
+cd d1_funding_rotation_factors_failureprove
+py verify.py H2
+```
+
+### 80 · BTC 领涨、山寨补涨
+
+“BTC 先涨，山寨跟着补涨”。规则（1 小时）：BTC 24 小时涨了 3% 以上、某个山寨落后 3 个百分点以上，下一根做多这个山寨，拿 24 根；领跌时反过来做空。（[档案](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/80_H3_btc_lead_alt_catchup.md)）
+
+- **扣成本后每笔亏 0.31%（t −1.58）。** 2,655 笔（每年约 403 笔），胜率 46%，平均赚 4.55%、亏 4.44%；不扣成本每笔 −0.11%，成本 0.20%。
+- **比随手进场还差，落后的不补涨。** 同一个币、同一个方向、同样拿 24 根，随手进场平均 +0.16%，真实的 −0.11%，超出 −0.27%（t −1.35）。做多（补涨）1,712 笔扣成本后每笔 +0.01%，做空（补跌）943 笔 −0.88%。
+- **门槛放宽以后显著地亏。** 5% 和 5 个百分点 816 笔 −0.10%（t −0.27），2% 和 2 个百分点 5,139 笔 −0.42%（t −3.04），拿 12 根 3,689 笔 −0.22%（t −2.01），拿 48 根 2,108 笔 +0.21%（t 0.67）。
+- **两段都亏，压力测试也是负的。** 训练段每笔 −0.30%（t −1.19），验证段 −0.34%（t −1.22）；成本翻倍 −0.51%（t −2.62），晚一根进场 −0.33%（t −1.70）。
+
+```bash
+git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
+cd d1_funding_rotation_factors_failureprove
+py verify.py H3
+```
+
+### 81 · BTC 强势之后换山寨
+
+“BTC 涨得多了以后，资金轮动到山寨”。规则：山寨篮子 30 天的平均涨幅比 BTC 少 15 个百分点以上，做多篮子、做空 BTC，拿 7 天；多 15 个百分点以上时反过来。（[档案](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/81_H4_btc_alt_rotation.md)）
+
+- **每笔接近 0。** 111 笔（每年约 17 笔），扣成本后每笔 +0.05%（t 0.07）；两条腿的成本每笔 0.40%，不扣成本 +0.45%。
+- **和随手进场比，差别不显著。** 同一种组合、同一个方向、同样拿 7 天，随手进场平均 −0.26%，真实的 +0.45%，超出 +0.71%（t 0.91）。
+- **两个方向一正一负，两段也一正一负。** 做多篮子（BTC 多涨了 15 个百分点以后）53 笔每笔 +1.60%，反过来 58 笔 −1.36%；训练段 −0.68%（t −0.67），验证段 +1.64%（t 1.55）。
+- **邻近变体大多为负。** 门槛 10% 169 笔 −0.52%（t −0.93），门槛 25% 42 笔 −1.93%（t −1.51），用 60 天的涨幅 158 笔 −0.75%（t −1.16），拿 14 天 70 笔 +0.39%（t 0.26）；压力测试 成本翻倍 −0.35%（t −0.45），晚一天进场 +0.04%（t 0.05）。
+
+```bash
+git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
+cd d1_funding_rotation_factors_failureprove
+py verify.py H4
+```
+
+### 82 · 低贝塔（Betting Against Beta）
+
+“低贝塔的资产风险调整后更好”（Frazzini 和 Pedersen，2014）。规则：每周按 60 天的贝塔，做多最低的 3 个币、做空最高的 3 个，按贝塔加权让组合的事前贝塔为 0。（[档案](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/82_H5_low_beta_bab.md)）
+
+- **扣成本后年化 +20.8%，不显著（t 1.74）。** 夏普 0.71，累计最大回撤 −46%（按天相加）；平均每次调仓换手 0.29。训练段年化 +23.7%（t 1.36），验证段 +17.0%（t 1.11）。
+- **主要是拿着 BTC。** 按贝塔加权以后，组合平均净多头 40%（多头仓位减空头仓位），BTC 在 93% 的周里在多头那边。把每天的收益对市场（当季 10 个币的平均）和 BTC 回归，截距只剩年化 +8.4%（t 0.82，登记之外）；同样的选币改成多空等额，年化 +0.9%（t 0.07）。
+- **和随手选币比，不过门槛。** 20 个随机组合（同样按贝塔加权）年化 −7.8%，超出 +28.7%（t 2.43）。随机组合每周全换，手续费每年约 7.7%；不扣手续费，超出 +22.5%（t 1.92）。
+- **邻近变体：** 用过去 120 天 +27.1%（t 2.41），对 BTC 算贝塔 +28.4%（t 2.05），多空各 2 个 +29.2%（t 1.96），多空等额 +0.9%（t 0.07）；压力测试 成本翻倍 +19.3%（t 1.62），晚一天调仓 +24.2%（t 2.02）。
+
+```bash
+git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
+cd d1_funding_rotation_factors_failureprove
+py verify.py H5
+```
+
+### 83 · 偏度（彩票效应）
+
+“像彩票的资产被买贵了”（偏度、MAX 效应）。规则：每周按 30 天日收益的偏度，做多最低的 3 个币、做空最高的 3 个，等额。（[档案](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/83_H6_skewness_lottery.md)）
+
+- **扣成本后年化 −15.2%（t −1.20）。** 夏普 −0.48，累计最大回撤 −104%（按天相加，不复利）；平均每次调仓换手 0.78。
+- **做空“彩票”币亏钱。** 偏度最高的币（暴涨过的）之后没有变差。和随手选币比，超出 −6.8%（t −0.55）；只有 2022、2025 年为正。
+- **两段都亏。** 训练段年化 −15.7%（t −0.83），验证段 −14.4%（t −0.96）。
+- **邻近变体、压力测试全是负的。** 用 MAX 代替偏度 −12.4%（t −0.90），用过去 60 天 −6.4%（t −0.53），多空各 2 个 −12.0%（t −0.76），每两周调一次仓 −1.9%（t −0.15）；成本翻倍 −19.2%（t −1.52），晚一天调仓 −16.1%（t −1.35）。
+
+```bash
+git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
+cd d1_funding_rotation_factors_failureprove
+py verify.py H6
 ```
 
 ---
