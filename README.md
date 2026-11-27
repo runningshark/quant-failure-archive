@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -93,6 +93,18 @@
 | 81 | 日线 · BTC 强势之后换山寨 | **确认失败**（没有规律） | 每笔净 **+0.05%**，t 0.07；做多篮子 +1.60%，反过来 −1.36% | [d1_funding_rotation_factors_failureprove · H4](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/81_H4_btc_alt_rotation.md) |
 | 82 | 周度 · 低贝塔（Betting Against Beta） | **确认失败**（主要是拿着 BTC） | 年化 **+20.8%**，t 1.74；平均净多头 40%，对市场和 BTC 回归后截距 +8.4%（t 0.82） | [d1_funding_rotation_factors_failureprove · H5](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/82_H5_low_beta_bab.md) |
 | 83 | 周度 · 偏度（彩票效应） | **确认失败**（做空彩票币亏钱） | 年化 **−15.2%**，t −1.20；超出随手选币 −6.8%（t −0.55） | [d1_funding_rotation_factors_failureprove · H6](https://github.com/runningshark/d1_funding_rotation_factors_failureprove/blob/master/reports/83_H6_skewness_lottery.md) |
+| 84 | 周度 · 主动买入占比（订单流） | **确认失败**（2024 年起变弱） | 年化 **+21.8%**，t 1.88；验证段 +6.8%（t 0.43） | [orderflow_ml_macro_failureprove · OF1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/84_OF1_taker_share_weekly.md) |
+| 85 | 日线 · 主动买入占比的极端日 | **确认失败**（扣成本后是 0） | 每笔净 **+0.01%**，t 0.05；超出随手进场 +0.67% 是因为随手进场亏（−0.45%） | [orderflow_ml_macro_failureprove · OF2](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/85_OF2_taker_share_extreme.md) |
+| 86 | 日线 · 大单日跟随 | **确认失败**（和随手进场差不多） | 每笔净 **+0.48%**，t 1.05；超出随手进场 +0.13%（t 0.31） | [orderflow_ml_macro_failureprove · OF3](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/86_OF3_big_trade_days.md) |
+| 87 | 周度 · 岭回归选币（机器学习） | **确认失败**（排名有用，组合不显著） | 年化 **+17.0%**，t 1.32；排名相关 0.132（t 5.27），多空 3 个币被几周大亏拖住 | [orderflow_ml_macro_failureprove · ML1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/87_ML1_ridge_weekly.md) |
+| 88 | 周度 · 梯度提升树选币（机器学习） | **确认失败**（扣成本后接近 0） | 年化 **+2.3%**，t 0.18；排名相关 0.126（t 5.33） | [orderflow_ml_macro_failureprove · ML2](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/88_ML2_gbm_weekly.md) |
+| 89 | 日线 · BTC 隐含波动率飙升后做多 | **确认失败**（样本太小，验证段为负） | 32 笔每笔 **+1.05%**，t 0.97；验证段 −0.97% | [orderflow_ml_macro_failureprove · V1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/89_V1_bvol_spike_long.md) |
+| 90 | 择时 · 波动率风险溢价为正时持有 BTC | **确认失败**（没有择时超额） | 择时超额 **+1.4%**，t 0.18；平移检验 p 0.39 | [orderflow_ml_macro_failureprove · V2](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/90_V2_vrp_timing.md) |
+| 91 | 择时 · 实际利率下降时持有 BTC | **确认失败**（没有择时超额） | 择时超额 **+1.3%**，t 0.12；1 → 4.25（持有 16.42） | [orderflow_ml_macro_failureprove · M1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/91_M1_real_yield_timing.md) |
+| 92 | 择时 · 美元走弱时持有 BTC | **确认失败**（没有择时超额） | 择时超额 **+5.2%**，t 0.46；1 → 6.41（持有 16.42） | [orderflow_ml_macro_failureprove · M2](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/92_M2_dollar_timing.md) |
+| 93 | 1 小时 · FOMC 公布前 24 小时做多 BTC | **确认失败**（只来自 2020 年） | 每笔净 **+0.49%**，t 1.31；去掉 2020 年 +0.06% | [orderflow_ml_macro_failureprove · M3](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md) |
+| 94 | 择时 · 恐惧贪婪指数 | **确认失败**（卖早了，跑输持有） | 择时超额 **−17.1%**，t −1.84；1 → 0.94（持有 7.54） | [orderflow_ml_macro_failureprove · S1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/94_S1_fear_greed_timing.md) |
+| 95 | 日线 · BTC 市占率趋势 | **确认失败**（顺着市占率做是亏的） | 每笔净 **−0.50%**，t −0.81；做多 BTC 那边 −1.30% | [orderflow_ml_macro_failureprove · D1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/95_D1_btc_dominance_trend.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1509,6 +1521,204 @@ py verify.py H5
 git clone https://github.com/runningshark/d1_funding_rotation_factors_failureprove
 cd d1_funding_rotation_factors_failureprove
 py verify.py H6
+```
+
+### 84–95 · 第十五轮事先登记的研究：订单流、机器学习、期权隐含波动率、宏观、情绪指数、BTC 市占率（共用一个仓库）
+
+订单流（主动买入占比、主动买入的极端日、大单日）、机器学习选币（岭回归、梯度提升树，模型和参数事先固定，只算一次）、BTC 期权隐含波动率（飙升后做多、波动率风险溢价）、宏观（实际利率、美元、FOMC 公布前）、恐惧贪婪指数、BTC 市占率。规则和通过标准同样是事先登记的（[事先登记_第十五轮.md](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/事先登记_第十五轮.md)）。**登记 12 个，12 个失败**。
+
+- 累计 87 个候选，门槛是 t ≥ 3.5。币安 U 本位永续合约和现货的日线、BTC 现货的 1 小时 K 线、BVOL（Binance Vision）；美国财政部、美联储理事会的公开数据；Coin Metrics 社区数据；alternative.me 的恐惧贪婪指数（不随仓库公开）。每个季度按成交额选 10 个币，2020-04 到 2026-10（择时规则从 2017-09 或 2018-02 起），训练段到 2023 年底。每边成本 0.10%，资金费照算。
+- 事件类和**随手进场**比；周度组合和**随手选币**比；BTC 的满仓 / 空仓择时看**择时超额**和**平移检验**（和第九轮相同）。
+- 机器学习的排名有预测力（排名相关约 0.13，验证段也在），但等额多空 3 个币被少数几周的大亏拖住；主动买入占比 2024 年起变弱；宏观和情绪择时没有择时超额；FOMC 公布前的漂移只来自 2020 年；顺着市占率做是亏的。
+- 这 12 条共用一个仓库 [orderflow_ml_macro_failureprove](https://github.com/runningshark/orderflow_ml_macro_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 84 · 主动买入占比（订单流）
+
+“主动买盘强，后面要涨”（订单流失衡）。规则：每周按过去 7 天的主动买入成交额占比，做多最高的 3 个币、做空最低的 3 个。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/84_OF1_taker_share_weekly.md)）
+
+- **扣成本后年化 +21.8%（t 1.88）。** 夏普 0.75，累计最大回撤 −56%（按天相加）；343 周，平均每次调仓换手 0.91，资金费每年 −3.4%。
+- **不只是动量，但也不稳。** 分数和下一周涨跌的排名相关 0.084（t 4.39），验证段 0.067（t 2.18）；每周选中的币和按 7 天涨幅选的只有 48% 相同，两个组合每天收益的相关 0.29，对动量组合回归后剩下 +21.1%（t 1.89，登记之外）。
+- **和随手选币比：** 20 个随机组合年化 −5.2%，超出 +26.9%（t 2.28）；不扣手续费，超出 +24.1%（t 2.05）。
+- **训练段年化 +33.1%（t 2.02），验证段 +6.8%（t 0.43）。**
+- **邻近变体：** 只看过去 1 天 +14.1%（t 1.31），看过去 30 天 +19.4%（t 1.68），减去自己过去 90 天的平均占比 +8.9%（t 0.71），多空各 2 个 +15.4%（t 1.10）；压力测试 成本翻倍 +17.0%（t 1.47），晚一天调仓 +20.8%（t 1.84）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py OF1
+```
+
+### 85 · 主动买入占比的极端日
+
+“主动买入突然大增，跟着做”。规则：某个币当天的主动买入占比比前 30 天的平均高（低）2 个标准差以上，当天收盘做多（做空），拿 3 天。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/85_OF2_taker_share_extreme.md)）
+
+- **扣成本后每笔 +0.01%（t 0.05）。** 1,305 笔（每年约 198 笔），胜率 50%，平均赚 5.76%、亏 5.76%；不扣成本每笔 +0.21%，成本 0.20%。
+- **“超出随手进场”来自随手进场是亏的。** 同一个币、同一个方向随机进场平均 −0.45%（做空那边亏得多）；真实交易扣成本后接近 0。门槛提高到 3 个标准差的 226 笔每笔 +1.34%（t 2.26），7 年每年都为正，是事后线索，不是结论。
+- **和随手进场比：** 随手进场平均 −0.45%，真实的 +0.21%，超出 +0.67%（t 2.35）；训练段超出 +0.84%，验证段 +0.45%。
+- **训练段每笔 +0.06%（t 0.14，726 笔），验证段 −0.04%（t −0.12，579 笔）。**
+- **邻近变体：** 门槛 1.5 个标准差 2,526 笔 −0.25%（t −1.08），门槛 3 个标准差 226 笔 +1.34%（t 2.26），拿 1 天 1,498 笔 −0.01%（t −0.06），拿 7 天 1,082 笔 +0.59%（t 1.15）；压力测试 成本翻倍 −0.19%（t −0.66），晚一天进场 +0.03%（t 0.11）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py OF2
+```
+
+### 86 · 大单日跟随
+
+“大单进场，跟着主力走”。规则：平均每笔成交额比前 30 天的平均高 2 个标准差以上，跟着当天的涨跌方向，拿 3 天。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/86_OF3_big_trade_days.md)）
+
+- **扣成本后每笔 +0.48%（t 1.05）。** 837 笔（每年约 127 笔），胜率 50%，平均赚 7.52%、亏 6.48%；不扣成本每笔 +0.68%，成本 0.20%。
+- **做多赚、做空亏，和随手进场差不多。** 做多 604 笔每笔 +1.26%（超出随手进场 +0.47%），做空 233 笔 −1.56%（超出 −0.73%）。
+- **和随手进场比：** 随手进场平均 +0.55%，真实的 +0.68%，超出 +0.13%（t 0.31）；训练段超出 +0.47%，验证段 −0.29%。
+- **训练段每笔 +1.09%（t 1.60，467 笔），验证段 −0.29%（t −0.52，370 笔）。**
+- **邻近变体：** 门槛 1.5 个标准差 1,354 笔 +0.62%（t 1.75），门槛 3 个标准差 288 笔 +0.50%（t 0.68），拿 1 天 1,083 笔 +0.14%（t 0.62），拿 7 天 657 笔 +1.70%（t 2.18）；压力测试 成本翻倍 +0.28%（t 0.62），晚一天进场 +0.73%（t 1.61）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py OF3
+```
+
+### 87 · 岭回归选币（机器学习）
+
+“用机器学习组合多个因子选币”。规则：12 个特征按周排名，滚动训练岭回归预测下一周的排名，做多最高的 3 个、做空最低的 3 个。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/87_ML1_ridge_weekly.md)）
+
+- **扣成本后年化 +17.0%（t 1.32）。** 夏普 0.58，累计最大回撤 −55%（按天相加）；291 周，平均每次调仓换手 0.70，资金费每年 −3.3%。
+- **排名有预测力，组合却不显著（登记之外）。** 分数和下一周涨跌的排名相关 0.132（t 5.27，290 周），验证段 0.140（t 3.68）；但多减空 3 个币每周平均 +0.78%（t 1.51，不扣成本），中位数 +1.64%，63% 的周为正，最差一周 −33%。排名相关最强的单个特征都是“低风险”一类：30 天波动率低（0.126，t 4.47）、60 天贝塔低（0.128，t 4.53）、流动性好（0.107，t 5.10）、30 天最大单日涨幅小（0.108，t 4.35）——低波动、大市值的币多数周排名靠前，但被做空的高波动小币偶尔一周暴涨，把平均收益吃掉。
+- **和随手选币比：** 20 个随机组合年化 −10.0%，超出 +27.0%（t 1.97）；不扣手续费，超出 +23.1%（t 1.69）。
+- **训练段年化 +30.0%（t 1.70），验证段 +4.3%（t 0.23）。**
+- **邻近变体：** λ = 0.1 × 样本数 +22.9%（t 1.76），只用最近 104 周训练 +3.1%（t 0.23），多空各 2 个 +15.7%（t 1.08），每 4 周重新训练 +18.3%（t 1.41）；压力测试 成本翻倍 +13.3%（t 1.03），晚一天调仓 +13.7%（t 1.07）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py ML1
+```
+
+### 88 · 梯度提升树选币（机器学习）
+
+同上，模型换成梯度提升树（100 棵、深度 2、学习率 0.05，事先固定）。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/88_ML2_gbm_weekly.md)）
+
+- **扣成本后年化 +2.3%（t 0.18）。** 夏普 0.08，累计最大回撤 −58%（按天相加）；291 周，平均每次调仓换手 0.79，资金费每年 −3.2%。
+- **排名有预测力，组合不赚钱（登记之外）。** 排名相关 0.126（t 5.33），验证段 0.147（t 4.09）；多减空 3 个币每周平均 +0.23%（t 0.45），中位数 +1.31%，最差一周 −41%。
+- **和随手选币比：** 20 个随机组合年化 −7.9%，超出 +10.2%（t 0.78）；不扣手续费，超出 +6.9%（t 0.53）。
+- **训练段年化 −3.5%（t −0.19），验证段 +8.0%（t 0.44）。**
+- **邻近变体：** 200 棵树 +2.5%（t 0.19），深度 3 −0.4%（t −0.03），只用最近 104 周训练 −11.4%（t −0.90），多空各 2 个 +12.3%（t 0.79）；压力测试 成本翻倍 −1.8%（t −0.14），晚一天调仓 +2.8%（t 0.22）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py ML2
+```
+
+### 89 · BTC 隐含波动率飙升后做多
+
+“恐慌指数飙升是买点”。规则：BTC 隐含波动率指数 BVOL 高于前 90 天的第 90 百分位，做多 BTC，拿 7 天。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/89_V1_bvol_spike_long.md)）
+
+- **扣成本后每笔 +1.05%（t 0.97）。** 32 笔（每年约 9 笔），胜率 59%，平均赚 5.46%、亏 5.38%；不扣成本每笔 +1.25%，成本 0.20%。
+- **样本太小。** 拿 7 天不重叠，2023-06 到 2026-10 只有 32 笔。
+- **和随手进场比：** 随手进场平均 +0.23%，真实的 +1.25%，超出 +1.02%（t 0.90）；训练段超出 +1.05%，验证段 +0.99%。
+- **训练段每笔 +2.63%（t 1.84，18 笔），验证段 −0.97%（t −0.60，14 笔）。**
+- **邻近变体：** 第 80 百分位 54 笔 +1.21%（t 1.34），第 95 百分位 25 笔 +2.75%（t 2.29），拿 3 天 53 笔 +0.33%（t 0.58），拿 14 天 23 笔 +2.40%（t 1.29）；压力测试 成本翻倍 +0.85%（t 0.79），晚一天进场 +1.30%（t 1.21）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py V1
+```
+
+### 90 · 波动率风险溢价为正时持有 BTC
+
+“波动率风险溢价为正时风险资产更好”。规则：BVOL 高于 BTC 30 天的已实现波动率就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/90_V2_vrp_timing.md)）
+
+- **择时超额 +1.4%（年化，t 0.18）。** 满仓 80% 的时间，进出 51 次；一块钱变成 2.40，一直持有是 2.74；夏普 0.83 对 0.88，最大回撤 −50% 对 −53%。
+- **持有的时间太多，和一直持有差不多。** 溢价为正的日子约占 80%；已实现波动率换成 14 天、60 天，择时超额变成 −12.4%、−16.8%。
+- **训练段 +11.2%（t 0.89），验证段 −9.7%（t −0.87）；平移检验 p = 0.39（870 种平移）。** 持有的日子 BTC 年化 +44.9%（波动 46%），空仓的日子 +21.7%（波动 43%）。
+- **邻近变体：** 已实现波动率用 14 天 −12.4%（t −1.38），用 60 天 −16.8%（t −1.84），溢价 > 5 才持有 −3.6%（t −0.34），溢价高于前 90 天的中位数 +10.9%（t 0.89）；压力测试 成本翻倍 −0.1%（t −0.01），指标再晚一天 −6.6%（t −0.79）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py V2
+```
+
+### 91 · 实际利率下降时持有 BTC
+
+“实际利率下降利好 BTC”。规则：美国 10 年期实际收益率比 20 个观测前低就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/91_M1_real_yield_timing.md)）
+
+- **择时超额 +1.3%（年化，t 0.12）。** 满仓 48% 的时间，进出 225 次；一块钱变成 4.25，一直持有是 16.42；夏普 0.58 对 0.80，最大回撤 −55% 对 −83%。
+- **大约一半时间空仓，错过了大部分涨幅。** 按承担的波动算没有超额，邻近变体有正有负。
+- **训练段 +6.6%（t 0.45），验证段 −10.2%（t −0.81）；平移检验 p = 0.35（2,989 种平移）。** 持有的日子 BTC 年化 +61.3%（波动 67%），空仓的日子 +45.4%（波动 66%）。
+- **邻近变体：** 和第 10 个观测前比 +9.4%（t 0.83），和第 60 个观测前比 +21.5%（t 1.90），用 5 年期 −1.5%（t −0.14），低于最近 50 个观测的平均 +9.1%（t 0.79）；压力测试 成本翻倍 −1.2%（t −0.11），指标再晚一天 −6.6%（t −0.59）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py M1
+```
+
+### 92 · 美元走弱时持有 BTC
+
+“美元走弱利好 BTC”。规则：名义广义美元指数（只用 10 天以前的数据）低于 50 日均线就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/92_M2_dollar_timing.md)）
+
+- **择时超额 +5.2%（年化，t 0.46）。** 满仓 47% 的时间，进出 152 次；一块钱变成 6.41，一直持有是 16.42；夏普 0.67 对 0.80，最大回撤 −60% 对 −83%。
+- **大约一半时间空仓，错过了大部分涨幅。** 邻近变体有正有负（用 100 个观测的平均 +19.6%，和第 20 个观测前比 −17.2%）。
+- **训练段 +8.6%（t 0.56），验证段 −2.4%（t −0.18）；平移检验 p = 0.25（2,989 种平移）。** 持有的日子 BTC 年化 +69.7%（波动 68%），空仓的日子 +38.2%（波动 66%）。
+- **邻近变体：** 20 个观测的平均 −8.3%（t −0.69），100 个观测的平均 +19.6%（t 1.76），和第 20 个观测前比 −17.2%（t −1.55），只用 t−14 天及以前的值 +6.7%（t 0.59）；压力测试 成本翻倍 +3.6%（t 0.31），指标再晚一天 +6.3%（t 0.54）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py M2
+```
+
+### 93 · FOMC 公布前 24 小时做多 BTC
+
+“议息前漂移”（Lucca 和 Moench，2015）。规则：FOMC 声明公布前 24 小时做多 BTC 现货，公布那一刻平仓。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md)）
+
+- **扣成本后每笔 +0.49%（t 1.31）。** 73 笔（每年约 8 笔），胜率 58%，平均赚 2.43%、亏 2.13%；不扣成本每笔 +0.69%，成本 0.20%。
+- **只来自 2020 年。** 2020 年的 7 次每笔 +4.58%；去掉 2020 年剩下 66 次每笔 +0.06%，胜率 53%（登记之外）。
+- **和随手进场比：** 随手进场平均 +0.06%，真实的 +0.69%，超出 +0.63%（t 1.66）；训练段超出 +0.96%，验证段 −0.08%。
+- **训练段每笔 +0.87%（t 1.70，50 笔），验证段 −0.32%（t −0.71，23 笔）。**
+- **邻近变体：** 公布前 12 小时进场 73 笔 +0.35%（t 1.21），公布前 48 小时进场 73 笔 +0.29%（t 0.55），公布后 2 小时才平仓 73 笔 +0.50%（t 1.21），拿到公布那天的 UTC 收盘 73 笔 +0.88%（t 1.96）；压力测试 成本翻倍 +0.29%（t 0.78），晚一根进场 +0.65%（t 1.75）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py M3
+```
+
+### 94 · 恐惧贪婪指数
+
+“别人恐惧时贪婪”。规则：恐惧贪婪指数 ≤ 25（极度恐惧）买入 BTC，≥ 76（极度贪婪）卖出。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/94_S1_fear_greed_timing.md)）
+
+- **择时超额 −17.1%（年化，t −1.84）。** 满仓 71% 的时间，进出 16 次；一块钱变成 0.94，一直持有是 7.54；夏普 0.26 对 0.69，最大回撤 −78% 对 −77%。
+- **卖在“极度贪婪”会错过大段牛市。** 空仓的日子 BTC 年化涨 +99.9%，持有的日子只有 +19.9%；最长的一段空仓是 2020-07-28 到 2021-05-15（BTC 从 10,906 涨到 46,763）。4 个变体全部为负。
+- **训练段 −22.2%（t −1.85），验证段 −4.9%（t −0.37）；平移检验 p = 0.96（2,836 种平移）。** 持有的日子 BTC 年化 +19.9%（波动 63%），空仓的日子 +99.9%（波动 62%）。
+- **邻近变体：** 20 / 80 −6.7%（t −0.77），30 / 70 −22.0%（t −2.24），用 7 天平均 −6.9%（t −0.68），到“贪婪”（≥ 55）就卖 −19.6%（t −1.93）；压力测试 成本翻倍 −17.2%（t −1.86），指标再晚一天 −15.9%（t −1.66）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py download_data.py fng && py build_data.py fng
+py verify.py S1
+```
+
+### 95 · BTC 市占率趋势
+
+“BTC 市占率下降就是山寨季”。规则：市占率 30 天降了 2 个百分点以上，做多山寨篮子、做空 BTC，拿 7 天；升了 2 个百分点以上反过来。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/95_D1_btc_dominance_trend.md)）
+
+- **扣成本后每笔 −0.50%（t −0.81）。** 136 笔（每年约 22 笔），胜率 47%，平均赚 5.43%、亏 5.78%；不扣成本每笔 −0.10%，成本 0.40%。
+- **顺着市占率做是亏的。** 市占率下降时做多山寨 61 笔每笔 +0.48%，上升时做多 BTC 75 笔每笔 −1.30%；82% 的信号日和“山寨篮子 30 天比 BTC 涨得多（少）”同时出现，和第十四轮 H4（用价格、方向相反）是同一个信息，两个都不行。
+- **和随手进场比：** 随手进场平均 +0.07%，真实的 −0.10%，超出 −0.17%（t −0.27）；训练段超出 +0.24%，验证段 −1.11%。
+- **训练段每笔 −0.02%（t −0.02，94 笔），验证段 −1.59%（t −1.49，42 笔）。**
+- **邻近变体：** 门槛 1 个百分点 229 笔 −0.62%（t −1.42），门槛 3 个百分点 83 笔 −0.32%（t −0.44），用 60 天的变化 183 笔 −0.54%（t −1.11），拿 14 天 83 笔 −0.71%（t −0.64）；压力测试 成本翻倍 −0.90%（t −1.46），晚一天进场 −0.86%（t −1.47）。
+
+```bash
+git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
+cd orderflow_ml_macro_failureprove
+py verify.py D1
 ```
 
 ---
