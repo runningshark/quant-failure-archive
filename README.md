@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -81,6 +81,12 @@
 | 69 | 1 小时 · 缠论一买、一卖（笔的背驰） | **确认失败**（和随手进场一样） | 每笔净 R **−0.150**，t −7.08；和随手进场比 −0.004R（t −0.17）；每笔成本 0.151R | [h1_patterns_chan_failureprove · C1](https://github.com/runningshark/h1_patterns_chan_failureprove/blob/master/reports/69_C1_chan_buy1.md) |
 | 70 | 1 小时 · 缠论二买、二卖 | **确认失败**（和随手进场一样） | 每笔净 R **−0.193**，t −7.59；和随手进场比 +0.022R（t 0.90）；每笔成本 0.203R | [h1_patterns_chan_failureprove · C2](https://github.com/runningshark/h1_patterns_chan_failureprove/blob/master/reports/70_C2_chan_buy2.md) |
 | 71 | 1 小时 · 缠论三买、三卖 | **确认失败**（和随手进场一样） | 每笔净 R **−0.190**，t −8.06；和随手进场比 +0.001R（t 0.06）；每笔成本 0.193R | [h1_patterns_chan_failureprove · C3](https://github.com/runningshark/h1_patterns_chan_failureprove/blob/master/reports/71_C3_chan_buy3.md) |
+| 72 | 1 小时 · 网格（合约中性网格） | **确认失败**（单边行情里大亏） | 年化 **−74.7%**，t −2.60；打乱顺序也亏（−58.1%）；涨超过 50% 的季度平均 −103% | [h1_position_mgmt_failureprove · E1](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/72_E1_grid_neutral.md) |
+| 73 | 1 小时 · 马丁格尔（摊平加仓） | **确认失败**（赚的是上涨，不是摊平） | 年化 **+15.0%**，t 1.09；打乱以后 +18.9%（更高）；每轮止盈 99.3%，但 84% 的机器人季度末亏着平仓 | [h1_position_mgmt_failureprove · E2](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/73_E2_martingale_dca.md) |
+| 74 | 1 小时 · 随机进场加移动止损（Van Tharp） | **确认失败**（有一点趋势，付不起成本） | 每笔净 R **−0.042**，t −2.93；比打乱多 +0.048R（t 3.42），付不起每笔 0.070R 的成本 | [h1_position_mgmt_failureprove · E3](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/74_E3_random_entry_trailing_stop.md) |
+| 75 | 1 小时 · 保本止损 | **确认失败**（没有改进） | 改进 **−0.004**R，t −1.20；胜率 34% → 30% | [h1_position_mgmt_failureprove · E4](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/75_E4_breakeven_stop.md) |
+| 76 | 1 小时 · 分批止盈 | **确认失败**（胜率变高，赚的一样） | 改进 **−0.001**R，t −0.13；胜率 34% → 50%，赚的一样 | [h1_position_mgmt_failureprove · E5](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/76_E5_partial_take_profit.md) |
+| 77 | 1 小时 · 浮盈加仓 | **确认失败**（多赚的被成本吃光） | 改进 **−0.001**R，t −0.02；不扣成本多 +0.147R（t 3.18），被成本吃光 | [h1_position_mgmt_failureprove · E6](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/77_E6_pyramiding.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1290,6 +1296,112 @@ py verify.py C2
 git clone https://github.com/runningshark/h1_patterns_chan_failureprove
 cd h1_patterns_chan_failureprove
 py verify.py C3
+```
+
+### 72–77 · 第十三轮事先登记的研究：仓位和执行（共用一个仓库）
+
+前几轮测的是“在哪里开单”，这一轮测“开了单以后怎么管”：网格、马丁格尔、随机进场加移动止损（Van Tharp），以及保本止损、分批止盈、浮盈加仓。数据和第十轮到第十二轮相同，规则和通过标准同样是事先登记的（[事先登记_第十三轮.md](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/事先登记_第十三轮.md)）。**登记 6 个，6 个失败**。
+
+- 累计 69 个候选，门槛是 t ≥ 3.4。币安 U 本位永续的 1 小时 K 线，每个季度按成交额选 10 个币（共 48 个合约，含后来下架的），2020-04 到 2026-10，训练段到 2023 年底。市价每边 0.10%、限价每边 0.02%，资金费照算。
+- A 组（网格、马丁格尔、移动止损）和**同一批 K 线打乱顺序**的结果比：每个季度的总涨跌、每根 K 线的形状不变，只去掉先后关系。B 组（保本止损、分批止盈、浮盈加仓）用同一批随机进场，比加和不加的差别。
+- 网格在单边行情里大亏；马丁格尔赚的是上涨，打乱顺序以后赚得更多；移动止损和浮盈加仓抓到一点顺势延续，但付不起成本；保本止损、分批止盈只改变胜率。
+- 这 6 条共用一个仓库 [h1_position_mgmt_failureprove](https://github.com/runningshark/h1_position_mgmt_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/FAILURE_REPORT.md)。数据来自 Binance Vision（CC BY-NC-SA 4.0）。
+
+### 72 · 网格（合约中性网格）
+
+“网格在震荡里来回赚钱，不用判断方向”。规则：每个季度开始时，以开盘价为中心开一个中性网格，上下各 10 格、每格 1%，跌一格买一份、涨一格卖一份，出了区间不再挂单，季度末全部平仓。（[档案](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/72_E1_grid_neutral.md)）
+
+- **扣成本后大亏。** 每天的组合收益年化 −74.7%（t −2.60），夏普 −0.93；每个季度重新放 1 份资金、不复利，6 年半里累计的最大回撤是 −497%（亏掉将近 5 份资金）。成本不是主要原因：零成本也是年化 −70.9%。
+- **震荡时赚，单边时亏得更多。** 273 个网格（币 × 季度）里，季度末价格还在 ±10% 以内的只有 18%，它们的中位数是 +26.3%；走出区间的 82% 中位数是 −14.2%。涨超过 50% 的 50 个季度平均 −103%：中性网格一路卖、一路做空，价格不回头。网格的盈亏和币的季度涨跌的相关是 −0.81。价格有 67% 的时间在区间外，每个季度成交约 400 次。
+- **打乱 K 线顺序也亏，真实的更差。** 同一批 K 线打乱顺序以后年化 −58.1%：亏损主要来自每个季度的总涨跌，不是来自 K 线的先后。真实的比打乱的还差 −16.6%（日度 t −0.59；按季度加总的 t −3.04，登记之外）。
+- **两段都亏。** 训练段（到 2023 年底）年化 −94.5%（t −2.08），验证段（2024 年起）−48.4%（t −1.66）。
+- **邻近变体、压力测试全是负的。** 每格 0.5% −96.1%（t −3.35），每格 2% −60.8%（t −2.10），区间 ±20% −64.8%（t −2.36），出了区间就平仓重开 −140.7%（t −4.25）；成本翻倍 −78.5%（t −2.73），价格越过格子 0.05% 才成交 −80.1%（t −2.79）。
+- **这里没有算爆仓。** 15 个网格一个季度亏掉超过本金（最多 −614%，BNB 2021Q1 涨了 709%）。如果亏到本金就爆仓，平均每个季度 −10.7%，仍然是大亏。
+
+```bash
+git clone https://github.com/runningshark/h1_position_mgmt_failureprove
+cd h1_position_mgmt_failureprove
+py verify.py E1
+```
+
+### 73 · 马丁格尔（摊平加仓）
+
+“马丁格尔胜率接近 100%”。规则：每个季度开一个只做多的机器人，每跌 2% 补一次仓、金额翻倍（最多 5 次），涨到均价上面 1.5% 全部卖出再开始新的一轮，没有止损，季度末全部平仓。（[档案](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/73_E2_martingale_dca.md)）
+
+- **扣成本后年化 +15.0%，不显著（t 1.09）。** 夏普 0.37，累计最大回撤 −79%。
+- **赚的是上涨的行情，不是摊平。** 同一批 K 线打乱顺序以后年化 +18.9%，比真实的还高；超出打乱 −3.8%（t −0.29）。机器人一直拿着多单，盈亏和币的季度涨跌的相关是 0.63：涨超过 50% 的季度平均 +31%，跌超过 30% 的平均 −32%。
+- **“胜率 99%”是每一轮的胜率。** 35,454 轮里 99.3% 止盈；但 97% 的机器人到季度末还有没止盈的仓位，84% 的机器人最后一轮是亏着平掉的。97% 的机器人在季度里至少有一次把补仓单用完。
+- **2024 年起基本不赚。** 训练段年化 +23.8%（t 1.21），验证段 +3.4%（t 0.18）。
+- **邻近变体、压力测试都没有过门槛。** 每跌 3% 补一次 +19.3%（t 2.04），补仓金额每次 1.5 倍 +14.5%（t 0.90），止盈 1% +12.9%（t 1.15），加满后再跌 5% 止损 −7.7%（t −0.92）；成本翻倍 +12.0%（t 0.87），补仓改成下一根开盘市价 +4.4%（t 0.45）。不算资金费是年化 +16.6%。
+
+```bash
+git clone https://github.com/runningshark/h1_position_mgmt_failureprove
+cd h1_position_mgmt_failureprove
+py verify.py E2
+```
+
+### 74 · 随机进场加移动止损（Van Tharp）
+
+“随机进场加 3 倍 ATR 的移动止损也能赚钱”（Van Tharp）。规则：随机时刻、随机方向进场，止损 3 个 ATR，每根收盘按“收盘价减 3 个 ATR”往有利方向移，没有止盈。（[档案](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/74_E3_random_entry_trailing_stop.md)）
+
+- **扣成本后每笔亏 0.042R（t −2.93）。** 23,789 笔（每年约 3,610 笔），胜率 33%，平均赚 1.22R、平均亏 0.67R，持有中位数 24 根。不扣成本每笔 +0.027R，成本每笔 0.070R（3 个 ATR 的止损中位数是价格的 3.55%）。
+- **真实的 K 线比打乱的多一点趋势，但不够付成本。** 同一批进场，真实的毛 R +0.027，打乱顺序以后 −0.020，超出 +0.048R（t 3.42，刚过 3.4 的门槛；训练段 +0.048R，验证段 +0.046R）。
+- **一部分来自打乱本身。** 打乱以后毛 R 是负的，说明打乱会让顺势的出场吃亏。只翻转每根 K 线的方向、不动位置（保留波动的聚集，登记之外）时，对照是 −0.001R，真实的超出 +0.029R（t 2.12）。
+- **两段都亏。** 训练段每笔 −0.041R（t −2.32），验证段 −0.044R（t −1.83）。不扣成本每笔 +0.026R（t 1.81），也不显著。
+- **邻近变体、压力测试全是负的。** 2 个 ATR −0.082（t −6.40），4 个 ATR −0.022（t −1.07），从最高价（最低价）算 −0.053（t −5.80），最长持有 120 根 −0.040（t −2.79）；成本翻倍 −0.111（t −7.47），移动止损晚一根更新 −0.042（t −2.94）。做多每笔 −0.069R，做空 −0.015R。
+
+```bash
+git clone https://github.com/runningshark/h1_position_mgmt_failureprove
+cd h1_position_mgmt_failureprove
+py verify.py E3
+```
+
+### 75 · 保本止损
+
+“赚到 1R 就把止损移到保本”。规则：同一批随机进场，比较“止损 1 个 ATR、止盈 2R”和“收盘到了 1R 以后止损移到进场价”。（[档案](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/75_E4_breakeven_stop.md)）
+
+- **没有改进。** 24,081 笔随机进场，加上保本止损每笔 −0.172R，不加 −0.168R，改进 −0.004R（t −1.20）。不扣成本的改进 −0.001R（t −0.32）。
+- **胜率反而低了。** 保本出场扣了成本也是小亏，胜率从 34% 变成 30%；少亏的和少赚的差不多抵消。
+- **越早移越差。** 到 0.5R 就移 −0.012（t −2.56），到 1.5R 才移 0.000（t −0.03），移到进场价外面 0.2% −0.007（t −2.06），止盈改成 3R −0.002（t −0.40）。
+- **两段都没有改进。** 训练段 −0.004R（t −1.07），验证段 −0.003R（t −0.62）。
+- **压力测试也是负的。** 成本翻倍 −0.006（t −2.07），止损晚一根移到进场价 −0.003（t −0.97）。
+
+```bash
+git clone https://github.com/runningshark/h1_position_mgmt_failureprove
+cd h1_position_mgmt_failureprove
+py verify.py E4
+```
+
+### 76 · 分批止盈
+
+“先平一半、剩下的让利润奔跑”。规则：同一批随机进场，比较“全部在 2R 止盈”和“一半在 1R、一半在 2R，第一半成交后止损移到进场价”。（[档案](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/76_E5_partial_take_profit.md)）
+
+- **没有改进。** 24,204 笔随机进场，分批止盈每笔 −0.165R，全部在 2R 止盈 −0.165R，改进 −0.001R（t −0.13）。
+- **胜率从 34% 提高到 50%，每笔赚的一样。** 先平的一半更容易到，但剩下一半少赚了；分批只是改变了盈亏的分布。
+- **变体也都在 0 附近。** 第一半成交后止损不移 +0.001（t 0.34），第一半在 1.5R +0.002（t 0.66），第二部分在 3R +0.003（t 0.37），先平三分之一 −0.002（t −0.35）。
+- **两段一正一负。** 训练段 +0.002R（t 0.30），验证段 −0.004R（t −0.54）。不扣成本的改进 −0.004R（t −0.82）。
+- **压力测试：** 成本翻倍 +0.003（t 0.51），第一半改成下一根开盘市价平 −0.001（t −0.19）。
+
+```bash
+git clone https://github.com/runningshark/h1_position_mgmt_failureprove
+cd h1_position_mgmt_failureprove
+py verify.py E5
+```
+
+### 77 · 浮盈加仓
+
+“大钱靠浮盈加仓”。规则：同一批随机进场，比较“1 份、止损 2 个 ATR、持有 96 根”和“每赚 1 个 ATR 加 1 份（最多 4 份），止损跟着移到最近一次加仓价减 2 个 ATR”。（[档案](https://github.com/runningshark/h1_position_mgmt_failureprove/blob/master/reports/77_E6_pyramiding.md)）
+
+- **扣成本后没有改进。** 24,033 笔随机进场，浮盈加仓每笔 −0.057R，不加 −0.056R，改进 −0.001R（t −0.02）。
+- **不扣成本时多赚，被成本吃光。** 不扣成本的改进是 +0.147R（t 3.18）：加仓确实抓到了一点趋势（只翻转每根 K 线的方向时，这个数是 +0.005R，登记之外）。但每多加一份就多付一进一出的成本，扣完正好没了；成本翻倍时改进是 −0.143R。
+- **胜率从 24% 降到 8%。** 加仓以后止损跟着上移，大部分单最后打在止损上，靠少数大赚的单撑着。
+- **做多赚、做空亏。** 做多的改进 +0.097R，做空 −0.101R：主要是上涨行情里加多单赚钱。训练段 +0.008R（t 0.14），验证段 −0.013R（t −0.18）。
+- **邻近变体、压力测试：** 每 0.5A 加一次 −0.059（t −1.05），最多 2 份 −0.014（t −0.64），止损 1A −0.080（t −1.96），加仓后止损不移 +0.003（t 0.04）；成本翻倍 −0.143（t −3.17），加仓改成下一根开盘市价 −0.014（t −0.33）。
+
+```bash
+git clone https://github.com/runningshark/h1_position_mgmt_failureprove
+cd h1_position_mgmt_failureprove
+py verify.py E6
 ```
 
 ---
