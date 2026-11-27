@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -69,6 +69,12 @@
 | 57 | 1 小时 · 订单块回踩 | **确认失败**（比随手进场还差） | 每笔净 R **−0.162**，t −10.40；比随手进场差 0.042R（t −2.70）；“K 线里先算止盈”时随手挂单也赚钱 | [h1_price_action_failureprove · P4](https://github.com/runningshark/h1_price_action_failureprove/blob/master/reports/57_P4_order_block.md) |
 | 58 | 1 小时 · 锤子线、射击之星 | **确认失败**（比随手进场还差） | 每笔净 R **−0.217**，t −10.51；比随手进场差 0.070R（t −3.49） | [h1_price_action_failureprove · P5](https://github.com/runningshark/h1_price_action_failureprove/blob/master/reports/58_P5_pin_bar.md) |
 | 59 | 1 小时 · 吞没形态 | **确认失败**（和随手进场一样） | 每笔净 R **−0.100**，t −4.99；和随手进场比 +0.021R（t 1.08） | [h1_price_action_failureprove · P6](https://github.com/runningshark/h1_price_action_failureprove/blob/master/reports/59_P6_engulfing.md) |
+| 60 | 1 小时 · 斐波那契 0.618 回撤挂单 | **确认失败**（和随手进场一样） | 每笔净 R **−0.143**，t −7.76；和随手挂单比 +0.002R（t 0.11）；“K 线里先算止盈”时随手挂单也赚钱 | [h1_levels_divergence_failureprove · F1](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/60_F1_fibonacci_618.md) |
+| 61 | 1 小时 · 整数关口挂单 | **确认失败**（比随手进场还差） | 每笔净 R **−0.111**，t −16.67；比随手挂单差 0.024R（t −3.89），每一年都差 | [h1_levels_divergence_failureprove · F2](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/61_F2_round_numbers.md) |
+| 62 | 1 小时 · 枢轴点 S1、R1 挂单 | **确认失败**（和随手进场一样） | 每笔净 R **−0.127**，t −9.16；和随手挂单比 +0.002R（t 0.17）；“K 线里先算止盈”时 t 12.14，但随手挂单赚得更多 | [h1_levels_divergence_failureprove · F3](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/62_F3_pivot_points.md) |
+| 63 | 1 小时 · VWAP 回踩 | **确认失败**（2024 年起不比随手进场好） | 每笔净 R **−0.078**，t −6.07；比随手挂单好 +0.025R（t 2.08），2024 年起没有了 | [h1_levels_divergence_failureprove · F4](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/63_F4_vwap_pullback.md) |
+| 64 | 1 小时 · RSI 背离 | **确认失败**（好一点但不显著，付不起成本） | 每笔净 R **−0.102**，t −5.06；比随手进场好 +0.033R（t 1.70），成本是它的 4 倍 | [h1_levels_divergence_failureprove · F5](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/64_F5_rsi_divergence.md) |
+| 65 | 1 小时 · MACD 背离 | **确认失败**（好一点但不显著，付不起成本） | 每笔净 R **−0.121**，t −5.14；比随手进场好 +0.029R（t 1.26），成本是它的 5 倍 | [h1_levels_divergence_failureprove · F6](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/65_F6_macd_divergence.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1063,6 +1069,113 @@ py verify.py P5
 git clone https://github.com/runningshark/h1_price_action_failureprove
 cd h1_price_action_failureprove
 py verify.py P6
+```
+
+### 60–65 · 第十一轮事先登记的研究：支撑阻力和背离（共用一个仓库）
+
+接着第十轮，测另一类“在哪里开单”的说法：斐波那契 0.618、整数关口、枢轴点、VWAP 回踩、RSI 背离、MACD 背离。数据和方法与第十轮相同，规则和通过标准同样是事先登记的（[事先登记_第十一轮.md](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/事先登记_第十一轮.md)）。**登记 6 个，6 个失败**。
+
+- 累计 57 个候选，门槛是 t ≥ 3.4。币安 U 本位永续的 1 小时 K 线，每个季度按成交额选 10 个币（共 48 个合约，含后来下架的），2020-04 到 2026-10，训练段到 2023 年底。止盈 2R，最长持有 48 根；市价单每边 0.10%、限价单每边 0.02%。
+- 每笔用 R 计，同时和**随手进场**比（同一个合约、同一个方向、同样的止损止盈，在前后 30 天里随机进场）。
+- 6 条扣成本后每一年都亏。整数关口每一年都比随手挂单差；斐波那契、枢轴点和随手挂单一样；VWAP 回踩在 2023 年以前好一点，2024 年起没有了；两种背离好一点但不显著，付不起成本。顺着 4 小时方向做都更差。
+- 这 6 条共用一个仓库 [h1_levels_divergence_failureprove](https://github.com/runningshark/h1_levels_divergence_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/FAILURE_REPORT.md)。数据来自 Binance Vision（CC BY-NC-SA 4.0）。
+
+### 60 · 斐波那契 0.618 回撤挂单
+
+“回调到 0.618 是买点”。规则：最近一段上涨至少 3 个 ATR、价格第一次回落到 0.618 回撤位时挂买单，止损在 0.786 外面；下跌对称。（[档案](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/60_F1_fibonacci_618.md)）
+
+- **扣成本后每笔亏 0.143R。** 9,125 笔（每年约 1,385 笔），胜率 33%，扣成本后平均赚 1.96R、平均亏 1.16R。不扣成本每笔 −0.015R，手续费加滑点每笔 0.129R，资金费每笔收到 0.001R。组合 t = −7.76，每年合计 −199R，最大回撤 1,316R。
+- **和随手挂单没有分别。** 同样的方向、同样的止损止盈，在前后 30 天里随手挂单，每笔毛 R 是 −0.017；按规则挂单是 −0.015，超出 +0.002R（t = 0.11）。
+- **两段都亏。** 训练段（2020-04 到 2023 年底）每笔 −0.130R（t = −5.42），验证段（2024 年起）每笔 −0.163R（t = −5.63）。
+- **邻近变体、压力测试全是负的。** 止损放在摆动点外面 −0.090R，挂在 0.5 回撤位 −0.072R，这一段至少 5 个 ATR −0.101R，止盈 3R −0.188R；成本翻倍 −0.272R，晚一根 K 线 −0.158R。手续费、滑点都记 0（资金费照算）也是亏的：每笔 −0.014R（t = −0.84）。
+- **乐观的算法会把随手挂的单也算成赚钱。** 如果限价单成交的那一根 K 线里也算止盈，这一条扣成本后每笔变成 +0.060R（t = 3.25）；但随手挂的单在同样的算法下每笔毛 R 是 +0.213，比按规则挂单（+0.180）还高。成交的那一根里，有 3.8% 一开盘就已经越过止盈价：价格先经过止盈、再回落到挂单价成交，乐观的算法照样把它算成止盈。
+
+```bash
+git clone https://github.com/runningshark/h1_levels_divergence_failureprove
+cd h1_levels_divergence_failureprove
+py verify.py F1
+```
+
+### 61 · 整数关口挂单
+
+“整数关口有支撑和阻力”。规则：在离收盘价 2 个 ATR 以内的两位有效数字整数（BTC 63,000、64,000 这种）前面 0.1 个 ATR 挂单，止损 1 个 ATR、止盈 2 个 ATR。（[档案](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/61_F2_round_numbers.md)）
+
+- **扣成本后每笔亏 0.111R。** 56,959 笔（每年约 8,645 笔），胜率 32%，扣成本后平均赚 1.97R、平均亏 1.10R。不扣成本每笔 −0.029R，手续费加滑点每笔 0.082R，资金费每笔不到 0.001R。组合 t = −16.67，每年合计 −958R，最大回撤 6,337R。
+- **比随手挂单还差，而且每一年都差。** 同样的方向、同样的止损止盈，在前后 30 天里随手挂单，每笔毛 R 是 −0.006；挂在整数关口是 −0.029，差 0.024R（t = −3.89）。分年度看，每一年都差（−0.041R 到 −0.010R）。整数关口更像是价格会穿过去的地方，不是停下来的地方。
+- **两段都亏。** 训练段（2020-04 到 2023 年底）每笔 −0.092R（t = −10.73），验证段（2024 年起）每笔 −0.136R（t = −13.58）。
+- **邻近变体、压力测试全是负的。** 只用一位有效数字的整数 −0.100R，挂在关口上 −0.113R，挂在关口外 0.3 个 ATR −0.087R，止损 1.5 个 ATR −0.079R；成本翻倍 −0.193R，晚一根 K 线 −0.109R。手续费、滑点都记 0（资金费照算）也是亏的：每笔 −0.029R（t = −4.74）。
+
+```bash
+git clone https://github.com/runningshark/h1_levels_divergence_failureprove
+cd h1_levels_divergence_failureprove
+py verify.py F2
+```
+
+### 62 · 枢轴点 S1、R1 挂单
+
+“枢轴点 S1 是支撑、R1 是阻力”。规则：用前一天的高低收算经典枢轴点，在 S1 挂买单、在 R1 挂卖单（挂离价格近的那一边），每个价位一天做一次，止损 1 个 ATR、止盈 2 个 ATR。（[档案](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/62_F3_pivot_points.md)）
+
+- **扣成本后每笔亏 0.127R。** 19,161 笔（每年约 2,908 笔），胜率 32%，扣成本后平均赚 1.97R、平均亏 1.13R。不扣成本每笔 −0.023R，手续费加滑点每笔 0.104R，资金费每笔收到 0.001R。组合 t = −9.16，每年合计 −369R，最大回撤 2,473R。
+- **和随手挂单没有分别。** 同样的方向、同样的止损止盈，在前后 30 天里随手挂单，每笔毛 R 是 −0.025；按规则挂单是 −0.023，超出 +0.002R（t = 0.17）。
+- **两段都亏。** 训练段（2020-04 到 2023 年底）每笔 −0.132R（t = −7.45），验证段（2024 年起）每笔 −0.121R（t = −5.48）。
+- **邻近变体、压力测试全是负的。** 用 S2、R2 −0.131R，用枢轴点 P −0.095R，只做 4 小时方向那一边 −0.161R，止损 1.5 个 ATR −0.085R；成本翻倍 −0.231R，晚一根 K 线 −0.138R。手续费、滑点都记 0（资金费照算）也是亏的：每笔 −0.022R（t = −1.67）。
+- **乐观的算法会把随手挂的单也算成赚钱。** 如果限价单成交的那一根 K 线里也算止盈，这一条扣成本后每笔变成 +0.183R（t = 12.14）；但随手挂的单在同样的算法下每笔毛 R 是 +0.298，比按规则挂单（+0.275）还高。成交的那一根里，有 9.7% 一开盘就已经越过止盈价：价格先经过止盈、再回落到挂单价成交，乐观的算法照样把它算成止盈。
+- **顺着 4 小时方向做更差。** 只做 4 小时方向那一边：每笔 −0.161R，比主规则（−0.127R）亏得更多。
+
+```bash
+git clone https://github.com/runningshark/h1_levels_divergence_failureprove
+cd h1_levels_divergence_failureprove
+py verify.py F3
+```
+
+### 63 · VWAP 回踩
+
+“价格在 VWAP 上方时回踩 VWAP 做多”。规则：当天最近 4 根都收在 VWAP 上方，就在 VWAP 挂买单；都在下方就挂卖单；止损 1 个 ATR、止盈 2 个 ATR。（[档案](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/63_F4_vwap_pullback.md)）
+
+- **扣成本后每笔亏 0.078R。** 33,193 笔（每年约 5,038 笔），胜率 34%，扣成本后平均赚 1.95R、平均亏 1.12R。不扣成本每笔 +0.017R，手续费加滑点每笔 0.095R，资金费每笔不到 0.001R。组合 t = −6.07，每年合计 −395R，最大回撤 2,666R。
+- **比随手挂单好的那一点集中在 2023 年以前。** 全部算在一起超出 +0.025R（t = 2.08），没到门槛；训练段超出 +0.047R，验证段 −0.004R。分年度：2020 到 2023 年 +0.033R 到 +0.065R，2024 年 +0.010R，2025 年、2026 年 −0.013R、−0.010R。
+- **两段都亏，后一段亏得更多。** 训练段每笔 −0.041R（t = −2.42），验证段每笔 −0.128R（t = −6.76）。
+- **邻近变体、压力测试全是负的。** 最近 8 根在同一侧 −0.066R，最近 2 根在同一侧 −0.074R，只做 4 小时方向那一边 −0.088R，止损 1.5 个 ATR −0.054R；成本翻倍 −0.174R，晚一根 K 线 −0.088R。手续费、滑点都记 0（资金费照算），每笔 +0.017R（t = 1.39），也不显著。
+- **顺着 4 小时方向做更差。** 只做 4 小时方向那一边：每笔 −0.088R，比主规则（−0.078R）亏得更多。
+
+```bash
+git clone https://github.com/runningshark/h1_levels_divergence_failureprove
+cd h1_levels_divergence_failureprove
+py verify.py F4
+```
+
+### 64 · RSI 背离
+
+“价格创新低、RSI 不创新低是反转信号”。规则：相邻两个摆动低点，后一个更低、RSI 更高，就做多，止损在新低外面；高点对称。（[档案](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/64_F5_rsi_divergence.md)）
+
+- **扣成本后每笔亏 0.102R。** 9,064 笔（每年约 1,376 笔），胜率 37%，扣成本后平均赚 1.63R、平均亏 1.11R。不扣成本每笔 +0.028R，手续费加滑点每笔 0.132R，资金费每笔收到 0.002R。组合 t = −5.06，每年合计 −141R，最大回撤 1,009R。
+- **比随手进场好一点，但不显著。** 同样的方向、同样的止损止盈，随手进场每笔毛 R 是 −0.005，按背离进场是 +0.028，超出 +0.033R（t = 1.70）；训练段 +0.034R，验证段 +0.033R。
+- **两段都亏。** 训练段（2020-04 到 2023 年底）每笔 −0.090R（t = −3.29），验证段（2024 年起）每笔 −0.117R（t = −3.92）。
+- **邻近变体、压力测试全是负的。** 前一个低点的 RSI 低于 30 −0.128R，摆动点左右各 5 根 −0.073R，最多相隔 120 根 −0.102R，只做 4 小时方向那一边 −0.163R；成本翻倍 −0.235R，晚一根 K 线 −0.122R。手续费、滑点都记 0（资金费照算），每笔 +0.030R（t = 1.58），也不显著。
+- **顺着 4 小时方向做更差。** 只做 4 小时方向那一边：每笔 −0.163R，比主规则（−0.102R）亏得更多。
+- **这一点信息付不起成本。** 每笔成本 0.132R，是超出随手进场那部分的 4 倍。
+
+```bash
+git clone https://github.com/runningshark/h1_levels_divergence_failureprove
+cd h1_levels_divergence_failureprove
+py verify.py F5
+```
+
+### 65 · MACD 背离
+
+“MACD 背离是反转信号”。规则：相邻两个摆动低点，后一个更低、MACD 线更高（且前一个在 0 下方），就做多，止损在新低外面；高点对称。（[档案](https://github.com/runningshark/h1_levels_divergence_failureprove/blob/master/reports/65_F6_macd_divergence.md)）
+
+- **扣成本后每笔亏 0.121R。** 7,318 笔（每年约 1,111 笔），胜率 36%，扣成本后平均赚 1.64R、平均亏 1.13R。不扣成本每笔 +0.020R，手续费加滑点每笔 0.143R，资金费每笔收到 0.002R。组合 t = −5.14，每年合计 −134R，最大回撤 944R。
+- **比随手进场好一点，但不显著。** 同样的方向、同样的止损止盈，随手进场每笔毛 R 是 −0.008，按背离进场是 +0.020，超出 +0.029R（t = 1.26）；训练段 +0.020R，验证段 +0.039R。
+- **两段都亏。** 训练段（2020-04 到 2023 年底）每笔 −0.123R（t = −3.90），验证段（2024 年起）每笔 −0.118R（t = −3.35）。
+- **邻近变体、压力测试全是负的。** 用 MACD 柱 −0.088R，摆动点左右各 5 根 −0.092R，最多相隔 120 根 −0.121R，只做 4 小时方向那一边 −0.186R；成本翻倍 −0.264R，晚一根 K 线 −0.159R。手续费、滑点都记 0（资金费照算），每笔 +0.022R（t = 0.99），也不显著。
+- **顺着 4 小时方向做更差。** 只做 4 小时方向那一边：每笔 −0.186R，比主规则（−0.121R）亏得更多。
+- **这一点信息付不起成本。** 每笔成本 0.143R，是超出随手进场那部分的 5 倍。
+
+```bash
+git clone https://github.com/runningshark/h1_levels_divergence_failureprove
+cd h1_levels_divergence_failureprove
+py verify.py F6
 ```
 
 ---
