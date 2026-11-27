@@ -102,7 +102,7 @@
 | 90 | 择时 · 波动率风险溢价为正时持有 BTC | **确认失败**（没有择时超额） | 择时超额 **+1.4%**，t 0.18；平移检验 p 0.39 | [orderflow_ml_macro_failureprove · V2](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/90_V2_vrp_timing.md) |
 | 91 | 择时 · 实际利率下降时持有 BTC | **确认失败**（没有择时超额） | 择时超额 **+1.3%**，t 0.12；1 → 4.25（持有 16.42） | [orderflow_ml_macro_failureprove · M1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/91_M1_real_yield_timing.md) |
 | 92 | 择时 · 美元走弱时持有 BTC | **确认失败**（没有择时超额） | 择时超额 **+5.2%**，t 0.46；1 → 6.41（持有 16.42） | [orderflow_ml_macro_failureprove · M2](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/92_M2_dollar_timing.md) |
-| 93 | 1 小时 · FOMC 公布前 24 小时做多 BTC | **确认失败**（只来自 2020 年） | 每笔净 **+0.49%**，t 1.31；去掉 2020 年 +0.06% | [orderflow_ml_macro_failureprove · M3](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md) |
+| 93 | 1 小时 · FOMC 公布前 24 小时做多 BTC | **确认失败**（只来自 2020 年） | 每笔净 **+0.49%**，t 1.31；去掉 2020 年 +0.06%；和第 39 条是同一个说法 | [orderflow_ml_macro_failureprove · M3](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md) |
 | 94 | 择时 · 恐惧贪婪指数 | **确认失败**（卖早了，跑输持有） | 择时超额 **−17.1%**，t −1.84；1 → 0.94（持有 7.54） | [orderflow_ml_macro_failureprove · S1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/94_S1_fear_greed_timing.md) |
 | 95 | 日线 · BTC 市占率趋势 | **确认失败**（顺着市占率做是亏的） | 每笔净 **−0.50%**，t −0.81；做多 BTC 那边 −1.30% | [orderflow_ml_macro_failureprove · D1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/95_D1_btc_dominance_trend.md) |
 
@@ -1675,10 +1675,10 @@ py verify.py M2
 
 ### 93 · FOMC 公布前 24 小时做多 BTC
 
-“议息前漂移”（Lucca 和 Moench，2015）。规则：FOMC 声明公布前 24 小时做多 BTC 现货，公布那一刻平仓。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md)）
+“议息前漂移”（Lucca 和 Moench，2015）。规则：FOMC 声明公布前 24 小时做多 BTC 现货，公布那一刻平仓。第七轮（第 39 条）用永续合约测过同一个说法，这一轮登记时没有注意到重复。（[档案](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md)）
 
 - **扣成本后每笔 +0.49%（t 1.31）。** 73 笔（每年约 8 笔），胜率 58%，平均赚 2.43%、亏 2.13%；不扣成本每笔 +0.69%，成本 0.20%。
-- **只来自 2020 年。** 2020 年的 7 次每笔 +4.58%；去掉 2020 年剩下 66 次每笔 +0.06%，胜率 53%（登记之外）。
+- **只来自 2020 年。** 2020 年的 7 次每笔 +4.58%；去掉 2020 年剩下 66 次每笔 +0.06%，胜率 53%（登记之外）。第七轮（合集第 39 条）已经用 BTC 永续测过同一个说法（2020–2026 年，结论一样）；这一轮登记时没有注意到重复，这次用现货、往前加了 2017–2019 年的 19 次，那几次每笔平均 +0.07%，也没有漂移。
 - **和随手进场比：** 随手进场平均 +0.06%，真实的 +0.69%，超出 +0.63%（t 1.66）；训练段超出 +0.96%，验证段 −0.08%。
 - **训练段每笔 +0.87%（t 1.70，50 笔），验证段 −0.32%（t −0.71，23 笔）。**
 - **邻近变体：** 公布前 12 小时进场 73 笔 +0.35%（t 1.21），公布前 48 小时进场 73 笔 +0.29%（t 0.55），公布后 2 小时才平仓 73 笔 +0.50%（t 1.21），拿到公布那天的 UTC 收盘 73 笔 +0.88%（t 1.96）；压力测试 成本翻倍 +0.29%（t 0.78），晚一根进场 +0.65%（t 1.75）。
