@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -50,6 +50,11 @@
 | 38 | 1 小时 · CME 缺口回补 | **确认失败**（高胜率陷阱） | 赚钱的占 72%，年化 **−19.5%**，回撤 −88.0%；回补的平均赚 2.4%，没回补的平均亏 7.9%；零成本也是 −14.0% | [h1_calendar_failureprove · G1](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/38_G1_cme_gap.md) |
 | 39 | 1 小时 · 议息前 24 小时做多 | **确认失败**（只有 2020 年有效） | 年化 +4.8%，t **1.41**；验证段 −2.6%；去掉 2020 年只剩 +0.3% | [h1_calendar_failureprove · F1](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/39_F1_pre_fomc.md) |
 | 40 | 1 小时 · 每天 21–23 点（UTC）做多 | **确认失败**（被手续费吃光） | 年化 **−47.4%**（成本一年 73%）；零成本 +25.6%（t 4.35），但每笔只有 +0.07% | [h1_calendar_failureprove · T1](https://github.com/runningshark/h1_calendar_failureprove/blob/master/reports/40_T1_hours_21_23.md) |
+| 41 | 日线 · 解锁前 14 天做空 | **确认失败**（不显著，挑日子没有用） | 年化 +4.3%，t **1.15**；解锁前下跌的占 63%（不是 90%），相对大盘平均只跑输 1.5%；随机日期的 t 平均 0.96 | [token_events_failureprove · U1](https://github.com/runningshark/token_events_failureprove/blob/master/reports/41_U1_short_before_unlock.md) |
+| 42 | 日线 · 解锁后 14 天做空 | **确认失败**（前段是亏的） | 年化 +3.4%，t **0.95**；前段 −3.3%；随机日期的 t 平均 1.29，比真实日期高 | [token_events_failureprove · U2](https://github.com/runningshark/token_events_failureprove/blob/master/reports/42_U2_short_after_unlock.md) |
+| 43 | 周线 · 稀释多空（空临近解锁的，多已经放完的） | **确认失败**（不显著） | 年化 +9.3%，t **1.20**，回撤 −29.2%；多头换成普通篮子变成 −2.2% | [token_events_failureprove · U3](https://github.com/runningshark/token_events_failureprove/blob/master/reports/43_U3_dilution_long_short.md) |
+| 44 | 日线 · 下架公告后做空 | **确认失败**（样本不足，放宽后亏损） | 合格事件只有 **17** 个；公告当天中位数 −21.3%（吃不到），之后平均 +21.1%（逼空）；门槛放宽后年化 −10.2% | [token_events_failureprove · D1](https://github.com/runningshark/token_events_failureprove/blob/master/reports/44_D1_short_after_delist_notice.md) |
+| 45 | 日线 · 观察标签后做空 | **确认失败**（消息当天就消化完了） | 年化 +3.1%，t **1.02**；公告当天中位数 −12.0%（吃不到），之后相对大盘平均 +0.4% | [token_events_failureprove · M1](https://github.com/runningshark/token_events_failureprove/blob/master/reports/45_M1_short_after_monitoring_tag.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -655,7 +660,7 @@ py verify.py S3
 
 这一轮测要用小时线才能检验的三种说法，都是“到了某个时刻就该做什么”。规则和通过标准同样是事先登记的（[事先登记_第七轮.md](https://github.com/runningshark/h1_calendar_failureprove/blob/master/事先登记_第七轮.md)）。**3 个全部失败。**
 
-- 累计 36 个候选（第六轮的 5 个同样全部失败，暂时没有公开），门槛是 t ≥ 3.2。用 BTC 永续的 1 小时线，每次开仓、平仓各付 0.10%，计入资金费。
+- 累计 36 个候选（其中第六轮的 5 个是下面的第 41–45 条，公开得晚），门槛是 t ≥ 3.2。用 BTC 永续的 1 小时线，每次开仓、平仓各付 0.10%，计入资金费。
 - 这 3 条共用一个仓库 [h1_calendar_failureprove](https://github.com/runningshark/h1_calendar_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/h1_calendar_failureprove/blob/master/FAILURE_REPORT.md)。
 
 ### 38 · CME 缺口回补
@@ -703,6 +708,95 @@ py verify.py F1
 git clone https://github.com/runningshark/h1_calendar_failureprove
 cd h1_calendar_failureprove
 py verify.py T1
+```
+
+### 41–45 · 第六轮事先登记的研究：代币事件（共用一个仓库）
+
+测“某件事发生前后做空”这一类：代币解锁、币安下架公告、币安观察标签。规则和通过标准同样是事先登记的（[事先登记_第六轮.md](https://github.com/runningshark/token_events_failureprove/blob/master/事先登记_第六轮.md)）。**5 个全部失败。**
+
+- 这一轮做在第七轮（38–40）之前，公开得晚，所以编号排在后面。登记时累计 33 个候选，门槛是 t ≥ 3.2。做空事件里的币，等额做多 20 个最活跃的老币对冲；成本单边 0.10%，计入资金费。
+- **第 41–43 条不能只靠仓库复现**：解锁时间表来自 DefiLlama，它的使用条款不允许转载，数据和下载脚本都没有放进仓库（需要的文件格式见 [data/README.md](https://github.com/runningshark/token_events_failureprove/blob/master/data/README.md)）。第 44、45 条可以直接复现。
+- 这 5 条共用一个仓库 [token_events_failureprove](https://github.com/runningshark/token_events_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/token_events_failureprove/blob/master/FAILURE_REPORT.md)。
+
+### 41 · 解锁前 14 天做空
+
+团队、顾问、投资人的筹码一次解锁不少于流通量的 1% 时，提前 15 天做空这个币，解锁前一天平仓，同时等额做多 20 个最活跃的老币对冲。检验的是“解锁前会砸盘”。（[档案](https://github.com/runningshark/token_events_failureprove/blob/master/reports/41_U1_short_before_unlock.md)）
+
+- **多数会跌，但幅度很小。** 792 个事件里，解锁前 14 天下跌的占 63%（流传的说法是 90%），中位数 −5.5%；减去同期 30 币等权篮子之后，跑输的占 65%，平均只有 −1.5%。按解锁量占流通量分：1–5%：623 个，相对大盘平均 −0.9%；5–10%：98 个，相对大盘平均 −4.2%；10% 以上：71 个，相对大盘平均 −3.1%。
+- **挑日子没有用。** 同样的币、同样多的事件，把日期换成随机的，重复 40 次，t 平均 0.96；真实日期的 t 是 1.15，40 次里有 12 次不比它差。那点正收益来自“这批还在解锁期的币整体跑输老币”，和解锁那一天无关。
+- **不显著，也不稳定。** 全区间年化 +4.3%（t = 1.15），前段 t = 1.25，后段 t = 0.84；2024 年 +20.3%、2025 年 +22.2%、2026 年 −19.5%。
+- **做空一侧赚的被吃掉大半。** 空头一侧在价格上每年赚 10.5%，付资金费 1.1%；对冲篮子每年亏 2.6%，另付资金费 0.5%；成本每年 2.0%。成本三倍后只剩 +0.4%。
+- **变体。** 窗口 7 天、窗口 30 天、门槛 0.5%、门槛 5%、只用 BTC 对冲，依次是 +1.2%、+7.3%、+5.0%、+0.8%、+8.5%，t 最高 1.64。
+- 剩下的线索：还在解锁期的币整体跑输老币，这在真实日期和随机日期的结果里都看得到（t 在 1 上下），但没有到显著的程度，也和解锁的日子无关。“解锁前会跌”作为描述大体成立（63% 下跌），作为交易依据不成立。
+
+```bash
+git clone https://github.com/runningshark/token_events_failureprove
+cd token_events_failureprove
+py verify.py U1      # 没有 DefiLlama 数据时只显示归档数字
+```
+
+### 42 · 解锁后 14 天做空
+
+和 41 一样，换成解锁前一天做空、拿到解锁后第 13 天。检验的是“解锁之后还会跌”。（[档案](https://github.com/runningshark/token_events_failureprove/blob/master/reports/42_U2_short_after_unlock.md)）
+
+- **解锁之后并没有明显多跌。** 781 个事件里，解锁后 14 天下跌的占 59%，中位数 −3.9%；减去同期 30 币等权篮子之后，平均只有 −0.8%。按解锁量占流通量分：1–5%：613 个，相对大盘平均 −0.6%；5–10%：98 个，相对大盘平均 −2.9%；10% 以上：70 个，相对大盘平均 +0.1%。
+- **前段是亏的。** 2023 年底以前年化 −3.3%（t = −1.43），2024 年以后 +11.4%（t = 1.56）；全区间 t = 0.95。
+- **随机日期更好。** 同样的币、同样多的事件，日期换成随机的，重复 40 次，t 平均 1.29，其中 30 次不比真实日期差。
+- **经不起成本。** 成本翻倍 +1.4%，成本三倍 −0.6%，晚一天执行 +2.0%。
+- **变体。** 窗口 7 天、窗口 30 天、门槛 0.5%、门槛 5%、只用 BTC 对冲，依次是 +3.8%、+2.0%、+5.1%、+0.2%、+4.5%，t 最高 1.73。
+- 剩下的线索：和第 41 条相同：跑输是这批币的常态，不是解锁那一天带来的。
+
+```bash
+git clone https://github.com/runningshark/token_events_failureprove
+cd token_events_failureprove
+py verify.py U2      # 没有 DefiLlama 数据时只显示归档数字
+```
+
+### 43 · 稀释多空（空临近解锁的，多已经放完的）
+
+每周做空未来 30 天有大额解锁的币，做多筹码已经放完的币。检验的是“解锁压力大的币跑输”。（[档案](https://github.com/runningshark/token_events_failureprove/blob/master/reports/43_U3_dilution_long_short.md)）
+
+- **方向和说法一致，但太吵。** 全区间年化 +9.3%，t 只有 1.20，最大回撤 −29.2%；2021 年一年 −15.4%。前段 t = 0.53，后段 t = 1.30。
+- **收益来自多头那一组，不是来自做空解锁币。** 多头（筹码已经放完的币，平均 22 个）每年在价格上赚 +19.4%；空头（临近大额解锁的币，平均 13 个）每年在价格上是 −5.8%，做空它们本身是亏的。
+- **把多头换成普通的对冲篮子就没有了。** 这个变体年化 −2.2%（t = −0.24）。
+- **其余变体。** 空头门槛 0.5%、空头门槛 3%、改看未来 90 天，依次是 +11.1%、+3.3%、+8.7%；对市场回归后的超额 t = 0.87。
+- 剩下的线索：方向和流传的说法一致（临近大额解锁的币跑输筹码已经放完的币），多空年化 +9.3%，但 t 只有 1.20，而且主要来自多头那一组。需要更长的样本才能下结论。
+
+```bash
+git clone https://github.com/runningshark/token_events_failureprove
+cd token_events_failureprove
+py verify.py U3      # 没有 DefiLlama 数据时只显示归档数字
+```
+
+### 44 · 下架公告后做空
+
+币安公告要下架某个币，当天收盘做空它的合约，拿到合约下架。检验的是“被下架的币会暴跌”。（[档案](https://github.com/runningshark/token_events_failureprove/blob/master/reports/44_D1_short_after_delist_notice.md)）
+
+- **跌在公告当天，这一段吃不到。** 62 个当时有合约的下架事件，公告当天下跌的占 87%，中位数 −21.3%。规则是公告当天收盘才进场，检验的是看到公告再动手的人。
+- **之后多数继续跌，平均却是涨的。** 从公告当天收盘拿到合约下架（中位数 6 天），下跌的占 76%，中位数 −15.5%，平均是 +21.1%：少数被逼空暴涨的把平均数拉成了正的（ALPACA +1709%、AERGO +320%、HFT +154%、A2Z +139%）。
+- **合格的事件太少。** 满足成交额条件、实际开仓的只有 17 个，按登记的规则直接记为失败（样本不足）。这 17 个的结果是年化 +0.5%（t = 0.32）。
+- **放宽门槛就亏。** 成交额门槛降到 200 万美元有 44 个事件，年化 −10.2%（t = −0.93），最差的一天亏 25.3%，最差的一周亏 31.1%。
+- 剩下的线索：能用的结论是反过来的：别在下架公告之后去做空流动性差的币。多数时候小赚，偶尔一次被逼空亏掉很多，和合集第 25 条（做空新上线的币）是同一种死法。
+
+```bash
+git clone https://github.com/runningshark/token_events_failureprove
+cd token_events_failureprove
+py verify.py D1
+```
+
+### 45 · 观察标签后做空
+
+币安给某个币打上观察标签，当天收盘做空它的合约，拿 30 天。检验的是“观察标签是下架预备队”。（[档案](https://github.com/runningshark/token_events_failureprove/blob/master/reports/45_M1_short_after_monitoring_tag.md)）
+
+- **消息当天就反映完了。** 93 个事件，公告当天下跌的占 92%，中位数 −12.0%，这一段吃不到。之后 30 天下跌的占 67%，但减去同期 30 币等权篮子之后平均是 +0.4%，什么都不剩。
+- **同样有逼空。** 打标签之后涨得最多的：SYN +282%、VOXEL +177%、BSW +125%、FLM +106%。
+- **不显著。** 实际开仓 34 个事件，全区间年化 +3.1%（t = 1.02），前段 t = 0.97，后段 t = 0.31。
+- **变体。** 拿 14 天、拿 60 天、成交额门槛 200 万美元、只用 BTC 对冲，依次是 +2.8%、+7.2%、−2.8%、+5.4%；门槛放宽后有 73 个事件，最差的一周亏 25.5%。
+
+```bash
+git clone https://github.com/runningshark/token_events_failureprove
+cd token_events_failureprove
+py verify.py M1
 ```
 
 ---
