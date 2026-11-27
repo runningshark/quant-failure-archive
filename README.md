@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -58,6 +58,11 @@
 | 46 | 周线 · 非流动性溢价 | **确认失败**（方向相反） | 年化 **−18.6%**，t −1.84（方向相反）；验证段 t −2.83；4 个变体全负 | [volume_liquidity_failureprove · L1](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/46_L1_illiquidity_premium.md) |
 | 47 | 周线 · 成交量冲击 | **确认失败**（没有信号） | 年化 +6.1%，t **0.64**；零成本 t 1.15；变体有正有负 | [volume_liquidity_failureprove · L2](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/47_L2_volume_shock.md) |
 | 48 | 周线 · 量价配合 | **指标无效**（加了成交量条件反而更差） | 年化 +10.7%，t **0.74**；不加成交量条件是 +27.3%（t 1.91），缩量的那一半是 +20.1%（t 1.70） | [volume_liquidity_failureprove · L3](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/48_L3_volume_confirmed_momentum.md) |
+| 49 | 日线 · MVRV 估值择时 | **确认失败**（不显著，14 年只离场 3 次） | 择时超额 +23.5%，t **2.19**，平移检验 p 0.064；14 年只离场 3 次，钱比一直持有少（2,568 倍对 16,253 倍）；原文的 3.7 事后重算 t 3.14，也没过 3.3 | [onchain_timing_failureprove · O1](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/49_O1_mvrv_valuation.md) |
+| 50 | 日线 · 交易所余额下降就持有 | **确认失败**（没有信号） | 择时超额 +5.7%，t **0.61**；验证段 −0.7%；余额上升的日子 BTC 反而涨得多（+109.5% 对 +77.3%） | [onchain_timing_failureprove · O2](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/50_O2_exchange_balance.md) |
+| 51 | 日线 · 活跃地址上升就持有 | **确认失败**（2020 年以后失效） | 择时超额 +10.6%，t **1.24**；训练段 t 1.72，验证段 **0.0%**；2024 年 BTC 涨 121%，它只有 15% 的时间在场 | [onchain_timing_failureprove · O3](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/51_O3_active_addresses.md) |
+| 52 | 日线 · 哈希率带 | **确认失败**（没有信号） | 择时超额 +2.4%，t **0.37**；验证段 −1.3%；变体有正有负 | [onchain_timing_failureprove · O4](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/52_O4_hash_ribbons.md) |
+| 53 | 日线 · Puell 倍数择时 | **确认失败**（顶部线再也没碰到，2020 年以后没有交易） | 择时超额 +20.2%，t **1.88**；顶部线 4 在 2018-01-06 之后再没碰到，2020 年以后 **0 次交易** | [onchain_timing_failureprove · O5](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/53_O5_puell_multiple.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -854,6 +859,96 @@ py verify.py L2
 git clone https://github.com/runningshark/volume_liquidity_failureprove
 cd volume_liquidity_failureprove
 py verify.py L3
+```
+
+### 49–53 · 第九轮事先登记的研究：链上指标择时（共用一个仓库）
+
+前面八轮用的都是交易所里的数据。这一轮测“看链上数据决定该不该持有比特币”的几个流传最广的说法。规则和通过标准同样是事先登记的（[事先登记_第九轮.md](https://github.com/runningshark/onchain_timing_failureprove/blob/master/事先登记_第九轮.md)）。**登记 6 个，5 个失败**；另外 1 个没有被判为失败，不在这里。
+
+- 累计 45 个候选，门槛是 t ≥ 3.3。只做 BTC 现货的满仓 / 空仓，指标晚一天使用，每次进出成本 0.10%，2012-01-01 到 2026-05-23，训练段到 2019 年底。
+- 看的是**择时超额**：规则每天的净收益对 BTC 当天涨跌回归后的截距。只做多的规则光看收益没有意义，这段时间比特币自己涨了一万多倍。另外做了平移检验（把仓位整体前后挪动，看真实的那一种排在哪里），因为这类规则几年才换一次仓。
+- 5 条规则最后的钱都比一直持有少。
+- 这 5 条共用一个仓库 [onchain_timing_failureprove](https://github.com/runningshark/onchain_timing_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/onchain_timing_failureprove/blob/master/FAILURE_REPORT.md)。数据是 Coin Metrics 的社区数据（CC BY-NC 4.0）。
+
+### 49 · MVRV 估值择时
+
+“MVRV 太高是顶，低于 1 是底”。MVRV 是市值除以已实现市值（每个币按最后一次转账时的价格算）。登记的规则：高于 3.5 清仓，跌回 1 以下再买回来；原文的顶部线是 3.7。（[档案](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/49_O1_mvrv_valuation.md)）
+
+- **没过门槛，离“待观察”只差一条。** 择时超额年化 +23.5%（t = 2.19），门槛是 3.3；训练段 t = 1.61，验证段 t = 1.87。平移检验 p = 0.064：把仓位整体前后挪动，有 6.4% 的挪法不比真实的差，“待观察”要求不超过 5%。
+- **14 年只离场 3 次，其中 2 次回场价比离场价高。** 2013-03 离场（46 美元）→ 2014-10 回场（323 美元）；2017-06 离场（2,707 美元）→ 2018-11 回场（4,318 美元）；2021-01 离场（39,216 美元）→ 2022-06 回场（22,073 美元）。规则把 1 变成 2,568，一直持有是 16,253。
+- **超额来自少承担了波动，不是躲开了下跌。** 空仓的日子（占 31%）BTC 平均每天的涨幅折成一年是 +92.6%，和持有的日子（+98.9%）差不多；不同的是波动，空仓期间年化 100.7%，持有期间 62.4%。回归里贝塔只有 0.46，所以算出来是正的超额，钱却比一直持有少。最大回撤是 −61.4%，一直持有是 −84.5%。
+- **结论取决于顶部线差 0.2（登记之外的重算）。** 原文的顶部线是 3.7，登记时写的是 3.5。换成 3.7：择时超额 +34.0%，t = 3.14，平移检验 p = 0.0002，仍然不到 3.3。差别只来自一次交易：2017 年的离场从 6 月（2,707 美元）变成了 12 月（17,032 美元）。顶部线从 3.0 到 4.2 每隔 0.1 算一遍，3.0–3.6 的 t 在 1.77 到 2.37 之间，3.7–3.9 在 3.14 到 3.31 之间，4.0 以上又回到 2.20 左右（2021 年不再离场）。
+- **顶部线一轮比一轮够不着。** 每轮牛市 MVRV 的最高值：2013 年 5.88，2017 年 4.72，2021 年 3.96，2024 年 2.78，2025 年 2.52。3.5 最后一次被碰到是 2021-03-19。2023 年以后规则一直满仓，2025 年的高点和之后的下跌它都没有任何动作。
+- 剩下的线索：择时超额一直是正的，顶部线从 3.0 到 4.2 都是（+19% 到 +36%），训练段和验证段也都为正。原文的 3.7 事后重算 t = 3.14、平移检验 p = 0.0002，但那是看了结果之后才用的线，样本只有 3 次离场，而且 2024–2025 这一轮 MVRV 最高只到 2.78，按哪条线都没有信号。要把它当成候选，需要一条不依赖固定数值的规则，另外登记，等新的周期来验证。
+
+```bash
+git clone https://github.com/runningshark/onchain_timing_failureprove
+cd onchain_timing_failureprove
+py verify.py O1
+```
+
+### 50 · 交易所余额下降就持有
+
+“币从交易所流出是看涨”。规则：交易所里的 BTC 比 30 天前少就持有，否则空仓。（[档案](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/50_O2_exchange_balance.md)）
+
+- **没有信号。** 择时超额年化 +5.7%（t = 0.61）；训练段 +12.0%（t = 1.00），验证段 −0.7%（t = −0.06）；平移检验 p = 0.247。
+- **涨得多的反而是余额上升的日子。** 余额下降、规则持有的日子占 39%，这些日子 BTC 平均每天的涨幅折成一年是 +77.3%；余额上升、规则空仓的日子占 61%，折成一年是 +109.5%。只看 2020 年以后也一样：+50.3% 对 +61.5%。差别不显著，但方向和说法相反。
+- **错过了大部分涨幅。** 规则把 1 变成 21.2，一直持有是 16,253。2013 年它只有 1% 的时间在场（那一年 BTC 涨 5,286%），2017 年 39%（BTC 涨 1,337%），2020 年 58%（BTC 涨 305%）。
+- **变体里有两个好看一些，主规则撑不起来。** 和 7 天前比 +14.3%（t = 1.48），和 90 天前比 +20.0%（t = 2.42），改用净流量 +5.3%（t = 0.57），改用余额占流通量的比例 +6.1%（t = 0.65）。四个都没有到门槛，主规则的 t 只有 0.61。
+- **换手多。** 进出 297 次；成本翻倍后择时超额剩 +3.6%。
+
+```bash
+git clone https://github.com/runningshark/onchain_timing_failureprove
+cd onchain_timing_failureprove
+py verify.py O2
+```
+
+### 51 · 活跃地址上升就持有
+
+“链上活跃度上升是看涨”。规则：活跃地址数的 30 日均值高于 365 日均值就持有，否则空仓。（[档案](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/51_O3_active_addresses.md)）
+
+- **全区间不显著。** 择时超额年化 +10.6%（t = 1.24），平移检验 p = 0.171。
+- **2020 年以后没有了。** 训练段 +17.6%（t = 1.72），验证段 0.0%（t = 0.00）。
+- **最近一轮牛市它基本不在场。** 2024 年 BTC 涨 121%，规则只有 15% 的时间持有，赚 9%；2023 年 BTC 涨 155%，规则赚 61%。2023 年以后合计：规则 +88%，一直持有 +364%，持仓时间 34%。这种读法是 2022 年提出的，这一段才是它真正的样本外。
+- **变体全部为正，但都不显著。** 30 日对 180 日、90 日对 365 日、14 日对 365 日、换成交易笔数，依次是 +7.2%、+16.0%、+9.7%、+4.6%，t 最高 1.80。
+- **钱比一直持有少，回撤一样大。** 规则把 1 变成 8,993，一直持有是 16,253；最大回撤 −84.5% 对 −84.5%。
+
+```bash
+git clone https://github.com/runningshark/onchain_timing_failureprove
+cd onchain_timing_failureprove
+py verify.py O3
+```
+
+### 52 · 哈希率带
+
+“矿工投降”。规则：哈希率的 30 日均线在 60 日均线之下的时候空仓，其余时间持有。（[档案](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/52_O4_hash_ribbons.md)）
+
+- **没有信号。** 择时超额年化 +2.4%（t = 0.37）；训练段 +4.7%（t = 0.63），验证段 −1.3%（t = −0.12）；平移检验 p = 0.359。
+- **“投降期”涨得少一些，但不值得躲。** 哈希率 30 日线在 60 日线之下的日子占 16%，这些日子 BTC 平均每天的涨幅折成一年是 +42.1%，其余日子 +107.0%。差别不显著；规则把 1 变成 8,870，一直持有是 16,253，最大回撤一样大（−84.4% 对 −84.5%）。
+- **变体有正有负。** 30 日对 90 日 −2.6%，60 日对 120 日 −6.5%，20 日对 60 日 +4.2%，加上原文的价格确认 +8.3%（t = 1.11）。
+- **当成买点看（原文的本意；登记之外，只是描述）。** 2012 年以来 30 日线收复 60 日线一共 38 次，之后 90 天涨幅的中位数是 +5%、上涨的占 60%，和任意一天买入（+10%、60%）没有差别。再加上价格确认后是 26 次，之后 90 天的中位数 +22%、上涨的占 79%（能算的 24 次），比任意一天高，也比只看价格均线金叉（+10%、59%）高。拉长到 180 天和 365 天差别就小了（+43% 对 +36%，+106% 对 +92%）。这些数字没有做显著性检验，窗口之间互相重叠，不能当成结论。
+- 剩下的线索：“收复并且价格确认”之后 90 天的涨幅比平时高（中位数 +22% 对 +10%），这是事后看到的描述，能算的只有 24 次。要当成候选，需要另外登记成一条完整的规则（买入后持有多久、什么时候卖）。
+
+```bash
+git clone https://github.com/runningshark/onchain_timing_failureprove
+cd onchain_timing_failureprove
+py verify.py O4
+```
+
+### 53 · Puell 倍数择时
+
+“Puell 倍数高于 4 是顶，低于 0.5 是底”。Puell 倍数是每天新发行的币的美元价值除以它过去一年的均值。规则：高于 4 清仓，跌回 0.5 以下再买回来。（[档案](https://github.com/runningshark/onchain_timing_failureprove/blob/master/reports/53_O5_puell_multiple.md)）
+
+- **没过门槛。** 择时超额年化 +20.2%（t = 1.88）；训练段 +38.5%（t = 2.35）。
+- **2020 年以后一次都没动。** Puell 倍数最后一次高于 4 是 2018-01-06。每轮牛市的最高值：2013 年 10.49，2017 年 6.62，2021 年 3.46，2024 年 2.43，2025 年 1.59，一轮比一轮低，固定的 4 够不着了。验证段规则全程满仓，和一直持有完全一样，择时超额是 0。
+- **全部结论来自 2 次离场。** 2013-03 离场（71 美元）→ 2014-10 回场（354 美元）；2017-11 离场（9,932 美元）→ 2018-11 回场（4,318 美元）。一次回场价比离场价高，一次低。平移检验 p = 0.002，但两次交易撑不起任何结论。
+- **钱比一直持有少。** 规则把 1 变成 7,452，一直持有是 16,253；最大回撤 −76.7% 对 −84.5%。和 MVRV 那一条一样，超额来自空仓的那段时间波动特别大（112.7%，持有期间 66.1%），不是那段时间跌了（空仓期间 BTC 平均每天的涨幅折成一年是 +95.5%）。
+- **变体。** 顶部线 3、顶部线 5、底部线 0.6、底部线 0.4，依次是 +16.3%、+23.1%、+16.1%、+26.6%，t 最高 2.42。
+
+```bash
+git clone https://github.com/runningshark/onchain_timing_failureprove
+cd onchain_timing_failureprove
+py verify.py O5
 ```
 
 ---
