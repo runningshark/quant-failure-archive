@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -55,6 +55,9 @@
 | 43 | 周线 · 稀释多空（空临近解锁的，多已经放完的） | **确认失败**（不显著） | 年化 +9.3%，t **1.20**，回撤 −29.2%；多头换成普通篮子变成 −2.2% | [token_events_failureprove · U3](https://github.com/runningshark/token_events_failureprove/blob/master/reports/43_U3_dilution_long_short.md) |
 | 44 | 日线 · 下架公告后做空 | **确认失败**（样本不足，放宽后亏损） | 合格事件只有 **17** 个；公告当天中位数 −21.3%（吃不到），之后平均 +21.1%（逼空）；门槛放宽后年化 −10.2% | [token_events_failureprove · D1](https://github.com/runningshark/token_events_failureprove/blob/master/reports/44_D1_short_after_delist_notice.md) |
 | 45 | 日线 · 观察标签后做空 | **确认失败**（消息当天就消化完了） | 年化 +3.1%，t **1.02**；公告当天中位数 −12.0%（吃不到），之后相对大盘平均 +0.4% | [token_events_failureprove · M1](https://github.com/runningshark/token_events_failureprove/blob/master/reports/45_M1_short_after_monitoring_tag.md) |
+| 46 | 周线 · 非流动性溢价 | **确认失败**（方向相反） | 年化 **−18.6%**，t −1.84（方向相反）；验证段 t −2.83；4 个变体全负 | [volume_liquidity_failureprove · L1](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/46_L1_illiquidity_premium.md) |
+| 47 | 周线 · 成交量冲击 | **确认失败**（没有信号） | 年化 +6.1%，t **0.64**；零成本 t 1.15；变体有正有负 | [volume_liquidity_failureprove · L2](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/47_L2_volume_shock.md) |
+| 48 | 周线 · 量价配合 | **指标无效**（加了成交量条件反而更差） | 年化 +10.7%，t **0.74**；不加成交量条件是 +27.3%（t 1.91），缩量的那一半是 +20.1%（t 1.70） | [volume_liquidity_failureprove · L3](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/48_L3_volume_confirmed_momentum.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -797,6 +800,60 @@ py verify.py D1
 git clone https://github.com/runningshark/token_events_failureprove
 cd token_events_failureprove
 py verify.py M1
+```
+
+### 46–48 · 第八轮事先登记的研究：成交量和流动性（共用一个仓库）
+
+前面几轮里成交量只当过筛选条件，这一轮把它当信号来测。规则和通过标准同样是事先登记的（[事先登记_第八轮.md](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/事先登记_第八轮.md)）。**3 个全部失败。**
+
+- 累计 39 个候选，门槛是 t ≥ 3.3。数据和币池同第 14–18 条：成交额最高的 30 个币，多空都用永续合约，每周调仓，成本单边 0.10%，计入资金费。
+- 这 3 条共用一个仓库 [volume_liquidity_failureprove](https://github.com/runningshark/volume_liquidity_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/FAILURE_REPORT.md)。
+
+### 46 · 非流动性溢价
+
+教科书里的“非流动性溢价”：同样的成交额把价格推得越远，这个币越不流动。每周做多最不流动的 10 个币，做空最流动的 10 个。（[档案](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/46_L1_illiquidity_premium.md)）
+
+- **方向是反的。** 全区间年化 −18.6%（t = −1.84），验证段 −34.0%（t = −2.83），对 BTC 回归后的超额 t = −2.19，最大回撤 −78.9%。
+- **亏在做空的那一边。** 被做空的是币池里流动性最好的 10 个币，也就是 BTC、ETH 这一类大币；它们每年在价格上让空头亏 24.3%，做多的那 10 个流动性差的币每年只赚 +4.1%。这个组合实际上是“空大币、多小币”，和合集第 24 条（多 BTC 空山寨）正好反着。
+- **变体全部为负。** 池子 50 个、每边 6 个、按波动率倒数加权、窗口 60 天，依次是 −13.3%、−24.3%、−13.9%、−22.6%。换成最简单的成交额水平（做多成交额最低的 10 个）也是 −14.1%（t = −1.64）。
+- **越近越差。** 2024 年 −42.6%、2025 年 −30.0%、2026 年 −14.6%；7 年里 5 年为负。
+- 剩下的线索：在成交额最高的这批币里，流动性越好的币表现越好，持有冷门币没有得到补偿，和原文在股票上的方向相反。反过来做（多流动性好的、空流动性差的）是事后的方向，t 的绝对值也只有 1.84，不能当成结论。
+
+```bash
+git clone https://github.com/runningshark/volume_liquidity_failureprove
+cd volume_liquidity_failureprove
+py verify.py L1
+```
+
+### 47 · 成交量冲击
+
+“放量的币要涨”：每周做多成交额相对自己过去 8 周放大最多的 10 个币，做空萎缩最多的 10 个。（[档案](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/47_L2_volume_shock.md)）
+
+- **没有信号。** 全区间年化 +6.1%（t = 0.64），不扣成本也只有 +10.9%（t = 1.15）；训练段 t = 0.38，验证段 t = 0.59。
+- **变体有正有负。** 池子 50 个 −2.5%、每边 6 个 +10.5%、按波动率倒数加权 +7.2%、改看 14 天 −4.5%。
+- **换手高。** 放量倍数每周都在变，年换手 48 倍，成本每年 4.8%；成本翻倍后只剩 +1.3%。
+- **分年不稳定。** 2021、2022、2026 年为负，其中 2022 年 −24.4%、2026 年 −22.4%。
+
+```bash
+git clone https://github.com/runningshark/volume_liquidity_failureprove
+cd volume_liquidity_failureprove
+py verify.py L2
+```
+
+### 48 · 量价配合
+
+“量价配合”：只在放量的那一半币里做一周动量，做多涨得最多的 5 个，做空跌得最多的 5 个。（[档案](https://github.com/runningshark/volume_liquidity_failureprove/blob/master/reports/48_L3_volume_confirmed_momentum.md)）
+
+- **加了成交量条件，比不加更差。** 只在放量的币里做 7 天动量：年化 +10.7%（t = 0.74）。不看成交量、直接做涨幅最高和最低各 5 个：+27.3%（t = 1.91）。在缩量的那一半里做同样的事：+20.1%（t = 1.70）。“放量上涨才是真涨”在这里不成立，放量的那一半里动量反而更弱。
+- **训练段是负的。** 训练段 t = −0.11，验证段 t = 1.60；2022 年 −20.1%、2023 年 −27.6%，最大回撤 −66.3%。
+- **经不起成本和延迟。** 年换手 83 倍，成本每年 8.3%；成本翻倍 +2.4%，晚一天执行 +1.9%。
+- **变体。** 池子 50 个、每边 3 个、按波动率倒数加权、都改看 14 天，依次是 +12.9%、+33.2%、+0.8%、+16.8%，t 最高 1.81。
+- 剩下的线索：不加成交量条件的 7 天动量，不扣成本 t = 2.51，扣成本后 1.91，和合集第 14 条的结果一致：一周动量是有的，但不够显著，也经不起成本。成交量条件没有帮上忙。动量在缩量的那一半里更强一些（t = 1.70），这是事后看到的，需要新数据确认。
+
+```bash
+git clone https://github.com/runningshark/volume_liquidity_failureprove
+cd volume_liquidity_failureprove
+py verify.py L3
 ```
 
 ---
