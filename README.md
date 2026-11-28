@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -105,6 +105,9 @@
 | 93 | 1 小时 · FOMC 公布前 24 小时做多 BTC | **确认失败**（只来自 2020 年） | 每笔净 **+0.49%**，t 1.31；去掉 2020 年 +0.06%；和第 39 条是同一个说法 | [orderflow_ml_macro_failureprove · M3](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/93_M3_pre_fomc_drift.md) |
 | 94 | 择时 · 恐惧贪婪指数 | **确认失败**（卖早了，跑输持有） | 择时超额 **−17.1%**，t −1.84；1 → 0.94（持有 7.54） | [orderflow_ml_macro_failureprove · S1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/94_S1_fear_greed_timing.md) |
 | 95 | 日线 · BTC 市占率趋势 | **确认失败**（顺着市占率做是亏的） | 每笔净 **−0.50%**，t −0.81；做多 BTC 那边 −1.30% | [orderflow_ml_macro_failureprove · D1](https://github.com/runningshark/orderflow_ml_macro_failureprove/blob/master/reports/95_D1_btc_dominance_trend.md) |
+| 96 | 择时 · 梅耶倍数（BTC） | **确认失败**（卖早了、买贵了） | 择时超额 **+13.4%**，t 1.19；验证段 +0.8%；1 → 863（持有 5,656） | [d1_btc_cycle_seasonality_failureprove · P1](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/96_P1_mayer_multiple.md) |
+| 97 | 择时 · 两年均线乘数（BTC） | **确认失败**（2021 年没碰到线） | 择时超额 **+12.8%**，t 1.12；2018 年以后一直满仓 | [d1_btc_cycle_seasonality_failureprove · P3](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/97_P3_two_year_ma_multiplier.md) |
+| 98 | 择时 · 五月卖出（Sell in May，BTC） | **确认失败**（没有择时超额） | 择时超额 **−0.2%**，t −0.02；平移检验 p 0.37 | [d1_btc_cycle_seasonality_failureprove · S1](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/98_S1_sell_in_may.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1719,6 +1722,60 @@ py verify.py S1
 git clone https://github.com/runningshark/orderflow_ml_macro_failureprove
 cd orderflow_ml_macro_failureprove
 py verify.py D1
+```
+
+### 96–98 · 第十六轮事先登记的研究：BTC 周期指标和月份季节性（共用一个仓库）
+
+只用价格算的“周期顶底”指标（梅耶倍数、Pi 周期、两年均线乘数、减半周期）和月份季节性（五月卖出、十月必涨），都是 BTC 满仓 / 空仓的择时规则。规则和通过标准同样是事先登记的（[事先登记_第十六轮.md](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/事先登记_第十六轮.md)）。**登记 6 个，3 个失败**；另外 3 个（Pi 周期、减半周期、十月必涨）没有被判为失败，不在合集里。
+
+- 累计 93 个候选，门槛是 t ≥ 3.5。Coin Metrics 社区数据的 BTC 每日价格，2013-01 到 2026-05，训练段到 2019 年底。每次进出 0.10%。统计量和第 49–53 条相同：择时超额和平移检验。
+- 梅耶倍数两次卖早了、买贵了；两年均线乘数的 5 倍线 2021 年没碰到，之后一直满仓；冬半年和夏半年差不多。
+- 这 3 条共用一个仓库 [d1_btc_cycle_seasonality_failureprove](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/FAILURE_REPORT.md)。数据来自 Coin Metrics（CC BY-NC 4.0）。
+
+### 96 · 梅耶倍数（BTC）
+
+“梅耶倍数（价格 ÷ 200 日均线）高于 2.4 是过热”。规则：高于 2.4 卖出，回到 1.0 以下买回。（[档案](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/96_P1_mayer_multiple.md)）
+
+- **择时超额 +13.4%（年化，t 1.19）。** 满仓 85% 的时间，2013 年到 2026-05 进出 10 次；一块钱变成 863，一直持有是 5,656；夏普 1.17 对 1.23，最大回撤 −77% 对 −85%。
+- **卖早了、买贵了。** 进出：2013-03-05 卖（41 美元）；2013-07-06 买（66 美元）；2013-11-08 卖（334 美元）；2014-03-28 买（499 美元）；2017-06-07 卖（2,707 美元）；2018-02-06 买（7,739 美元）；2019-06-27 卖（11,110 美元）；2019-09-27 买（8,187 美元）；2021-01-04 卖（31,802 美元）；2021-05-20 买（40,799 美元）。2017 年和 2021 年两次都是卖出以后价格继续涨，买回来比卖出的价格高。
+- **验证段（2020 年起）没有超额：** +0.8%（t 0.09）；训练段 +26.2%（t 1.43）；平移检验 p = 0.11（4,532 种平移）。
+- **邻近变体：** 2.0 / 1.0 +7.4%（t 0.65），2.8 / 1.0 +21.9%（t 2.00），2.4 / 0.8 +8.7%（t 0.77），2.4 / 1.2 +6.8%（t 0.62）；压力测试 成本翻倍 +13.3%（t 1.19），晚一天 +15.6%（t 1.38）。
+- **换起点、拿掉一段时期都不显著（登记之外）：** 2014 年 t 0.58、2015 年 t 0.39、2016 年 t 0.43、2017 年 t 0.26、2018 年 t 1.54；拿掉 2013–2015 t 0.44、拿掉 2016–2019 t 1.05、拿掉 2020–2022 t 1.57、拿掉 2023–2026 t 1.02。
+
+```bash
+git clone https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove
+cd d1_btc_cycle_seasonality_failureprove
+py verify.py P1
+```
+
+### 97 · 两年均线乘数（BTC）
+
+“价格高于两年均线的 5 倍是顶，低于两年均线是底”（Philip Swift）。规则：5 倍卖出，回到两年均线以下买回。（[档案](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/97_P3_two_year_ma_multiplier.md)）
+
+- **择时超额 +12.8%（年化，t 1.12）。** 满仓 79% 的时间，2013 年到 2026-05 进出 4 次；一块钱变成 679，一直持有是 5,656；夏普 1.14 对 1.23，最大回撤 −77% 对 −85%。
+- **2021 年价格没有碰到两年均线的 5 倍，2018-11 以后一直满仓。** 进出：2013-03-10 卖（46 美元）；2014-11-02 买（324 美元）；2017-09-02 卖（4,595 美元）；2018-11-16 买（5,496 美元）。验证段（2020 年起）和一直持有完全一样（所以没有 t）；训练段 +26.3%（t 1.53）；平移检验 p = 0.11（4,532 种平移）。
+- **邻近变体：** 4 倍 / 1 倍 +16.9%（t 1.52），6 倍 / 1 倍 +18.9%（t 1.69），5 倍 / 0.8 倍 +16.7%（t 1.47），5 倍 / 1.2 倍 +10.1%（t 0.89）；压力测试 成本翻倍 +12.8%（t 1.12），晚一天 +13.1%（t 1.15）。
+- **换起点、拿掉一段时期都不显著（登记之外）：** 2014 年 t 1.69、2015 年 t 0.91、2016 年 t 0.93、2017 年 t 0.80、2018 年 t 1.68；拿掉 2013–2015 t 0.95、拿掉 2016–2019 t 0.56、拿掉 2020–2022 t 1.66、拿掉 2023–2026 t 0.95。
+
+```bash
+git clone https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove
+cd d1_btc_cycle_seasonality_failureprove
+py verify.py P3
+```
+
+### 98 · 五月卖出（Sell in May，BTC）
+
+“五月卖出，十一月回来”（Sell in May）。规则：只在 11 月到 4 月持有 BTC。（[档案](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/98_S1_sell_in_may.md)）
+
+- **择时超额 −0.2%（年化，t −0.02）。** 满仓 51% 的时间，2013 年到 2026-05 进出 28 次；一块钱变成 303，一直持有是 5,656；夏普 1.00 对 1.23，最大回撤 −79% 对 −85%。
+- **冬半年和夏半年差不多。** 持有的日子 BTC 年化 +123.7%，空仓的日子 +63.5%，但按承担的波动算没有超额；训练段 −8.0%（t −0.49），验证段 +8.1%（t 0.67）；平移检验（去掉月份又对齐的平移）p = 0.37（3,066 种）。
+- **邻近变体：** 10 月到 4 月 +13.0%（t 1.32），11 月到 5 月 +1.0%（t 0.10），12 月到 4 月 −9.2%（t −0.81），11 月到 3 月 −0.3%（t −0.02）；压力测试 成本翻倍 −0.4%（t −0.04），晚一天 −2.2%（t −0.21）。
+- **换起点、拿掉一段时期都不显著（登记之外）：** 2014 年 t −0.61、2015 年 t −0.50、2016 年 t −0.29、2017 年 t −0.27、2018 年 t 0.16；拿掉 2013–2015 t −0.28、拿掉 2016–2019 t 0.73、拿掉 2020–2022 t −0.44、拿掉 2023–2026 t −0.04。
+
+```bash
+git clone https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove
+cd d1_btc_cycle_seasonality_failureprove
+py verify.py S1
 ```
 
 ---
