@@ -136,6 +136,7 @@
 | 125 | 1 小时 · 山寨币暴涨之后：持仓量骤降、多空人数比做空（14 条，235 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.74，校正后 p **0.24**；训练段最好的规则 2026 年 **−1.4%**；空头扎堆时做空每笔 **−16.8%** | [oi_ls_pump_fade_failureprove](https://github.com/runningshark/oi_ls_pump_fade_failureprove/blob/master/reports/125_oi_ls_pump_fade.md) |
 | 126 | 1 小时 · 山寨币暴涨之后做空：TradingView 第二批热门脚本（背离、反转、见顶，20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.03，校正后 p **0.70**；PORTAL 上"抓到顶"的 Tops/Bottoms 红星，268 次里持有 24 小时平均 **−0.8%** | [tv_reversal_divergence_failureprove](https://github.com/runningshark/tv_reversal_divergence_failureprove/blob/master/reports/126_tv_reversal_divergence.md) |
 | 127 | 1 小时 · 山寨币暴涨之后做空：TradingView 第三批热门脚本（10 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.39**；PORTAL 上"抓到顶"的 3 个信号，中途都要扛 46%–48% 的浮亏 | [tv_batch3_pump_fade_failureprove](https://github.com/runningshark/tv_batch3_pump_fade_failureprove/blob/master/reports/127_tv_batch3.md) |
+| 128 | 1 小时 · 山寨币暴涨之后做空：TradingView 第四批热门脚本（14 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.52**；PORTAL 上"抓到顶"的 2 个信号，放到 268 次里平均是亏的 | [tv_batch4_pump_fade_failureprove](https://github.com/runningshark/tv_batch4_pump_fade_failureprove/blob/master/reports/128_tv_batch4.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2355,6 +2356,32 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/tv_batch3_pump_fade_failureprove
 cd tv_batch3_pump_fade_failureprove
+py verify.py
+```
+
+### 128 · 第二十八轮事先登记的研究：山寨币暴涨之后做空，TradingView 第四批热门脚本
+
+**测了什么。**
+
+- 这是第 124、126、127 条的续篇。用同样的 6 个搜索词，取第一页收藏 2,000 到 2,900、开源、有明确看跌信号、只用 K 线就能复算的 5 个脚本：
+  - Reversal Indicator [StrategicalCharts]；
+  - Top Bottom [ceyhun]；
+  - Reversal Signals & Trailing Stop [AlgoAlpha]；
+  - Reversal Indicator [Fun_Trades]；
+  - Golden Ratio Fibonacci Multipliers Top Detector [UO]。
+- 没收的 3 个：两个之字形系统（代码 2 万到 3 万多字符，没有复刻），一个要用 1,000 根 K 线的成交量中位数（每个事件只有 720 根历史）。
+- 交易：6 个信号加"一涨就空"对照，持有 24 或 72 小时，共 14 条规则。事件、成本、资金费、1 倍爆仓和第 124 条相同。
+- 规则清单是事先登记的（[事先登记_第二十八轮.md](https://github.com/runningshark/tv_batch4_pump_fade_failureprove/blob/master/事先登记_第二十八轮.md)）。（[档案](https://github.com/runningshark/tv_batch4_pump_fade_failureprove/blob/master/reports/128_tv_batch4.md)）
+
+**结果。**
+
+- 累计 123 个事先登记的检验，Reality Check 的门槛是 p < 0.000203。
+- **最好的一条和运气分不出来。** t 最高的是"AlgoAlpha 反转，持有 24 小时"：每次暴涨平均 +1.5%，t = 1.33；p = 0.52。训练段选出的也是它，2026 年平均 +0.9%，t 0.58。
+- **PORTAL 那次（样板，不计入检验）。** 布林反转 R、Fun_Trades Sell 在 11-27 晚上 0.038 到 0.039 给出信号，中途要扛 46% 到 48% 的浮亏。放到 268 次暴涨里，这两个持有 72 小时平均分别是 -3.0% 和 -1.9%。268 次里最好的两个，在 PORTAL 上都没出信号。
+
+```bash
+git clone https://github.com/runningshark/tv_batch4_pump_fade_failureprove
+cd tv_batch4_pump_fade_failureprove
 py verify.py
 ```
 
