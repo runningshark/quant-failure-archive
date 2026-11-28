@@ -131,6 +131,7 @@
 | 119 | 日线 · 技术指标规则大全第二批（145 条，每季度 10 个币） | **确认失败**（145 条里只有 1 条 t > 2） | 最大 t 2.58，校正后 p **0.166**；145 条里 t > 2 的只有 1 条 | [d1_indicator_zoo2_failureprove · B](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/119_B_alt10_indicator_zoo2.md) |
 | 120 | 日线 · TradingView 社区热门脚本（36 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.59，校正“试了 36 条”后 p **0.073**；训练段最好的规则验证段 t **0.31** | [tradingview_scripts_failureprove · A](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/120_A_btc_tradingview_scripts.md) |
 | 121 | 日线 · TradingView 社区热门脚本（36 条，每季度 10 个币） | **确认失败**（没有一条 t > 2） | 最大 t 1.64，校正后 p **0.383**；36 条里没有一条 t > 2 | [tradingview_scripts_failureprove · B](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/121_B_alt10_tradingview_scripts.md) |
+| 124 | 1 小时 · 山寨币暴涨之后做空：TradingView 热门见顶脚本（20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.08，校正“试了 20 条”后 p **0.66**；一涨就空每次平均 **−5.6%**，34 次 1 倍空单爆仓 | [pump_fade_tradingview_failureprove](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/reports/124_pump_fade_tradingview.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2210,6 +2211,37 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/tradingview_scripts_failureprove
 cd tradingview_scripts_failureprove
+py verify.py
+```
+
+### 124 · 第二十四轮事先登记的研究：山寨币暴涨之后做空（TradingView 热门见顶脚本）
+
+**起因。** 用户问：PORTALUSDT 2026-11-27 一天涨了两倍多，11-28 凌晨冲到 0.05699 之后，一小时跌掉七成。能不能在 TradingView 里找到抓这种行情的指标？一次行情，事后总能挑出一个"刚好准"的指标，所以这一轮把指标放到同类行情里普遍测。
+
+**测了什么。**
+
+- 信号一共 10 个：
+  - TradingView 社区脚本库里收藏最多的 4 个"见顶 / 爆仓反转 / 衰竭"开源脚本：Liquidation Reversal Signals [AlgoAlpha]、%R Trend Exhaustion [upslidedown]、Boom Hunter [veryfid]、Exhaustion Signal [ChartingCycles]；
+  - 加上 RSI(14)、SuperTrend(10, 3)、"一涨就空"三个对照。
+- 事件：币安 U 本位永续 2020-01 到 2026-10 全部 268 次"24 小时翻倍"，也就是 1 小时收盘价 ≥ 24 小时前的 2 倍。已经下架的合约也算在内。
+- 交易：按信号开空，持有 24 或 72 小时，共 20 条规则。算了手续费、资金费，以及 1 倍杠杆下的爆仓。
+- 规则清单和通过标准是事先登记的（[事先登记_第二十四轮.md](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/事先登记_第二十四轮.md)）。
+- PORTAL 11-27 那次只当样板，不计入检验。（[档案](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/reports/124_pump_fade_tradingview.md)）
+
+**结果。**
+
+- 累计 119 个事先登记的检验，Reality Check 的门槛是 p < 0.000210。数据来自 Binance Vision；成本是开、平各 0.10%。
+- **最好的一条和运气分不出来。** t 最高的是"Boom Hunter 下跌探测，持有 24 小时"：每次暴涨平均 +1.37%，t = 1.08。全靠运气时，最大 t 的 95% 分位是 2.58；Reality Check 的 p = 0.66。20 条里有 15 条平均是亏的，没有一条 t > 2。
+- **样本外。** 只用 2025 年及以前的 136 个事件，选出的最好规则是"%R 趋势衰竭，持有 72 小时"。它在 2026 年的 132 个事件上平均 +2.35%，t 0.57。成本翻倍后 p = 0.71。
+- **一涨就空最差。** 持有 24 小时平均 −5.6%（t −2.07），268 次里有 34 次 1 倍空单被爆仓。等信号出来再空，每次能少亏 4% 到 7%，但也只是做到不亏不赚。暴涨时资金费常常是负的，空单要付钱，每次吃掉 1% 到 2%。
+- **PORTAL 这次。**
+  - 看着最准的是 Boom Hunter 见顶点和 Exhaustion 9。两者分别在 11-28 01:00 和 11-27 17:00、都在 0.0386 开空。中途都浮亏 48%，按 04:30 的价格算 +57%。
+  - 放到 268 次暴涨里，持有 72 小时，Boom Hunter 见顶点平均 −0.2%，Exhaustion 9 平均 −3.0%。
+- 第 122–123 条留给第二十三轮（4 小时 K 线的指标大全），档案还在整理。
+
+```bash
+git clone https://github.com/runningshark/pump_fade_tradingview_failureprove
+cd pump_fade_tradingview_failureprove
 py verify.py
 ```
 
