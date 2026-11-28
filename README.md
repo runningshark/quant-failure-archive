@@ -133,6 +133,7 @@
 | 121 | 日线 · TradingView 社区热门脚本（36 条，每季度 10 个币） | **确认失败**（没有一条 t > 2） | 最大 t 1.64，校正后 p **0.383**；36 条里没有一条 t > 2 | [tradingview_scripts_failureprove · B](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/121_B_alt10_tradingview_scripts.md) |
 | 122 | 4 小时 · 指标大全换到 4 小时图（631 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 3.16，校正“试了 631 条”后 p **0.125**；训练段最好的规则验证段 t **0.87** | [h4_indicator_zoo_failureprove](https://github.com/runningshark/h4_indicator_zoo_failureprove/blob/master/reports/122_A_btc_4h_indicator_zoo.md) |
 | 124 | 1 小时 · 山寨币暴涨之后做空：TradingView 热门见顶脚本（20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.08，校正“试了 20 条”后 p **0.66**；一涨就空每次平均 **−5.6%**，34 次 1 倍空单爆仓 | [pump_fade_tradingview_failureprove](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/reports/124_pump_fade_tradingview.md) |
+| 125 | 1 小时 · 山寨币暴涨之后：持仓量骤降、多空人数比做空（14 条，235 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.74，校正后 p **0.24**；训练段最好的规则 2026 年 **−1.4%**；空头扎堆时做空每笔 **−16.8%** | [oi_ls_pump_fade_failureprove](https://github.com/runningshark/oi_ls_pump_fade_failureprove/blob/master/reports/125_oi_ls_pump_fade.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2268,6 +2269,38 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/pump_fade_tradingview_failureprove
 cd pump_fade_tradingview_failureprove
+py verify.py
+```
+
+### 125 · 第二十五轮事先登记的研究：山寨币暴涨之后，持仓量骤降、多空人数比能不能抓到顶
+
+**起因。** 这是第 124 条的续篇，回答"冲顶是不是因为爆仓"。TradingView 上热门的爆仓类脚本，只是按杠杆倍数从前高前低画估算的价位线，没有买卖信号。爆仓真正留下的痕迹是持仓量突然变少。
+
+**测了什么。**
+
+- 数据：币安 Vision 的持仓量、多空人数比、大户持仓多空比（每 5 分钟一次）。
+- 信号：
+  - 持仓量一小时掉 10% 或 5%；
+  - 持仓量从触发后的高点回落 20%；
+  - 空头扎堆（多空人数比 < 0.5）；
+  - 空头认输（多空人数比从 0.7 以下回到 1 以上）；
+  - 大户偏空（大户持仓多空比 < 1）；
+  - 加上"一涨就空"对照。
+- 事件：第 124 条那批"24 小时翻倍"里有这些数据的 235 次，2022–2026 年。
+- 交易：按信号开空，持有 24 或 72 小时，共 14 条规则。成本、资金费、1 倍爆仓和第 124 条相同。
+- 规则清单和通过标准是事先登记的（[事先登记_第二十五轮.md](https://github.com/runningshark/oi_ls_pump_fade_failureprove/blob/master/事先登记_第二十五轮.md)）。登记里写明了：持仓量一小时掉 10%、多空人数比 0.5 这两个阈值，是看了 PORTAL 那次之后定的。（[档案](https://github.com/runningshark/oi_ls_pump_fade_failureprove/blob/master/reports/125_oi_ls_pump_fade.md)）
+
+**结果。**
+
+- 累计 120 个事先登记的检验，Reality Check 的门槛是 p < 0.000208。
+- **最好的一条和运气分不出来。** t 最高的是"持仓量从高点回落 20% 再空，持有 24 小时"：每次暴涨平均 +3.0%，t = 1.74。全靠运气时，最大 t 的 95% 分位是 2.43；p = 0.24。成本翻倍后 p = 0.28。
+- **样本外反过来了。** 只用 2025 年及以前选出的"持仓量一小时掉 10% 就空"，在 2026 年的 122 个事件上平均 −1.4%，t −0.55。
+- **空头扎堆的时候做空最差。** 多空人数比 < 0.5 时开空，持有 24 小时，每笔平均 −16.8%（全样本平均 −6.1%，t −2.82），最容易被继续轧空。
+- **等持仓量回落再空，比一涨就空好。** 每次多 9.3%（t 3.31），但扣完成本和资金费，自己还是不显著。
+
+```bash
+git clone https://github.com/runningshark/oi_ls_pump_fade_failureprove
+cd oi_ls_pump_fade_failureprove
 py verify.py
 ```
 
