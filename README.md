@@ -2391,7 +2391,7 @@ py verify.py
 
 **测了什么。**
 
-- 这是第 124、126–128 条的续篇。前四批用的是 pump、divergence、reversal、overbought、volume spike、top。这一批换成更直接对着"出货、做空"的 6 个词：dump、short、sell signal、exhaustion、climax、parabolic。
+- 这是第 124、126–128 条的续篇。第 126–128 条用的是 pump、divergence、reversal、overbought、volume spike、top，第 124 条用的是 pump dump、liquidation、exhaustion、altcoin、short squeeze。这一批换成更直接对着"出货、做空"的 6 个词：dump、short、sell signal、exhaustion、climax、parabolic。（更正：这里原来写成"前四批用的是同一组词"，不对。事先登记文件保持原样。）
 - 每个词搜索结果的第一页，收藏 ≥ 2,000 的共 12 个。开源、有明确看跌信号、只用 K 线能复算、之前没测过的 6 个：
   - ENVELOPE RSI - Buy Sell Signals；
   - Parabolic SAR + EMA 200 + MACD Signals；
