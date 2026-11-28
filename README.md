@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -119,6 +119,10 @@
 | 107 | 日线 · 订单簿极端失衡跟着做 | **确认失败**（扣成本后接近 0） | 每笔净 **+0.15%**，t 0.38；超出随手进场 +0.23% | [m2_orderbook_cny_failureprove · OB2](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/107_OB2_orderbook_extreme_imbalance.md) |
 | 108 | 1 小时 · 资金费高时结算前做空 | **确认失败**（结算前后价格反而在涨） | 每笔净 **−0.30%**，t −3.17；结算后 1 小时反而涨 0.159% | [m2_orderbook_cny_failureprove · FS1](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/108_FS1_short_before_funding.md) |
 | 109 | 择时 · 春节前两周空仓（BTC） | **确认失败**（春节前多数年份在涨） | 择时超额 **−5.4%**，t −1.31；春节前 14 天 14 年里涨了 9 年 | [m2_orderbook_cny_failureprove · CNY](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/109_CNY_flat_before_chinese_new_year.md) |
+| 110 | 择时 · 美联储净流动性增加时持有 BTC | **确认失败**（不显著，换个算法就变负） | 择时超额 **+12.7%**，t 1.21；1 → 1,462（持有 5,656） | [fed_fees_stables_failureprove · NL1](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/110_NL1_fed_net_liquidity_timing.md) |
+| 111 | 日线 · 链上手续费创一年新高就做空 | **确认失败**（做空亏钱，笔数太少） | 每笔净 **−2.30%**，t −0.55；17 笔 | [fed_fees_stables_failureprove · FE](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/111_FE_fee_spike_short.md) |
+| 112 | 择时 · USDT 市占率低于 50 天平均时持有 BTC | **确认失败**（其实是 BTC 的均线，验证段变弱） | 择时超额 **+19.1%**，t 1.66；验证段 +4.2%，和 BTC 50 天均线 86% 相同 | [fed_fees_stables_failureprove · UD1](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/112_UD1_usdt_dominance_timing.md) |
+| 113 | 择时 · 稳定币供给比率低时持有 BTC | **确认失败**（低的时候买反而跑输） | 择时超额 **−12.7%**，t −1.13；1 → 1.51（持有 7.27） | [fed_fees_stables_failureprove · SSR1](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/113_SSR1_stablecoin_supply_ratio_timing.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1978,6 +1982,76 @@ py verify.py FS1
 git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
 cd m2_orderbook_cny_failureprove
 py verify.py CNY
+```
+
+### 110–113 · 第十九轮事先登记的研究：美联储净流动性、链上手续费、USDT 市占率、稳定币供给比率（共用一个仓库）
+
+美联储净流动性、USDT 市占率、稳定币供给比率（BTC 择时），链上手续费创一年新高就做空（事件类）。规则和通过标准同样是事先登记的（[事先登记_第十九轮.md](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/事先登记_第十九轮.md)）。**登记 4 个，4 个失败**。
+
+- 累计 108 个候选，Bonferroni 校正 3.501，门槛从这一轮起是 t ≥ 3.6。美联储理事会 H.4.1；Coin Metrics 社区数据（手续费、市值、BTC 价格，到 2026-05-23）；币安 BTCUSDT、ETHUSDT 永续合约（Binance Vision）。每次进出 0.10%。
+- BTC 的满仓 / 空仓择时看**择时超额**和**平移检验**；事件类和**随手进场**比。
+- 净流动性的规则不显著、换个算法就变负；USDT 市占率其实是 BTC 的均线；稳定币供给比率低的时候买反而跑输；手续费创新高之后做空只有 17 笔，还是亏的。
+- 这 4 条共用一个仓库 [fed_fees_stables_failureprove](https://github.com/runningshark/fed_fees_stables_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 110 · 美联储净流动性增加时持有 BTC
+
+“BTC 跟着美联储净流动性走”。规则：净流动性（总资产 − 财政部一般账户 − 逆回购）比 4 周前多就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/110_NL1_fed_net_liquidity_timing.md)）
+
+- **择时超额 +12.7%（年化，t 1.21）。** 满仓 56% 的时间，进出 173 次；一块钱变成 1,462，一直持有是 5,656；夏普 1.20 对 1.23，最大回撤 −82% 对 −85%。
+- **不显著，换个算法就变负。** 变体“和 1 周前比”−12.0%、“只看总资产”−0.7%。分年度看，BTC 下跌的年份（2014、2018、2022、2025、2026）规则都少亏，BTC 翻倍以上的年份（2013、2016、2017、2020、2023、2024）规则都少赚很多。
+- **训练段 +10.5%（t 0.65），验证段 +14.8%（t 1.19）；平移检验 p = 0.12（4,532 种平移）。** 持有的日子 BTC 年化 +134.4%（波动 82%），空仓的日子 +43.0%（波动 68%）。
+- **邻近变体：** 和 1 周前比 −12.0%（t −1.16），和 13 周前比 +10.8%（t 1.02），高于最近 13 周的平均 +12.3%（t 1.17），只看总资产 −0.7%（t −0.07）；压力测试 成本翻倍 +11.4%（t 1.09），数据再晚一天 +12.3%（t 1.17）。
+
+```bash
+git clone https://github.com/runningshark/fed_fees_stables_failureprove
+cd fed_fees_stables_failureprove
+py verify.py NL1
+```
+
+### 111 · 链上手续费创一年新高就做空
+
+“链上手续费暴涨就是见顶”。规则：BTC 或 ETH 的手续费（7 天平均，美元）创一年新高，做空这个币 30 天。（[档案](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/111_FE_fee_spike_short.md)）
+
+- **扣成本后每笔 −2.30%（t −0.55）。** 17 笔（每年约 3 笔），胜率 53%，平均赚 11.19%、亏 17.47%；不扣成本每笔 −2.10%，成本 0.20%。
+- **分币种看（登记之外）：比在前后的日子里随便哪天做空亏得少，但还是亏。** BTC 9 笔每笔 −3.12%（随手进场 −11.48%），ETH 8 笔每笔 −1.38%（随手进场 −17.09%）：手续费创新高之后的 30 天，价格平均还在涨，只是比前后的日子涨得少。只有 17 笔，验证段 2 笔。
+- **和随手进场比：** 随手进场平均 −14.12%，真实的 −2.10%，超出 +12.02%（t 2.16）；训练段超出 +11.77%，验证段 +13.91%。
+- **训练段每笔 −3.42%（t −0.74，15 笔），验证段 +6.08%（t 0.77，2 笔）。**
+- **邻近变体：** 拿 10 天 24 笔 −0.81%（t −0.28），拿 60 天 13 笔 −9.00%（t −0.86），30 天的平均手续费 20 笔 −7.74%（t −1.42），创 90 天新高 40 笔 −4.19%（t −1.24）；压力测试 成本翻倍 −2.50%（t −0.60），晚一天进场 −4.52%（t −0.97）。
+
+```bash
+git clone https://github.com/runningshark/fed_fees_stables_failureprove
+cd fed_fees_stables_failureprove
+py verify.py FE
+```
+
+### 112 · USDT 市占率低于 50 天平均时持有 BTC
+
+“USDT 市占率上升是避险”。规则：USDT 市占率低于 50 天平均就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/112_UD1_usdt_dominance_timing.md)）
+
+- **择时超额 +19.1%（年化，t 1.66）。** 满仓 46% 的时间，进出 172 次；一块钱变成 14.76，一直持有是 19.67；夏普 1.11 对 0.98，最大回撤 −60% 对 −77%。
+- **其实是 BTC 的均线（登记之外）。** 和“BTC 高于 50 天均线就持有”在 86% 的日子里仓位相同；同样的日子、同样的成本，BTC 50 天均线规则的择时超额是 +28.9%（t 2.46）。USDT 的市值变化慢，市占率的涨跌主要来自分母（全部资产的市值），也就是行情本身。
+- **训练段 +31.4%（t 1.71），验证段 +4.2%（t 0.34）；平移检验 p = 0.03（2,291 种平移）。** 持有的日子 BTC 年化 +104.2%（波动 60%），空仓的日子 +23.5%（波动 63%）。
+- **邻近变体：** 20 天平均 +9.3%（t 0.84），100 天平均 +7.9%（t 0.73），200 天平均 −5.8%（t −0.54），USDT 加 USDC +19.1%（t 1.67）；压力测试 成本翻倍 +16.7%（t 1.44），数据再晚一天 +12.4%（t 1.07）。
+
+```bash
+git clone https://github.com/runningshark/fed_fees_stables_failureprove
+cd fed_fees_stables_failureprove
+py verify.py UD1
+```
+
+### 113 · 稳定币供给比率低时持有 BTC
+
+“稳定币供给比率低就是弹药多”。规则：BTC 市值 ÷（USDT + USDC 市值）低于 200 天平均就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/113_SSR1_stablecoin_supply_ratio_timing.md)）
+
+- **择时超额 −12.7%（年化，t −1.13）。** 满仓 58% 的时间，进出 45 次；一块钱变成 1.51，一直持有是 7.27；夏普 0.37 对 0.79，最大回撤 −69% 对 −77%。
+- **比率低的时候买，反而跑输。** 2022 年熊市全程满仓（规则 −64%）；2023、2024 年的上涨里大部分时间空仓（满仓 17%、25% 的时间），一直持有 +155%、+121%，规则只有 +53%、+21%。
+- **训练段 −11.9%（t −0.67），验证段 −4.0%（t −0.34）；平移检验 p = 0.85（2,141 种平移）。** 持有的日子 BTC 年化 +32.4%（波动 64%），空仓的日子 +68.1%（波动 55%）。
+- **邻近变体：** 50 天平均 −16.4%（t −1.44），100 天平均 −18.6%（t −1.69），365 天平均 −11.2%（t −1.02），只用 USDT −13.0%（t −1.18）；压力测试 成本翻倍 −13.4%（t −1.19），数据再晚一天 −11.2%（t −0.98）。
+
+```bash
+git clone https://github.com/runningshark/fed_fees_stables_failureprove
+cd fed_fees_stables_failureprove
+py verify.py SSR1
 ```
 
 ---
