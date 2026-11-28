@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -113,6 +113,12 @@
 | 101 | 周度 · 残差短期反转（去掉大盘） | **确认失败**（方向反了，反过来也付不起成本） | 年化 **−15.6%**，t −1.26；反过来也付不起成本 | [resid_mom_usdt_failureprove · X3](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/101_X3_residual_reversal_weekly.md) |
 | 102 | 日线 · USDT 增发后做多 BTC | **确认失败**（只是赶上了牛市） | 每笔净 **+1.79%**，t 2.39；超出随手进场 +0.62%（t 0.87） | [resid_mom_usdt_failureprove · E1](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/102_E1_usdt_mint_long_btc.md) |
 | 103 | 日线 · 现货带动还是合约带动的大涨 | **确认失败**（两种大涨之后没有区别） | 每笔净 **+0.03%**，t 0.11；现货带动做多 +0.66%，合约带动做空 −0.68% | [resid_mom_usdt_failureprove · E2](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/103_E2_spot_vs_perp_led_pumps.md) |
+| 104 | 日线 · 广度推力后做多 BTC | **确认失败**（不如随手挑一天买） | 每笔净 **+2.04%**，t 0.63；随手进场 +3.08% | [m2_orderbook_cny_failureprove · B1](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/104_B1_breadth_thrust_long_btc.md) |
+| 105 | 择时 · 美国 M2 增长时持有 BTC（滞后 70 天） | **确认失败**（错过了 2023 年的上涨） | 择时超额 **−2.9%**，t −0.64；1 → 2,559（持有 5,656） | [m2_orderbook_cny_failureprove · M4](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/105_M4_us_m2_lag_timing.md) |
+| 106 | 择时 · 订单簿买盘厚时持有 BTC | **确认失败**（没有预测力，换仓太多） | 择时超额 **−12.5%**，t −1.13；不扣成本 +2.8% | [m2_orderbook_cny_failureprove · OB1](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/106_OB1_orderbook_bid_heavy_timing.md) |
+| 107 | 日线 · 订单簿极端失衡跟着做 | **确认失败**（扣成本后接近 0） | 每笔净 **+0.15%**，t 0.38；超出随手进场 +0.23% | [m2_orderbook_cny_failureprove · OB2](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/107_OB2_orderbook_extreme_imbalance.md) |
+| 108 | 1 小时 · 资金费高时结算前做空 | **确认失败**（结算前后价格反而在涨） | 每笔净 **−0.30%**，t −3.17；结算后 1 小时反而涨 0.159% | [m2_orderbook_cny_failureprove · FS1](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/108_FS1_short_before_funding.md) |
+| 109 | 择时 · 春节前两周空仓（BTC） | **确认失败**（春节前多数年份在涨） | 择时超额 **−5.4%**，t −1.31；春节前 14 天 14 年里涨了 9 年 | [m2_orderbook_cny_failureprove · CNY](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/109_CNY_flat_before_chinese_new_year.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1870,6 +1876,108 @@ py verify.py E1
 git clone https://github.com/runningshark/resid_mom_usdt_failureprove
 cd resid_mom_usdt_failureprove
 py verify.py E2
+```
+
+### 104–109 · 第十八轮事先登记的研究：广度推力、美国 M2、订单簿买卖盘、资金费结算前、春节前（共用一个仓库）
+
+广度推力后做多 BTC、订单簿极端失衡跟着做、资金费高时结算前做空（事件类），美国 M2、订单簿买盘厚、春节前空仓（BTC 择时）。规则和通过标准同样是事先登记的（[事先登记_第十八轮.md](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/事先登记_第十八轮.md)）。**登记 6 个，6 个失败**。
+
+- 累计 104 个候选，门槛是 t ≥ 3.5。币安的合约日线、1 小时 K 线、资金费、BTC 现货日线、BTCUSDT 和 ETHUSDT 的订单簿深度（Binance Vision）；美联储理事会 H.6 的 M2；Coin Metrics 社区数据的 BTC 价格。每边成本 0.10%，资金费照算。
+- 事件类和**随手进场**比；BTC 的满仓 / 空仓择时看**择时超额**和**平移检验**（和第九、十六轮相同）。
+- 订单簿的买卖失衡对第二天的涨跌没有预测力；资金费高时结算前没有抛压，结算开始的那 1 小时反而在涨；美国 M2 的规则错过了 2023 年的上涨；春节前 14 天 BTC 14 年里涨了 9 年。
+- 这 6 条共用一个仓库 [m2_orderbook_cny_failureprove](https://github.com/runningshark/m2_orderbook_cny_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 104 · 广度推力后做多 BTC
+
+“广度推力之后有一段上涨”（Zweig）。规则：币池 10 个币的上涨家数比例，10 天指数平均在 10 天之内从 40% 以下升到 61.5% 以上，做多 BTC 30 天。（[档案](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/104_B1_breadth_thrust_long_btc.md)）
+
+- **扣成本后每笔 +2.04%（t 0.63）。** 36 笔（每年约 5 笔），胜率 53%，平均赚 16.18%、亏 13.75%；不扣成本每笔 +2.24%，成本 0.20%。
+- **信号之后 30 天平均是涨的，但随手挑一天买涨得更多。** 每笔中位数 +1.28%；广度的比例只能是 0、0.1、…、1（币池只有 10 个币），指数平均在 40% 和 61.5% 之间来回很常见，6 年半有 36 次“推力”，不像股票里那样罕见。
+- **和随手进场比：** 随手进场平均 +3.08%，真实的 +2.24%，超出 −0.84%（t −0.32）；训练段超出 +0.46%，验证段 −2.88%。
+- **训练段每笔 +4.26%（t 0.85，22 笔），验证段 −1.45%（t −0.53，14 笔）。**
+- **邻近变体：** 拿 10 天 45 笔 +1.18%（t 0.90），拿 60 天 25 笔 +8.44%（t 1.40），门槛 0.45 / 0.60 54 笔 +3.36%（t 1.24），15 天之内 42 笔 +2.71%（t 0.87）；压力测试 成本翻倍 +1.84%（t 0.57），晚一天进场 +1.20%（t 0.40）。
+
+```bash
+git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
+cd m2_orderbook_cny_failureprove
+py verify.py B1
+```
+
+### 105 · 美国 M2 增长时持有 BTC（滞后 70 天）
+
+“BTC 跟着 M2 走，滞后 10 周”。规则：美国 M2（滞后 70 天）比 3 个月前高就持有 BTC，否则空仓。（[档案](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/105_M4_us_m2_lag_timing.md)）
+
+- **择时超额 −2.9%（年化，t −0.64）。** 满仓 89% 的时间，进出 5 次；一块钱变成 2,559，一直持有是 5,656；夏普 1.16 对 1.23，最大回撤 −85% 对 −85%。
+- **规则只空过两段仓，正好错过 2023 年的上涨（登记之外）。** 进出：2022-08-09 卖（23,186 美元）；2023-10-09 买（27,591 美元）；2023-11-09 卖（36,675 美元）；2024-03-10 买（68,882 美元）。2023 年规则 +33%、一直持有 +155%；2024 年 +35%、+121%。M2 的 3 个月增长 2012 年以后只有 2022-05 到 2023-11（2023-07 除外）是负的。
+- **训练段 +0.2%（t 1.00），验证段 −6.9%（t −0.76）；平移检验 p = 0.60（4,532 种平移）。** 持有的日子 BTC 年化 +97.7%（波动 79%），空仓的日子 +64.4%（波动 49%）。
+- **邻近变体：** 滞后 30 天 −2.9%（t −0.64），滞后 100 天 −4.8%（t −1.04），和 6 个月前比 −8.4%（t −2.00），和 1 个月前比 −6.6%（t −1.53）；压力测试 成本翻倍 −3.0%（t −0.65），数据再晚一天 −2.9%（t −0.62）。
+
+```bash
+git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
+cd m2_orderbook_cny_failureprove
+py verify.py M4
+```
+
+### 106 · 订单簿买盘厚时持有 BTC
+
+“买盘墙在下面，价格要涨”。规则：BTCUSDT 永续订单簿 1% 以内的买单金额多于卖单，第二天持有 BTC，否则空仓。（[档案](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/106_OB1_orderbook_bid_heavy_timing.md)）
+
+- **择时超额 −12.5%（年化，t −1.13）。** 满仓 61% 的时间，进出 590 次；一块钱变成 1.65，一直持有是 4.69；夏普 0.54 对 1.10，最大回撤 −46% 对 −53%。
+- **失衡对第二天的涨跌没有预测力，换仓又太多（登记之外）。** 当天 1% 以内的失衡和第二天 BTC 涨跌的排名相关 0.012（t 0.43），2% 以内 -0.001，5% 以内 0.029（t 1.09）；不扣成本的择时超额 +2.8%（t 0.25），进出 590 次，一年的成本大约 15%。
+- **训练段 −21.0%（t −1.25），验证段 −1.8%（t −0.13）；平移检验 p = 0.40（1,041 种平移）。** 持有的日子 BTC 年化 +57.7%（波动 47%），空仓的日子 +40.3%（波动 45%）。
+- **邻近变体：** 用 2% 以内 −16.1%（t −1.39），用 5% 以内 +6.7%（t 0.67），高于前 30 天的中位数 −11.4%（t −0.94），最近 3 天的平均 +0.2%（t 0.02）；压力测试 成本翻倍 −27.8%（t −2.55），数据再晚一天 −6.3%（t −0.63）。
+
+```bash
+git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
+cd m2_orderbook_cny_failureprove
+py verify.py OB1
+```
+
+### 107 · 订单簿极端失衡跟着做
+
+“订单簿极端失衡跟着做”。规则：BTC、ETH 的买卖失衡偏离前 30 天 ±2 个标准差，跟着失衡的方向做 3 天。（[档案](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/107_OB2_orderbook_extreme_imbalance.md)）
+
+- **扣成本后每笔 +0.15%（t 0.38）。** 154 笔（每年约 40 笔），胜率 53%，平均赚 3.29%、亏 3.34%；不扣成本每笔 +0.35%，成本 0.20%。
+- **做多、做空都只比随手进场好一点点。** 做多 69 笔每笔 +0.81%（超出随手进场 +0.25%），做空 85 笔 −0.39%（超出 +0.21%）。
+- **和随手进场比：** 随手进场平均 +0.12%，真实的 +0.35%，超出 +0.23%（t 0.54）；训练段超出 −0.10%，验证段 +0.62%。
+- **训练段每笔 −0.20%（t −0.36，83 笔），验证段 +0.55%（t 0.98，71 笔）。**
+- **邻近变体：** 门槛 1.5 个标准差 264 笔 +0.06%（t 0.20），门槛 3 个标准差 33 笔 −0.80%（t −0.70），拿 1 天 192 笔 −0.19%（t −0.91），拿 7 天 119 笔 +0.77%（t 1.04）；压力测试 成本翻倍 −0.05%（t −0.14），晚一天进场 +0.02%（t 0.04）。
+
+```bash
+git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
+cd m2_orderbook_cny_failureprove
+py verify.py OB2
+```
+
+### 108 · 资金费高时结算前做空
+
+“资金费高时，结算前多头平仓、价格下跌”。规则：上一次费率 ≥ 0.05%，结算前 1 小时做空、结算后 1 小时平仓。（[档案](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/108_FS1_short_before_funding.md)）
+
+- **扣成本后每笔 −0.30%（t −3.17）。** 4,170 笔（每年约 633 笔），胜率 45%，平均赚 1.39%、亏 1.69%；不扣成本每笔 −0.10%，成本 0.20%。
+- **结算前没有抛压，结算开始的那 1 小时反而在涨（登记之外）。** 上一次费率 ≥ 0.05% 的结算，前后每一根 1 小时 K 线的平均涨跌：结算前 3 小时那根 +0.079%（t 3.21），前 1 小时 +0.035%（t 1.43），结算开始的那 1 小时 +0.159%（t 5.83；但同一时刻常有好几个币一起结算，按结算时刻先平均（872 个时刻）只剩 +0.098%、t 1.90），之后 +0.030%、−0.057%；同样的币、同样的日子里所有小时平均 +0.026%。做空 2 小时每笔价格上亏 0.197%，收到的资金费平均只有 0.092%。
+- **和随手进场比：** 随手进场平均 −0.06%，真实的 −0.20%，超出 −0.13%（t −1.70）；训练段超出 −0.12%，验证段 −0.21%。（只比价格的涨跌）
+- **训练段每笔 −0.29%（t −2.87，3,743 笔），验证段 −0.40%（t −1.56，427 笔）。**
+- **邻近变体：** 门槛 0.03% 6,778 笔 −0.28%（t −3.86），门槛 0.1% 1,479 笔 −0.30%（t −1.69），只拿 1 根（结算那一刻平仓） 4,170 笔 −0.24%（t −3.74），提前 2 小时进场 4,170 笔 −0.30%（t −2.69）；压力测试 成本翻倍 −0.50%（t −4.06），晚一根进场 −0.39%（t −3.96）。
+
+```bash
+git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
+cd m2_orderbook_cny_failureprove
+py verify.py FS1
+```
+
+### 109 · 春节前两周空仓（BTC）
+
+“春节前砸盘”。规则：每年春节前 14 天空仓，其余时间持有 BTC。（[档案](https://github.com/runningshark/m2_orderbook_cny_failureprove/blob/master/reports/109_CNY_flat_before_chinese_new_year.md)）
+
+- **择时超额 −5.4%（年化，t −1.31）。** 满仓 96% 的时间，进出 29 次；一块钱变成 1,937，一直持有是 5,656；夏普 1.14 对 1.23，最大回撤 −86% 对 −85%。
+- **春节前多数年份在涨（登记之外）。** 14 年里春节前 14 天 BTC 涨了 9 年、跌了 5 年，平均 +9.1%，中位数 +4.4%：2013 年 +35.2%、2014 年 −2.0%、2015 年 +4.1%、2016 年 −7.0%、2017 年 +11.3%、2018 年 +11.8%、2019 年 −3.5%、2020 年 +3.6%、2021 年 +42.9%、2022 年 −8.9%、2023 年 +34.6%、2024 年 +12.7%、2025 年 +4.7%、2026 年 −12.7%。
+- **训练段 −3.2%（t −0.64），验证段 −7.8%（t −1.20）；平移检验 p = 0.88（3,066 种平移）。** 持有的日子 BTC 年化 +88.6%（波动 76%），空仓的日子 +222.6%（波动 76%）。
+- **邻近变体：** 春节前 7 天 −5.2%（t −2.06），春节前 21 天 −3.4%（t −0.65），春节前 28 天 +2.2%（t 0.36），一直空仓到正月初七 −9.4%（t −1.97）；压力测试 成本翻倍 −5.6%（t −1.37），区间晚一天 −6.4%（t −1.63）。
+
+```bash
+git clone https://github.com/runningshark/m2_orderbook_cny_failureprove
+cd m2_orderbook_cny_failureprove
+py verify.py CNY
 ```
 
 ---
