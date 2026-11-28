@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113、114–117 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113、114–117、118–119 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -127,6 +127,8 @@
 | 115 | 日历 · 新月前后持有 BTC | **确认失败**（新月满月没有差别） | 择时超额 **−1.1%**，t −0.10；随机相位 p = 0.43 | [oi_moon_calendar_failureprove · MOON1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/115_MOON1_lunar_new_moon_timing.md) |
 | 116 | 日历 · 只在周一持有 BTC | **确认失败**（不扣成本还在，付不起成本） | 择时超额 **+6.2%**，t 0.89；不扣成本 +16.6%（t 2.39） | [oi_moon_calendar_failureprove · DOW1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/116_DOW1_monday_effect_timing.md) |
 | 117 | 日历 · 月末到月初持有 BTC | **确认失败**（2020 年以后没有了） | 择时超额 **+7.0%**，t 1.04；验证段 −2.3% | [oi_moon_calendar_failureprove · TOM1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/117_TOM1_turn_of_month_timing.md) |
+| 118 | 日线 · 技术指标规则大全第二批（145 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.93，校正“试了 145 条”后 p **0.087**；训练段最好的规则验证段 t **−0.09** | [d1_indicator_zoo2_failureprove · A](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/118_A_btc_indicator_zoo2.md) |
+| 119 | 日线 · 技术指标规则大全第二批（145 条，每季度 10 个币） | **确认失败**（145 条里只有 1 条 t > 2） | 最大 t 2.58，校正后 p **0.166**；145 条里 t > 2 的只有 1 条 | [d1_indicator_zoo2_failureprove · B](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/119_B_alt10_indicator_zoo2.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2126,6 +2128,46 @@ py verify.py DOW1
 git clone https://github.com/runningshark/oi_moon_calendar_failureprove
 cd oi_moon_calendar_failureprove
 py verify.py TOM1
+```
+
+### 118–119 · 第二十一轮事先登记的研究：技术指标规则大全第二批（共用一个仓库）
+
+第三轮（第 30 条）测过 21 类、467 条指标规则；这一轮把它没有的 40 种常见指标（均线的变种（Hull、DEMA、TEMA、ZLEMA、VWMA、ALMA、McGinley、KAMA）；趋势状态（抛物线 SAR、Aroon、Vortex、TRIX、线性回归、吊灯止损、平均 K 线、鳄鱼线、Elder 脉冲、UT Bot、SSL 通道、分形）；摆动类（威廉 %R、Stoch RSI、终极振荡器、AO、Fisher 变换、Schaff、Coppock、KST、DPO、RSI(2)、Connors RSI、WaveTrend）；成交量类（MFI、CMF、A/D 线、蔡金振荡器、强力指数、EMV、Klinger）；波动和突破（Larry Williams 波动突破、Choppiness））展开成 145 条只做多的日线规则，在 BTC 和每季度 10 个币上各测一遍。规则清单和通过标准同样是事先登记的（[事先登记_第二十一轮.md](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/事先登记_第二十一轮.md)）。**登记 2 组，2 组失败**。
+
+- 累计 114 个事先登记的检验，Reality Check 的门槛 p < 0.00022。Binance Vision 的 BTCUSDT 现货日线和 48 个永续合约的日线、资金费；单边 0.10%。
+- 和第三轮一样：BTC 上趋势类作为一类是正的，超卖买入的规则是负的（BTC 组 −0.81，10 个币那一组 −1.02），单独哪一条都和运气分不出来。
+- 这 2 条共用一个仓库 [d1_indicator_zoo2_failureprove](https://github.com/runningshark/d1_indicator_zoo2_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 118 · 技术指标规则大全第二批（145 条，BTC）
+
+这一组只用 BTC：持有时满仓 BTCUSDT 现货，空仓时拿现金。（[档案](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/118_A_btc_indicator_zoo2.md)）
+
+- **最好的一条经不起“试了 145 条”的校正。** 超额 t 最高的是“MFI(28) > 50 持有”，t = 2.93。如果 145 条全都没有择时能力，光靠运气，最大 t 的 95% 分位就有 3.14。Reality Check 的 p = 0.087，离登记的门槛 0.00022 很远。
+- **到验证段就没了。** 只看训练段（到 2023-12-31），最好的规则也是“MFI(28) > 50 持有”（训练段 t 3.36），它在验证段的超额是 −1.2%/年，t −0.09。训练段前 10% 的 14 条规则合在一起，验证段超额 +4.6%/年，t 0.43。
+- **成本。** 零成本时 p = 0.040（最大 t 3.22）；扣单边 0.10% 后 p = 0.087；成本翻倍后 p = 0.164（最大 t 2.68）。
+- **超卖买入的规则是负的（登记之外的分组）。** “指标在低位时买”的 17 条规则（%R < −80、RSI(2) < 10、MFI < 20、Connors RSI < 10 等）t 的中位数 −0.81，超额为正的只占 18%；其余 128 条 t 的中位数 1.37。
+- 剩下的线索：趋势类作为一类是正的：均线的变种 7 种、趋势状态 12 种，19 种里 18 种 t 的中位数在 0.5 以上，例外是平均 K 线（两条一正一负，中位数约为 0）；两大类的中位数 1.07、1.39。145 条里 t > 2 的有 29 条（20%）。规则之间高度相关，这个比例不能当成 29 个独立的证据。这和第三轮 BTC 那一组（“待观察”，不在失败档案里）的读法一样：作为一类有一点择时能力，单独哪一条都和运气分不出来。
+
+```bash
+git clone https://github.com/runningshark/d1_indicator_zoo2_failureprove
+cd d1_indicator_zoo2_failureprove
+py verify.py
+```
+
+### 119 · 技术指标规则大全第二批（145 条，每季度 10 个币）
+
+每个季度第一天按现货成交额选 10 个币（和第十到二十轮相同，一共 48 个合约，含后来下架的），每条规则在每个币上各自给信号；币在币池里、并且规则说持有时，占资金的 1/10（U 本位永续合约），其余拿现金。（[档案](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/119_B_alt10_indicator_zoo2.md)）
+
+- **最好的一条经不起“试了 145 条”的校正。** 超额 t 最高的是“CHOP(14) < 38.2 且收盘 > 20 日均线”，t = 2.58。全靠运气时最大 t 的 95% 分位是 3.07；Reality Check 的 p = 0.166，离门槛 0.00022 很远。
+- **单独像样的规则几乎没有。** 145 条里 t > 2 的只有 1 条，t 的中位数 0.50，超额为正的占 71%。
+- **样本外不够。** 训练段最好的规则就是这条（训练段 t 2.02），验证段超额 +9.5%/年，t 1.61，没到登记的 2。训练段前 10% 的 14 条合在一起，验证段 t 0.41。
+- **成本和执行。** 零成本 p = 0.112；成本翻倍 p = 0.242（最大 t 2.40）；晚一天执行 p = 0.451（最大 t 2.09）。
+- 剩下的线索：降回撤：一直持有这 10 个币（等权，按价格算）：夏普 0.65、最大回撤 −90%；夏普最高的一条（CHOP(14) < 38.2 且收盘 > 20 日均线）：夏普 1.17、最大回撤 −11%，平均只有 5.5% 的资金在场；145 条里夏普超过持有的占 43%。
+
+```bash
+git clone https://github.com/runningshark/d1_indicator_zoo2_failureprove
+cd d1_indicator_zoo2_failureprove
+py verify.py
 ```
 
 ---
