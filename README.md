@@ -134,6 +134,7 @@
 | 122 | 4 小时 · 指标大全换到 4 小时图（631 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 3.16，校正“试了 631 条”后 p **0.125**；训练段最好的规则验证段 t **0.87** | [h4_indicator_zoo_failureprove](https://github.com/runningshark/h4_indicator_zoo_failureprove/blob/master/reports/122_A_btc_4h_indicator_zoo.md) |
 | 124 | 1 小时 · 山寨币暴涨之后做空：TradingView 热门见顶脚本（20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.08，校正“试了 20 条”后 p **0.66**；一涨就空每次平均 **−5.6%**，34 次 1 倍空单爆仓 | [pump_fade_tradingview_failureprove](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/reports/124_pump_fade_tradingview.md) |
 | 125 | 1 小时 · 山寨币暴涨之后：持仓量骤降、多空人数比做空（14 条，235 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.74，校正后 p **0.24**；训练段最好的规则 2026 年 **−1.4%**；空头扎堆时做空每笔 **−16.8%** | [oi_ls_pump_fade_failureprove](https://github.com/runningshark/oi_ls_pump_fade_failureprove/blob/master/reports/125_oi_ls_pump_fade.md) |
+| 126 | 1 小时 · 山寨币暴涨之后做空：TradingView 第二批热门脚本（背离、反转、见顶，20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.03，校正后 p **0.70**；PORTAL 上"抓到顶"的 Tops/Bottoms 红星，268 次里持有 24 小时平均 **−0.8%** | [tv_reversal_divergence_failureprove](https://github.com/runningshark/tv_reversal_divergence_failureprove/blob/master/reports/126_tv_reversal_divergence.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2301,6 +2302,34 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/oi_ls_pump_fade_failureprove
 cd oi_ls_pump_fade_failureprove
+py verify.py
+```
+
+### 126 · 第二十六轮事先登记的研究：山寨币暴涨之后做空，TradingView 第二批热门脚本
+
+**测了什么。**
+
+- 这是第 124 条的第二批脚本。在 TradingView 社区脚本库搜 pump、divergence、reversal、overbought、volume spike、top 这 6 个词，取第一页收藏 ≥ 4,000、开源、有明确看跌信号的 6 个：
+  - Divergence for Many Indicators v4（30.8K）；
+  - CM_Laguerre PPO PercentileRank Mkt Tops & Bottoms（15.9K）；
+  - Tops/Bottoms（6K）；
+  - Reversal Signals [AlgoAlpha]（5.7K）；
+  - Reversal（5.6K）；
+  - Reversal and Breakout Signals [AlgoAlpha]（4.9K）。
+- 用默认参数重写成 9 个做空信号，加上"一涨就空"对照，持有 24 或 72 小时，共 20 条规则。
+- 事件、成本、资金费、1 倍爆仓和第 124 条相同（268 次"24 小时翻倍"）。
+- 规则清单是事先登记的（[事先登记_第二十六轮.md](https://github.com/runningshark/tv_reversal_divergence_failureprove/blob/master/事先登记_第二十六轮.md)）。（[档案](https://github.com/runningshark/tv_reversal_divergence_failureprove/blob/master/reports/126_tv_reversal_divergence.md)）
+
+**结果。**
+
+- 累计 121 个事先登记的检验，Reality Check 的门槛是 p < 0.000207。
+- **最好的一条和运气分不出来。** t 最高的是"AlgoAlpha 反转，持有 72 小时"：每次暴涨平均 +2.1%，t = 1.03；p = 0.70。20 条里没有一条 t > 2。
+- **样本外。** 2025 年及以前选出的"TechnicalLab 反转，持有 72 小时"，2026 年平均 +0.05%，t 0.02。
+- **PORTAL 那次（样板，不计入检验）。** 只有 Tops/Bottoms 的红星"抓到了顶"，中途要扛 46% 的浮亏。它在 268 次暴涨里持有 24 小时平均 −0.8%，t −0.33。背离和反转脚本在 PORTAL 上都没出信号：那次一小时内就跌掉了六成。
+
+```bash
+git clone https://github.com/runningshark/tv_reversal_divergence_failureprove
+cd tv_reversal_divergence_failureprove
 py verify.py
 ```
 
