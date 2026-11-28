@@ -138,6 +138,7 @@
 | 127 | 1 小时 · 山寨币暴涨之后做空：TradingView 第三批热门脚本（10 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.39**；PORTAL 上"抓到顶"的 3 个信号，中途都要扛 46%–48% 的浮亏 | [tv_batch3_pump_fade_failureprove](https://github.com/runningshark/tv_batch3_pump_fade_failureprove/blob/master/reports/127_tv_batch3.md) |
 | 128 | 1 小时 · 山寨币暴涨之后做空：TradingView 第四批热门脚本（14 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.52**；PORTAL 上"抓到顶"的 2 个信号，放到 268 次里平均是亏的 | [tv_batch4_pump_fade_failureprove](https://github.com/runningshark/tv_batch4_pump_fade_failureprove/blob/master/reports/128_tv_batch4.md) |
 | 129 | 1 小时 · 山寨币暴涨之后做空：TradingView 第五批热门脚本，换了一组搜索词（16 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.71，校正后 p **0.32**；五批里最好的一批（75% 的规则平均为正），但离门槛差得远 | [tv_batch5_pump_fade_failureprove](https://github.com/runningshark/tv_batch5_pump_fade_failureprove/blob/master/reports/129_tv_batch5.md) |
+| 130 | 1 小时 · 山寨币暴涨之后做空：TradingView 第六批热门脚本（10 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.70，校正后 p **0.20**；PORTAL 上"抓到顶"的 dump K 线，放到 268 次里 t 0.70 | [tv_batch6_pump_fade_failureprove](https://github.com/runningshark/tv_batch6_pump_fade_failureprove/blob/master/reports/130_tv_batch6.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2412,6 +2413,32 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/tv_batch5_pump_fade_failureprove
 cd tv_batch5_pump_fade_failureprove
+py verify.py
+```
+
+### 130 · 第三十轮事先登记的研究：山寨币暴涨之后做空，TradingView 第六批热门脚本
+
+**测了什么。**
+
+- 这是第 124、126–129 条的续篇。搜索词和第 129 条相同（dump、short、sell signal、exhaustion、climax、parabolic），这一批是每个词第一页里收藏 1,000 到 1,999 的，共 13 个。
+- 开源、有明确看跌信号、只用 K 线能复算、之前没测过的 4 个：
+  - EWO,RSI advanced Signals Strategy - Exhaustion Filter [Pridarasx]；
+  - Custom Buy and Sell Signal with Body Ratio and RSI；
+  - Pump and Dump Candles；
+  - Cointegration Buy and Sell Signals [EdgeTerminal]。
+- 没收的 9 个：一个前面测过；三个代码太大（2.8 万到 7.2 万字符）；三个只画线或只有不分方向的提示；一个要交易所的多空持仓数据；一个用从图表第一根 K 线开始的累计计数，没法唯一复算。
+- 交易：4 个信号加"一涨就空"对照，持有 24 或 72 小时，共 10 条规则。事件、成本、资金费、1 倍爆仓和第 124 条相同。
+- 规则清单是事先登记的（[事先登记_第三十轮.md](https://github.com/runningshark/tv_batch6_pump_fade_failureprove/blob/master/事先登记_第三十轮.md)）。（[档案](https://github.com/runningshark/tv_batch6_pump_fade_failureprove/blob/master/reports/130_tv_batch6.md)）
+
+**结果。**
+
+- 累计 125 个事先登记的检验，Reality Check 的门槛是 p < 0.000200。
+- **最好的一条和运气分不出来。** t 最高的是"实体比 + RSI 卖出，持有 24 小时"：每次暴涨平均 +1.7%，t = 1.70；p = 0.20。训练段选出的也是它，2026 年平均 +1.8%，t 1.08。
+- **PORTAL 那次（样板，不计入检验）。** 只有 dump K 线在 11-27 19:00、0.039 给出信号，中途要扛 46% 的浮亏。放到 268 次里，它持有 72 小时平均 +1.7%，t 0.70。
+
+```bash
+git clone https://github.com/runningshark/tv_batch6_pump_fade_failureprove
+cd tv_batch6_pump_fade_failureprove
 py verify.py
 ```
 
