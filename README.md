@@ -137,6 +137,7 @@
 | 126 | 1 小时 · 山寨币暴涨之后做空：TradingView 第二批热门脚本（背离、反转、见顶，20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.03，校正后 p **0.70**；PORTAL 上"抓到顶"的 Tops/Bottoms 红星，268 次里持有 24 小时平均 **−0.8%** | [tv_reversal_divergence_failureprove](https://github.com/runningshark/tv_reversal_divergence_failureprove/blob/master/reports/126_tv_reversal_divergence.md) |
 | 127 | 1 小时 · 山寨币暴涨之后做空：TradingView 第三批热门脚本（10 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.39**；PORTAL 上"抓到顶"的 3 个信号，中途都要扛 46%–48% 的浮亏 | [tv_batch3_pump_fade_failureprove](https://github.com/runningshark/tv_batch3_pump_fade_failureprove/blob/master/reports/127_tv_batch3.md) |
 | 128 | 1 小时 · 山寨币暴涨之后做空：TradingView 第四批热门脚本（14 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.52**；PORTAL 上"抓到顶"的 2 个信号，放到 268 次里平均是亏的 | [tv_batch4_pump_fade_failureprove](https://github.com/runningshark/tv_batch4_pump_fade_failureprove/blob/master/reports/128_tv_batch4.md) |
+| 129 | 1 小时 · 山寨币暴涨之后做空：TradingView 第五批热门脚本，换了一组搜索词（16 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.71，校正后 p **0.32**；五批里最好的一批（75% 的规则平均为正），但离门槛差得远 | [tv_batch5_pump_fade_failureprove](https://github.com/runningshark/tv_batch5_pump_fade_failureprove/blob/master/reports/129_tv_batch5.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2382,6 +2383,35 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/tv_batch4_pump_fade_failureprove
 cd tv_batch4_pump_fade_failureprove
+py verify.py
+```
+
+### 129 · 第二十九轮事先登记的研究：山寨币暴涨之后做空，TradingView 第五批热门脚本（换了一组搜索词）
+
+**测了什么。**
+
+- 这是第 124、126–128 条的续篇。前四批用的是 pump、divergence、reversal、overbought、volume spike、top。这一批换成更直接对着"出货、做空"的 6 个词：dump、short、sell signal、exhaustion、climax、parabolic。
+- 每个词搜索结果的第一页，收藏 ≥ 2,000 的共 12 个。开源、有明确看跌信号、只用 K 线能复算、之前没测过的 6 个：
+  - ENVELOPE RSI - Buy Sell Signals；
+  - Parabolic SAR + EMA 200 + MACD Signals；
+  - buy/sell signals with Support/Resistance (InvestYourAsset)；
+  - Multi-Indicator Signals with Selectable Options by DiGet；
+  - Parabolic SAR Deviation [BigBeluga]；
+  - LOKEN (v4) BULLISH SMART MONEY。
+- 没收的 6 个：两个前面测过，两个代码太大（3.6 万和 13 万字符），一个要交易所的多空持仓数据，一个没有看跌信号。
+- 交易：7 个信号加"一涨就空"对照，持有 24 或 72 小时，共 16 条规则。事件、成本、资金费、1 倍爆仓和第 124 条相同。
+- 规则清单是事先登记的（[事先登记_第二十九轮.md](https://github.com/runningshark/tv_batch5_pump_fade_failureprove/blob/master/事先登记_第二十九轮.md)）。（[档案](https://github.com/runningshark/tv_batch5_pump_fade_failureprove/blob/master/reports/129_tv_batch5.md)）
+
+**结果。**
+
+- 累计 124 个事先登记的检验，Reality Check 的门槛是 p < 0.000202。
+- **最好的一条和运气分不出来。** t 最高的是"LOKEN Bearish，持有 24 小时"：每次暴涨平均 +1.3%，t = 1.71；p = 0.32。训练段选出的也是它，2026 年平均 +2.0%，t 1.50。
+- **五批里最好的一批。** 16 条规则里 75% 的平均为正，前四批是 25% 到 60%。正的这些本质上还是"等它先跌一段再空"，离门槛差三个数量级。
+- **PORTAL 那次（样板，不计入检验）。** 只有 LOKEN Sell 在 11-27 18:00、0.039 给出信号，中途要扛 46% 的浮亏。
+
+```bash
+git clone https://github.com/runningshark/tv_batch5_pump_fade_failureprove
+cd tv_batch5_pump_fade_failureprove
 py verify.py
 ```
 
