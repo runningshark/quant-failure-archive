@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -108,6 +108,11 @@
 | 96 | 择时 · 梅耶倍数（BTC） | **确认失败**（卖早了、买贵了） | 择时超额 **+13.4%**，t 1.19；验证段 +0.8%；1 → 863（持有 5,656） | [d1_btc_cycle_seasonality_failureprove · P1](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/96_P1_mayer_multiple.md) |
 | 97 | 择时 · 两年均线乘数（BTC） | **确认失败**（2021 年没碰到线） | 择时超额 **+12.8%**，t 1.12；2018 年以后一直满仓 | [d1_btc_cycle_seasonality_failureprove · P3](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/97_P3_two_year_ma_multiplier.md) |
 | 98 | 择时 · 五月卖出（Sell in May，BTC） | **确认失败**（没有择时超额） | 择时超额 **−0.2%**，t −0.02；平移检验 p 0.37 | [d1_btc_cycle_seasonality_failureprove · S1](https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove/blob/master/reports/98_S1_sell_in_may.md) |
+| 99 | 周度 · 52 周高点 | **确认失败**（这一轮最接近，但 t 不到 2） | 年化 **+22.4%**，t 1.86；超出随手选币 +30.8%（t 2.47），训练段 t 0.74 | [resid_mom_usdt_failureprove · X1](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/99_X1_52w_high_weekly.md) |
+| 100 | 周度 · 残差动量（去掉大盘） | **确认失败**（扣成本后接近 0） | 年化 **+1.5%**，t 0.12；验证段 −3.4% | [resid_mom_usdt_failureprove · X2](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/100_X2_residual_momentum_weekly.md) |
+| 101 | 周度 · 残差短期反转（去掉大盘） | **确认失败**（方向反了，反过来也付不起成本） | 年化 **−15.6%**，t −1.26；反过来也付不起成本 | [resid_mom_usdt_failureprove · X3](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/101_X3_residual_reversal_weekly.md) |
+| 102 | 日线 · USDT 增发后做多 BTC | **确认失败**（只是赶上了牛市） | 每笔净 **+1.79%**，t 2.39；超出随手进场 +0.62%（t 0.87） | [resid_mom_usdt_failureprove · E1](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/102_E1_usdt_mint_long_btc.md) |
+| 103 | 日线 · 现货带动还是合约带动的大涨 | **确认失败**（两种大涨之后没有区别） | 每笔净 **+0.03%**，t 0.11；现货带动做多 +0.66%，合约带动做空 −0.68% | [resid_mom_usdt_failureprove · E2](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/103_E2_spot_vs_perp_led_pumps.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -1776,6 +1781,95 @@ py verify.py P3
 git clone https://github.com/runningshark/d1_btc_cycle_seasonality_failureprove
 cd d1_btc_cycle_seasonality_failureprove
 py verify.py S1
+```
+
+### 99–103 · 第十七轮事先登记的研究：52 周高点、残差动量和残差反转、USDT 增发、现货带动的大涨（共用一个仓库）
+
+离 52 周高点越近越做多、去掉大盘以后的动量和一周反转（每周多空组合），USDT 增发后做多 BTC、一天大涨以后看现货还是合约带动（事件类）。规则和通过标准同样是事先登记的（[事先登记_第十七轮.md](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/事先登记_第十七轮.md)）。**登记 5 个，5 个失败**。
+
+- 累计 98 个候选，门槛是 t ≥ 3.5。币安 U 本位永续合约的日线、对应现货的日成交额（Binance Vision）；Coin Metrics 社区数据的 USDT 流通量。每个季度按成交额选 10 个币，2020-04 到 2026-10，训练段到 2023 年底。每边成本 0.10%，资金费照算。
+- 周度组合和**随手选币**比；事件类和**随手进场**比。
+- 52 周高点最接近（超出随手选币 t 2.47），但训练段不显著、和普通动量有不少重合；去掉大盘以后的动量、反转都没有；USDT 增发多发生在牛市，增发后的涨幅和随手进场差不多；现货带动和合约带动的大涨之后没有区别。
+- 这 5 条共用一个仓库 [resid_mom_usdt_failureprove](https://github.com/runningshark/resid_mom_usdt_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 99 · 52 周高点
+
+“离 52 周高点越近越强”（George 和 Hwang，2004）。规则：每周按收盘价 ÷ 365 天最高价，做多最高的 3 个币、做空最低的 3 个。（[档案](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/99_X1_52w_high_weekly.md)）
+
+- **扣成本后年化 +22.4%（t 1.86）。** 夏普 0.69，累计最大回撤 −54%（按天相加）；343 周（有 6 个以上分数的 329 周），平均每次调仓换手 0.39，资金费每年 −3.2%（负数是收到）。
+- **主要来自做空那边，和普通动量有不少重合（登记之外）。** 多头一边（相对当周 10 个币的等权平均，不扣成本）年化 +10.1%（t 0.66），空头一边 +18.5%（t 1.43）；分数和过去 28 天涨幅的排名相关 0.43、和 90 天的 0.49（合集第 14–16 条的横截面动量都失败了）。每周超出随手选币的平均 +0.59%、中位数 +0.59%，不是靠少数几周；组合每年还收到 3.2% 的资金费（做空的 3 个币资金费平均年化 10.7%，做多的 5.5%）。2022 年 −17.8%。
+- **和随手选币比：** 20 个随机组合年化 −8.3%（不扣手续费 −1.2%），超出 +30.8%（t 2.47）；不扣手续费，超出 +25.5%（t 2.05）。
+- **训练段年化 +11.9%（t 0.74），验证段 +36.3%（t 2.04）；超出随手选币 训练段 +19.9%，验证段 +45.0%。**
+- **邻近变体：** 用过去 180 天的最高价 +23.7%（t 1.85），用上线以来的最高价 +16.7%（t 1.42），多空各 2 个 +19.4%（t 1.33），每两周调一次仓 +20.5%（t 1.83）；压力测试 成本翻倍 +20.5%（t 1.70），晚一天调仓 +25.5%（t 2.19）。
+
+```bash
+git clone https://github.com/runningshark/resid_mom_usdt_failureprove
+cd resid_mom_usdt_failureprove
+py verify.py X1
+```
+
+### 100 · 残差动量（去掉大盘）
+
+“去掉大盘以后的动量更稳”（Blitz、Huij 和 Martens，2011）。规则：每周按最近 28 天的残差之和 ÷ 残差的标准差（对币池等权平均回归，90 天），做多最高的 3 个、做空最低的 3 个。（[档案](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/100_X2_residual_momentum_weekly.md)）
+
+- **扣成本后年化 +1.5%（t 0.12）。** 夏普 0.05，累计最大回撤 −78%（按天相加）；343 周（有 6 个以上分数的 343 周），平均每次调仓换手 0.82，资金费每年 −0.8%（负数是收到）。
+- **多头、空头两边都不显著（登记之外）。** 多头一边（相对当周 10 个币的等权平均，不扣成本）年化 +11.4%（t 0.80），空头一边 +8.0%（t 0.52）。
+- **和随手选币比：** 20 个随机组合年化 −6.5%（不扣手续费 +1.0%），超出 +8.0%（t 0.66）；不扣手续费，超出 +4.8%（t 0.39）。
+- **训练段年化 +5.2%（t 0.28），验证段 −3.4%（t −0.22）；超出随手选币 训练段 +13.5%，验证段 +0.8%。**
+- **邻近变体：** 残差之和用最近 56 天 +8.0%（t 0.68），用最近 14 天 +7.9%（t 0.63），回归用过去 180 天 +10.9%（t 0.88），多空各 2 个 −15.4%（t −0.99）；压力测试 成本翻倍 −2.8%（t −0.23），晚一天调仓 +7.0%（t 0.58）。
+
+```bash
+git clone https://github.com/runningshark/resid_mom_usdt_failureprove
+cd resid_mom_usdt_failureprove
+py verify.py X2
+```
+
+### 101 · 残差短期反转（去掉大盘）
+
+“去掉大盘以后，上一周跌得最多的反弹”。规则：残差同 X2，按最近 7 天的残差之和（取负号）排名，做多上一周相对大盘跌得最多的 3 个、做空涨得最多的 3 个。（[档案](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/101_X3_residual_reversal_weekly.md)）
+
+- **扣成本后年化 −15.6%（t −1.26）。** 夏普 −0.49，累计最大回撤 −127%（按天相加）；343 周（有 6 个以上分数的 343 周），平均每次调仓换手 1.42，资金费每年 −0.4%（负数是收到）。
+- **方向反了：上一周相对大盘跌得多的，下一周继续偏弱；但反过来做也付不起成本。** 扣成本前年化 −8.2%，每次调仓换手 1.42，一年的手续费大约 7.4%。
+- **和随手选币比：** 20 个随机组合年化 −4.2%（不扣手续费 +3.3%），超出 −11.3%（t −0.91）；不扣手续费，超出 −11.5%（t −0.92）。
+- **训练段年化 −30.6%（t −1.81），验证段 +4.3%（t 0.24）；超出随手选币 训练段 −28.8%，验证段 +11.7%。**
+- **邻近变体：** 残差之和用最近 3 天 −8.2%（t −0.69），用最近 14 天 −18.5%（t −1.48），回归用过去 180 天 −19.3%（t −1.62），多空各 2 个 −25.1%（t −1.64）；压力测试 成本翻倍 −23.0%（t −1.86），晚一天调仓 −24.3%（t −2.06）。
+
+```bash
+git clone https://github.com/runningshark/resid_mom_usdt_failureprove
+cd resid_mom_usdt_failureprove
+py verify.py X3
+```
+
+### 102 · USDT 增发后做多 BTC
+
+“Tether 一印钱，BTC 就涨”。规则：USDT 的流通量前一天比再前一天多 0.5% 以上，当天收盘做多 BTC 永续合约，拿 7 天。（[档案](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/102_E1_usdt_mint_long_btc.md)）
+
+- **扣成本后每笔 +1.79%（t 2.39）。** 122 笔（每年约 20 笔），胜率 59%，平均赚 6.63%、亏 5.16%；不扣成本每笔 +1.99%，成本 0.20%。
+- **增发多发生在牛市，只是赶上了 BTC 在涨。** 2020-04 到 2026-05 之间任意一天买 BTC 拿 7 天平均 +1.07%；增发后的 7 天（扣成本前）+1.99%，前后 30 天随手进场 +1.37%。122 笔里 2020、2021 年有 49 笔。按增发幅度分（登记之外）：0.5%–1% 的 46 笔超出 +1.08%，1%–2% 的 57 笔超出 +0.23%，2% 以上的 19 笔超出 +0.69%，增发越多不是涨得越多。
+- **和随手进场比：** 随手进场平均 +1.37%，真实的 +1.99%，超出 +0.62%（t 0.87）；训练段超出 +0.53%，验证段 +0.76%。
+- **训练段每笔 +2.28%（t 2.07，73 笔），验证段 +1.07%（t 1.22，49 笔）。**
+- **邻近变体：** 门槛 0.2% 126 笔 +1.72%（t 2.36），门槛 1% 84 笔 +1.43%（t 1.54），拿 3 天 175 笔 +0.88%（t 2.22），拿 14 天 87 笔 +2.61%（t 2.10）；压力测试 成本翻倍 +1.59%（t 2.13），晚一天进场 +1.67%（t 2.24）。
+
+```bash
+git clone https://github.com/runningshark/resid_mom_usdt_failureprove
+cd resid_mom_usdt_failureprove
+py verify.py E1
+```
+
+### 103 · 现货带动还是合约带动的大涨
+
+“现货带动的上涨更持久，合约拉的盘会跌回去”。规则：一天涨 5% 以上，现货成交额占比高于前 30 天的平均就做多、低于平均就做空，拿 3 天。（[档案](https://github.com/runningshark/resid_mom_usdt_failureprove/blob/master/reports/103_E2_spot_vs_perp_led_pumps.md)）
+
+- **扣成本后每笔 +0.03%（t 0.11）。** 1,811 笔（每年约 275 笔），胜率 50%，平均赚 7.49%、亏 7.51%；不扣成本每笔 +0.23%，成本 0.20%。
+- **两种大涨之后价格都还在小幅上涨，合约拉的盘没有跌回去。** 现货带动的做多 966 笔每笔 +0.66%（超出随手进场 +0.21%），合约带动的做空 845 笔 −0.68%（超出 −0.20%）。（登记之外）不分现货、合约一律做多拿 3 天，1,811 笔每笔 +0.48%（t 1.07），超出随手进场 +0.23%（t 0.53）；按“当天现货占比 − 前 30 天平均”分 5 组，做多拿 3 天（扣成本前）分别是 −0.05%、+0.91%、+0.87%、+1.07%、+0.60%，没有单调的关系。
+- **和随手进场比：** 随手进场平均 +0.21%，真实的 +0.23%，超出 +0.02%（t 0.07）；训练段超出 −0.07%，验证段 +0.16%。
+- **训练段每笔 −0.01%（t −0.02，1,112 笔），验证段 +0.10%（t 0.22，699 笔）。**
+- **邻近变体：** 门槛 8% 938 笔 −0.26%（t −0.53），门槛 10% 630 笔 −0.56%（t −0.91），拿 1 天 2,267 笔 −0.32%（t −2.02），拿 7 天 1,328 笔 +0.12%（t 0.23）；压力测试 成本翻倍 −0.17%（t −0.57），晚一天进场 +0.12%（t 0.45）。
+
+```bash
+git clone https://github.com/runningshark/resid_mom_usdt_failureprove
+cd resid_mom_usdt_failureprove
+py verify.py E2
 ```
 
 ---
