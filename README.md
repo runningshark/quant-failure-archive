@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113、114–117 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -123,6 +123,10 @@
 | 111 | 日线 · 链上手续费创一年新高就做空 | **确认失败**（做空亏钱，笔数太少） | 每笔净 **−2.30%**，t −0.55；17 笔 | [fed_fees_stables_failureprove · FE](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/111_FE_fee_spike_short.md) |
 | 112 | 择时 · USDT 市占率低于 50 天平均时持有 BTC | **确认失败**（其实是 BTC 的均线，验证段变弱） | 择时超额 **+19.1%**，t 1.66；验证段 +4.2%，和 BTC 50 天均线 86% 相同 | [fed_fees_stables_failureprove · UD1](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/112_UD1_usdt_dominance_timing.md) |
 | 113 | 择时 · 稳定币供给比率低时持有 BTC | **确认失败**（低的时候买反而跑输） | 择时超额 **−12.7%**，t −1.13；1 → 1.51（持有 7.27） | [fed_fees_stables_failureprove · SSR1](https://github.com/runningshark/fed_fees_stables_failureprove/blob/master/reports/113_SSR1_stablecoin_supply_ratio_timing.md) |
+| 114 | 日线 · 持仓量骤降后做多 BTC、ETH | **确认失败**（和随手进场差不多） | 每笔净 **+1.18%**，t 1.08；超出随手进场 +0.37%（t 0.34） | [oi_moon_calendar_failureprove · OI1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/114_OI1_oi_flush_long.md) |
+| 115 | 日历 · 新月前后持有 BTC | **确认失败**（新月满月没有差别） | 择时超额 **−1.1%**，t −0.10；随机相位 p = 0.43 | [oi_moon_calendar_failureprove · MOON1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/115_MOON1_lunar_new_moon_timing.md) |
+| 116 | 日历 · 只在周一持有 BTC | **确认失败**（不扣成本还在，付不起成本） | 择时超额 **+6.2%**，t 0.89；不扣成本 +16.6%（t 2.39） | [oi_moon_calendar_failureprove · DOW1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/116_DOW1_monday_effect_timing.md) |
+| 117 | 日历 · 月末到月初持有 BTC | **确认失败**（2020 年以后没有了） | 择时超额 **+7.0%**，t 1.04；验证段 −2.3% | [oi_moon_calendar_failureprove · TOM1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/117_TOM1_turn_of_month_timing.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2052,6 +2056,76 @@ py verify.py UD1
 git clone https://github.com/runningshark/fed_fees_stables_failureprove
 cd fed_fees_stables_failureprove
 py verify.py SSR1
+```
+
+### 114–117 · 第二十轮事先登记的研究：持仓量骤降、月相、周一效应、月初效应（共用一个仓库）
+
+持仓量骤降后做多（事件类），新月前后、只在周一、月末到月初持有 BTC（日历规则）。规则和通过标准同样是事先登记的（[事先登记_第二十轮.md](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/事先登记_第二十轮.md)）。**登记 4 个，4 个失败**。
+
+- 累计 112 个候选，Bonferroni 校正 3.511，门槛 t ≥ 3.6。币安 BTCUSDT、ETHUSDT 永续合约的持仓量和日线（Binance Vision）；Coin Metrics 社区数据的 BTC、ETH 每日价格（到 2026-05-23）；新月、满月自己算。每边 0.10%。
+- 日历规则看**择时超额**和**周期内的随机相位检验**（以前的平移检验对按周期重复的规则不适用）；事件类和**随手进场**比。
+- 持仓量骤降之后的一周和随手挑的一周差不多；新月前后和满月前后没有差别；周一不扣成本还涨得多，但一周进出两次付不起成本；月初效应 2020 年以后没有了。
+- 这 4 条共用一个仓库 [oi_moon_calendar_failureprove](https://github.com/runningshark/oi_moon_calendar_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 114 · 持仓量骤降后做多 BTC、ETH
+
+“持仓量骤降之后是买点”。规则：BTC 或 ETH 的持仓量一天跌 8% 以上、价格也跌，收盘做多 7 天。（[档案](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/114_OI1_oi_flush_long.md)）
+
+- **扣成本后每笔 +1.18%（t 1.08）。** 64 笔（每年约 10 笔），胜率 62%，平均赚 5.65%、亏 6.26%；不扣成本每笔 +1.38%，成本 0.20%。
+- **分币种看（登记之外）：BTC 和随手进场一样。** BTC 38 笔每笔扣成本后 +1.35%，不扣成本只比随手进场多 +0.15%；ETH 26 笔每笔 +0.95%，多 +0.70%。2025、2026 年（5、6 笔）每笔平均 −3.97%、−4.75%。
+- **和随手进场比：** 随手进场平均 +1.01%，真实的 +1.38%，超出 +0.37%（t 0.34）；训练段超出 +0.46%，验证段 +0.21%。
+- **训练段每笔 +1.58%（t 1.21，43 笔），验证段 +0.37%（t 0.19，21 笔）。**
+- **邻近变体：** 门槛 5% 139 笔 +1.09%（t 1.38），门槛 12% 26 笔 +1.64%（t 0.92），拿 3 天 70 笔 +2.31%（t 2.72），拿 14 天 55 笔 +1.16%（t 0.76）；压力测试 成本翻倍 +0.98%（t 0.90），晚一天进场 +0.21%（t 0.24）。
+
+```bash
+git clone https://github.com/runningshark/oi_moon_calendar_failureprove
+cd oi_moon_calendar_failureprove
+py verify.py OI1
+```
+
+### 115 · 新月前后持有 BTC
+
+“新月前后涨得多”（Yuan、Zheng、Zhu 2006 的月相效应）。规则：新月前后 15 天持有 BTC，其余的日子空仓。（[档案](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/115_MOON1_lunar_new_moon_timing.md)）
+
+- **择时超额 −1.1%（年化，t −0.10）。** 满仓 51% 的时间，进出 332 次；一块钱变成 84，一直持有是 5,656；夏普 0.88 对 1.23，最大回撤 −74% 对 −85%。
+- **新月前后和满月前后没有差别。** 14 年里新月那一半涨得多的正好 7 年；不扣成本的择时超额也只有 +1.4%（t 0.13）。
+- **训练段 −8.6%（t −0.48），验证段 +6.7%（t 0.56）；随机相位检验 p = 0.43（1,999 次）。** 持有的日子 BTC 年化 +100.7%（波动 78%），空仓的日子 +87.0%（波动 75%）。
+- **邻近变体：** 新月前后 3 天 −11.1%（t −1.12），只在满月前后 3 天空仓 +1.0%（t 0.11），新月到之后 14 天 −3.7%（t −0.30），ETH +2.7%（t 0.18）；压力测试 成本翻倍 −3.6%（t −0.32），换成币安 BTCUSDT 永续合约的价格 +8.2%（t 0.73）。
+
+```bash
+git clone https://github.com/runningshark/oi_moon_calendar_failureprove
+cd oi_moon_calendar_failureprove
+py verify.py MOON1
+```
+
+### 116 · 只在周一持有 BTC
+
+“BTC 周一涨得多”（Caporale、Plastun 2019）。规则：只在周一持有 BTC。（[档案](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/116_DOW1_monday_effect_timing.md)）
+
+- **择时超额 +6.2%（年化，t 0.89）。** 满仓 14% 的时间，进出 1,396 次；一块钱变成 9.68，一直持有是 5,656；夏普 0.70 对 1.23，最大回撤 −49% 对 −85%。
+- **不扣成本还在，但付不起一周两次进出（分段是登记之外的）。** 不扣成本的择时超额 +16.6%（t 2.39），训练段 +21.2%（t 2.09），验证段 +11.7%（t 1.25）；13 年多进出 1,396 次，成本一年约 10%。一周七天里不扣成本最差的是周四 −19.6%（t −2.12），是七天里挑出来的，不算线索。
+- **训练段 +10.8%（t 1.07），验证段 +1.3%（t 0.14）；随机相位检验 p = 0.01（1,999 次）。** 持有的日子 BTC 年化 +224.3%（波动 81%），空仓的日子 +72.3%（波动 75%）。
+- **邻近变体：** 周日和周一 +4.8%（t 0.56），周一和周二 +7.6%（t 0.80），周一到周五 −12.2%（t −1.74），ETH 的周一 −7.2%（t −0.68）；压力测试 成本翻倍 −4.2%（t −0.61），换成币安 BTCUSDT 永续合约的价格 +1.2%（t 0.14）。
+
+```bash
+git clone https://github.com/runningshark/oi_moon_calendar_failureprove
+cd oi_moon_calendar_failureprove
+py verify.py DOW1
+```
+
+### 117 · 月末到月初持有 BTC
+
+月初效应（Lakonishok、Smidt 1988）。规则：月末最后一天到月初第 3 天持有 BTC。（[档案](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/117_TOM1_turn_of_month_timing.md)）
+
+- **择时超额 +7.0%（年化，t 1.04）。** 满仓 13% 的时间，进出 322 次；一块钱变成 6.54，一直持有是 5,656；夏普 0.68 对 1.23，最大回撤 −53% 对 −85%。
+- **2020 年以前有一点，之后没有了。** 不扣成本 +9.4%（t 1.39）：训练段 +17.9%，验证段 +0.1%；换成币安的价格（2020 年起）−3.5%。
+- **训练段 +15.5%（t 1.38），验证段 −2.3%（t −0.34）；随机相位检验 p = 0.10（1,999 次）。** 持有的日子 BTC 年化 +149.1%（波动 69%），空仓的日子 +85.6%（波动 77%）。
+- **邻近变体：** 月末最后一天到月初第 2 天 +4.7%（t 0.79），月末最后两天到月初第 3 天 +9.4%（t 1.35），月初第 1 到第 5 天 +5.0%（t 0.62），ETH +13.6%（t 1.56）；压力测试 成本翻倍 +4.6%（t 0.68），换成币安 BTCUSDT 永续合约的价格 −3.5%（t −0.51）。
+
+```bash
+git clone https://github.com/runningshark/oi_moon_calendar_failureprove
+cd oi_moon_calendar_failureprove
+py verify.py TOM1
 ```
 
 ---
