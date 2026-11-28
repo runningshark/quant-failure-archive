@@ -2,7 +2,7 @@
 
 做过、跑过、最后没赚到钱的策略，在这里留一份可复现的档案。
 
-不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113、114–117、118–119 各来自一次事先登记的研究，每次研究共用一个仓库。）
+不写"经验总结"，只写能重跑的数字：原始声称是什么、用什么数据复核、扣完成本和样本外之后还剩多少。每一条都是**独立仓库**，代码、数据、验证脚本齐全，clone 下来就能自己跑一遍看我有没有骗人。（14–24、25–29、31–34、35–37、38–40、41–45、46–48、49–53、54–59、60–65、66–71、72–77、78–83、84–95、96–98、99–103、104–109、110–113、114–117、118–119、120–121 各来自一次事先登记的研究，每次研究共用一个仓库。）
 
 ---
 
@@ -129,6 +129,8 @@
 | 117 | 日历 · 月末到月初持有 BTC | **确认失败**（2020 年以后没有了） | 择时超额 **+7.0%**，t 1.04；验证段 −2.3% | [oi_moon_calendar_failureprove · TOM1](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/reports/117_TOM1_turn_of_month_timing.md) |
 | 118 | 日线 · 技术指标规则大全第二批（145 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.93，校正“试了 145 条”后 p **0.087**；训练段最好的规则验证段 t **−0.09** | [d1_indicator_zoo2_failureprove · A](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/118_A_btc_indicator_zoo2.md) |
 | 119 | 日线 · 技术指标规则大全第二批（145 条，每季度 10 个币） | **确认失败**（145 条里只有 1 条 t > 2） | 最大 t 2.58，校正后 p **0.166**；145 条里 t > 2 的只有 1 条 | [d1_indicator_zoo2_failureprove · B](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/119_B_alt10_indicator_zoo2.md) |
+| 120 | 日线 · TradingView 社区热门脚本（36 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.59，校正“试了 36 条”后 p **0.073**；训练段最好的规则验证段 t **0.31** | [tradingview_scripts_failureprove · A](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/120_A_btc_tradingview_scripts.md) |
+| 121 | 日线 · TradingView 社区热门脚本（36 条，每季度 10 个币） | **确认失败**（没有一条 t > 2） | 最大 t 1.64，校正后 p **0.383**；36 条里没有一条 t > 2 | [tradingview_scripts_failureprove · B](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/121_B_alt10_tradingview_scripts.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2168,6 +2170,46 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/d1_indicator_zoo2_failureprove
 cd d1_indicator_zoo2_failureprove
+py verify.py
+```
+
+### 120–121 · 第二十二轮事先登记的研究：TradingView 社区热门脚本（共用一个仓库）
+
+TradingView 社区里流传最广、前两批指标大全（第 30 条、第 118–119 条）没有测过的 14 个开源脚本（Squeeze Momentum、Coral Trend、Waddah Attar Explosion（LazyBear），AlphaTrend、OTT、Tillson T3、MavilimW（KivancOzbilgic），HalfTrend（everget），Range Filter（DonovanWall 原作、guikroth 版），Hull Suite（InSilico），Williams Vix Fix（ChrisMoody），Pivot Point SuperTrend（LonesomeTheBlue），QQE，Trend Magic），用默认参数、按原算法重写成 36 条只做多的日线规则，在 BTC 和每季度 10 个币上各测一遍。规则清单和通过标准同样是事先登记的（[事先登记_第二十二轮.md](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/事先登记_第二十二轮.md)）。**登记 2 组，2 组失败**。
+
+- 累计 116 个事先登记的检验，Reality Check 的门槛 p < 0.000216。数据和第 118–119 条相同（Binance Vision）；单边 0.10%。
+- 和前两批一样：BTC 上顺势的脚本作为一类是正的，抄底的 Williams Vix Fix 是负的，单独哪一条都和运气分不出来；10 个币上没有一条 t > 2。
+- 这 2 条共用一个仓库 [tradingview_scripts_failureprove](https://github.com/runningshark/tradingview_scripts_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+
+### 120 · TradingView 社区热门脚本（36 条，BTC）
+
+这一组只用 BTC：持有时满仓 BTCUSDT 现货，空仓时拿现金。（[档案](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/120_A_btc_tradingview_scripts.md)）
+
+- **最好的一条经不起“试了 36 条”的校正。** 超额 t 最高的是“AlphaTrend(1, 14, MFI（默认）) 上穿两根前的自己买、下穿卖”，t = 2.59。如果 36 条全都没有择时能力，光靠运气，最大 t 的 95% 分位就有 2.76。Reality Check 的 p = 0.073，离登记的门槛 0.000216 很远。
+- **到验证段就没了。** 只看训练段（到 2023-12-31），最好的规则也是这一条（训练段 t 2.74），它在验证段的超额是 +4.1%/年，t 0.31。训练段前 10% 的 4 条规则合在一起，验证段 t 0.30；训练段和验证段的 t 在规则之间的秩相关是 −0.08。
+- **成本。** 零成本时 p = 0.049（最大 t 2.77）；扣单边 0.10% 后 p = 0.073；成本翻倍后 p = 0.091（最大 t 2.51）。
+- **抄底的规则是负的。** Williams Vix Fix 的“恐慌柱买入”3 条全为负（t 中位数 −0.85）。
+- 剩下的线索：顺势的脚本作为一类是正的：AlphaTrend、MavilimW、Hull Suite、Pivot Point SuperTrend、Squeeze Momentum、Coral Trend、Range Filter、Waddah Attar、Trend Magic 这 9 种，t 的中位数在 1.07 到 2.22 之间；QQE 0.44、HalfTrend 0.10、OTT −0.06 基本没有。这和第三、二十一轮的读法一样：作为一类有一点择时能力，单独哪一条都和运气分不出来。
+
+```bash
+git clone https://github.com/runningshark/tradingview_scripts_failureprove
+cd tradingview_scripts_failureprove
+py verify.py
+```
+
+### 121 · TradingView 社区热门脚本（36 条，每季度 10 个币）
+
+每个季度第一天按现货成交额选 10 个币（和第十到二十一轮相同，一共 48 个合约，含后来下架的），每条规则在每个币上各自给信号；币在币池里、并且规则说持有时，占资金的 1/10（U 本位永续合约），其余拿现金。（[档案](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/121_B_alt10_tradingview_scripts.md)）
+
+- **最好的一条经不起“试了 36 条”的校正。** 超额 t 最高的是“QQE(14,5,4.236) 趋势向上且 RSI 均线 > 50 持有”，t = 1.64。全靠运气时最大 t 的 95% 分位是 2.69；Reality Check 的 p = 0.383。
+- **没有一条单独像样。** 36 条里 t > 2 的一条都没有，t 的中位数 0.51，超额为正的占 69%。
+- **样本外。** 训练段最好的规则是“绿柱高过爆发线和死区时持有”（训练段 t 1.37），验证段超额 −0.7%/年，t −0.05。
+- **成本和执行。** 零成本 p = 0.285；成本翻倍 p = 0.493；晚一天执行 p = 0.445。两个基准也扣掉资金费（登记的另外报告项）：最大 t 1.84，p = 0.272。
+- 剩下的线索：降回撤：一直持有这 10 个币（等权，按价格算）：夏普 0.65、最大回撤 −90%；夏普最高的一条（QQE(14,5,4.236) 趋势向上且 RSI 均线 > 50 持有）：夏普 0.93、最大回撤 −40%；36 条里夏普超过持有的占 42%。
+
+```bash
+git clone https://github.com/runningshark/tradingview_scripts_failureprove
+cd tradingview_scripts_failureprove
 py verify.py
 ```
 
