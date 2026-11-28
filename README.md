@@ -135,6 +135,7 @@
 | 124 | 1 小时 · 山寨币暴涨之后做空：TradingView 热门见顶脚本（20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.08，校正“试了 20 条”后 p **0.66**；一涨就空每次平均 **−5.6%**，34 次 1 倍空单爆仓 | [pump_fade_tradingview_failureprove](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/reports/124_pump_fade_tradingview.md) |
 | 125 | 1 小时 · 山寨币暴涨之后：持仓量骤降、多空人数比做空（14 条，235 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.74，校正后 p **0.24**；训练段最好的规则 2026 年 **−1.4%**；空头扎堆时做空每笔 **−16.8%** | [oi_ls_pump_fade_failureprove](https://github.com/runningshark/oi_ls_pump_fade_failureprove/blob/master/reports/125_oi_ls_pump_fade.md) |
 | 126 | 1 小时 · 山寨币暴涨之后做空：TradingView 第二批热门脚本（背离、反转、见顶，20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.03，校正后 p **0.70**；PORTAL 上"抓到顶"的 Tops/Bottoms 红星，268 次里持有 24 小时平均 **−0.8%** | [tv_reversal_divergence_failureprove](https://github.com/runningshark/tv_reversal_divergence_failureprove/blob/master/reports/126_tv_reversal_divergence.md) |
+| 127 | 1 小时 · 山寨币暴涨之后做空：TradingView 第三批热门脚本（10 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.39**；PORTAL 上"抓到顶"的 3 个信号，中途都要扛 46%–48% 的浮亏 | [tv_batch3_pump_fade_failureprove](https://github.com/runningshark/tv_batch3_pump_fade_failureprove/blob/master/reports/127_tv_batch3.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2330,6 +2331,30 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/tv_reversal_divergence_failureprove
 cd tv_reversal_divergence_failureprove
+py verify.py
+```
+
+### 127 · 第二十七轮事先登记的研究：山寨币暴涨之后做空，TradingView 第三批热门脚本
+
+**测了什么。**
+
+- 这是第 124、126 条的续篇。用和第 126 条同样的 6 个搜索词，取第一页收藏 2,900 到 4,000、开源、有明确看跌信号的 3 个脚本：
+  - [NM] Reversal Candles v01；
+  - Top G indicator [BigBeluga]；
+  - RSI Overbought/Oversold + Divergence Indicator。
+- 没收的：之字形画顶底的 Price Action Top/Bottom。它的顶点要过 17 根才确认，之后还会挪走。
+- 交易：4 个信号加"一涨就空"对照，持有 24 或 72 小时，共 10 条规则。事件、成本、资金费、1 倍爆仓和第 124 条相同。
+- 规则清单是事先登记的（[事先登记_第二十七轮.md](https://github.com/runningshark/tv_batch3_pump_fade_failureprove/blob/master/事先登记_第二十七轮.md)）。（[档案](https://github.com/runningshark/tv_batch3_pump_fade_failureprove/blob/master/reports/127_tv_batch3.md)）
+
+**结果。**
+
+- 累计 122 个事先登记的检验，Reality Check 的门槛是 p < 0.000205。
+- **最好的一条和运气分不出来。** t 最高的是"反转 K 线，持有 72 小时"：每次暴涨平均 +2.7%，t = 1.33；p = 0.39。训练段选出的也是它，2026 年平均 +3.0%，t 0.96。
+- **PORTAL 那次（样板，不计入检验）。** 反转 K 线、Top G 的 Top、RSI 看跌背离都在 11-27 晚上 0.038 到 0.039 给出信号。但中途都要扛 46% 到 48% 的浮亏，放到 268 次暴涨里也都不显著。
+
+```bash
+git clone https://github.com/runningshark/tv_batch3_pump_fade_failureprove
+cd tv_batch3_pump_fade_failureprove
 py verify.py
 ```
 
