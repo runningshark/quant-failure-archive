@@ -139,6 +139,7 @@
 | 128 | 1 小时 · 山寨币暴涨之后做空：TradingView 第四批热门脚本（14 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.33，校正后 p **0.52**；PORTAL 上"抓到顶"的 2 个信号，放到 268 次里平均是亏的 | [tv_batch4_pump_fade_failureprove](https://github.com/runningshark/tv_batch4_pump_fade_failureprove/blob/master/reports/128_tv_batch4.md) |
 | 129 | 1 小时 · 山寨币暴涨之后做空：TradingView 第五批热门脚本，换了一组搜索词（16 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.71，校正后 p **0.32**；五批里最好的一批（75% 的规则平均为正），但离门槛差得远 | [tv_batch5_pump_fade_failureprove](https://github.com/runningshark/tv_batch5_pump_fade_failureprove/blob/master/reports/129_tv_batch5.md) |
 | 130 | 1 小时 · 山寨币暴涨之后做空：TradingView 第六批热门脚本（10 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.70，校正后 p **0.20**；PORTAL 上"抓到顶"的 dump K 线，放到 268 次里 t 0.70 | [tv_batch6_pump_fade_failureprove](https://github.com/runningshark/tv_batch6_pump_fade_failureprove/blob/master/reports/130_tv_batch6.md) |
+| 131 | 1 小时 · 山寨币暴涨之后：见顶信号出现后再拉高 20% 才做空（65 个信号 × 4 种出场，268 次暴涨） | **确认失败**（训练段选出的组合 2026 年是亏的） | 最大 t 4.63，校正后 p **0.001**（门槛 0.000194）；训练段选出的组合 2026 年每次 **−1.3%**；等拉高再空，24 小时 1 倍爆仓率 **9.1%**（信号一出就空 5.6%） | [signal_pump20_short_failureprove](https://github.com/runningshark/signal_pump20_short_failureprove/blob/master/reports/131_signal_pump20_short.md) |
 
 ### 01 · ETH 择时（遗传规划）
 
@@ -2439,6 +2440,37 @@ py verify.py
 ```bash
 git clone https://github.com/runningshark/tv_batch6_pump_fade_failureprove
 cd tv_batch6_pump_fade_failureprove
+py verify.py
+```
+
+### 131 · 第三十五轮事先登记的研究：见顶信号出现后，再拉高 20% 才做空
+
+**测了什么。**
+
+- 这是第 124、126–130 条的续篇。那几条都是"见顶信号一出就空"。这一条换了入场：信号出现后 24 小时内，价格再拉到信号价的 1.2 倍，才在那里挂单开空；没拉到就不开单。
+- 信号 65 个：
+  - 第 124、126–130 条的 39 条规则，加上"触发就空"；
+  - 第 31–33 轮的 25 个信号。那几轮还没有结论，规则名字和代码暂不公开，只给编号和逐事件收益。
+- 出场 4 种：不到 30 分钟、不到 30 分钟 + 止盈 5%、拿 24 小时、24 小时 + 止盈 10%，一共 260 个组合。
+- 事件、成本、资金费、1 倍爆仓都和第 124 条相同。
+- 事先登记：[事先登记_第三十五轮.md](https://github.com/runningshark/signal_pump20_short_failureprove/blob/master/事先登记_第三十五轮.md)。（[档案](https://github.com/runningshark/signal_pump20_short_failureprove/blob/master/reports/131_signal_pump20_short.md)）
+
+**结果。**
+
+- 累计 129 个事先登记的检验，Reality Check 的门槛是 p < 0.000194。
+- **最好的组合过不了门槛。** t 最高的是第 33 轮的一个信号配"24 小时 + 止盈 10%"：t = 4.63，p = 0.0010。
+- **样本外不成立。** 训练段选出的是第 32 轮的一个信号配"24 小时 + 止盈 10%"：
+  - 训练段 t 4.11；
+  - 2026 年每次暴涨平均 −1.30%，t −1.20；
+  - 29 笔里有 2 笔 1 倍爆仓。
+- **等拉高再空，没有比信号一出就空更好。** 39 条已公开规则合在一起看：
+  - 30 分钟以内，每笔 +0.08%，基本打平；
+  - 拿 24 小时，每笔 +1.20%，但 1 倍爆仓率 9.1%，比信号一出就空还高（每笔 −0.53%，爆仓率 5.6%）；
+  - 信号出来以后还能再拉 20% 的，常常是正在被轧空的币。
+
+```bash
+git clone https://github.com/runningshark/signal_pump20_short_failureprove
+cd signal_pump20_short_failureprove
 py verify.py
 ```
 
