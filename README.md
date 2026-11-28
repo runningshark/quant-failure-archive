@@ -2068,6 +2068,7 @@ py verify.py SSR1
 - 日历规则看**择时超额**和**周期内的随机相位检验**（以前的平移检验对按周期重复的规则不适用）；事件类和**随手进场**比。
 - 持仓量骤降之后的一周和随手挑的一周差不多；新月前后和满月前后没有差别；周一不扣成本还涨得多，但一周进出两次付不起成本；月初效应 2020 年以后没有了。
 - 这 4 条共用一个仓库 [oi_moon_calendar_failureprove](https://github.com/runningshark/oi_moon_calendar_failureprove)（需要 pandas、numpy）。总览见 [FAILURE_REPORT.md](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/FAILURE_REPORT.md)。数据许可见仓库的 data/README.md。
+- 说明（登记之后才发现）：116（DOW1）、117（TOM1）和第三轮（第 30 条）登记的日历类规则部分重复。第三轮的 467 条里已经有“只在星期一持有”和“只在月末 2 天和月初 3 天持有”，在 30 个币、ETH、BTC 上都测过，结论也是没有择时能力。这一轮的登记里说周内、月初效应“都还没有测过”是错的；判定不变。详见仓库 [FAILURE_REPORT.md](https://github.com/runningshark/oi_moon_calendar_failureprove/blob/master/FAILURE_REPORT.md) 的“已知缺陷”。
 
 ### 114 · 持仓量骤降后做多 BTC、ETH
 
