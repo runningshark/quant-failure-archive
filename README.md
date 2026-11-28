@@ -131,6 +131,7 @@
 | 119 | 日线 · 技术指标规则大全第二批（145 条，每季度 10 个币） | **确认失败**（145 条里只有 1 条 t > 2） | 最大 t 2.58，校正后 p **0.166**；145 条里 t > 2 的只有 1 条 | [d1_indicator_zoo2_failureprove · B](https://github.com/runningshark/d1_indicator_zoo2_failureprove/blob/master/reports/119_B_alt10_indicator_zoo2.md) |
 | 120 | 日线 · TradingView 社区热门脚本（36 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 2.59，校正“试了 36 条”后 p **0.073**；训练段最好的规则验证段 t **0.31** | [tradingview_scripts_failureprove · A](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/120_A_btc_tradingview_scripts.md) |
 | 121 | 日线 · TradingView 社区热门脚本（36 条，每季度 10 个币） | **确认失败**（没有一条 t > 2） | 最大 t 1.64，校正后 p **0.383**；36 条里没有一条 t > 2 | [tradingview_scripts_failureprove · B](https://github.com/runningshark/tradingview_scripts_failureprove/blob/master/reports/121_B_alt10_tradingview_scripts.md) |
+| 122 | 4 小时 · 指标大全换到 4 小时图（631 条，BTC） | **确认失败**（最好的一条和运气分不出来） | 最大 t 3.16，校正“试了 631 条”后 p **0.125**；训练段最好的规则验证段 t **0.87** | [h4_indicator_zoo_failureprove](https://github.com/runningshark/h4_indicator_zoo_failureprove/blob/master/reports/122_A_btc_4h_indicator_zoo.md) |
 | 124 | 1 小时 · 山寨币暴涨之后做空：TradingView 热门见顶脚本（20 条，268 次暴涨） | **确认失败**（最好的一条和运气分不出来） | 最大 t 1.08，校正“试了 20 条”后 p **0.66**；一涨就空每次平均 **−5.6%**，34 次 1 倍空单爆仓 | [pump_fade_tradingview_failureprove](https://github.com/runningshark/pump_fade_tradingview_failureprove/blob/master/reports/124_pump_fade_tradingview.md) |
 
 ### 01 · ETH 择时（遗传规划）
@@ -2214,6 +2215,31 @@ cd tradingview_scripts_failureprove
 py verify.py
 ```
 
+### 122 · 第二十三轮事先登记的研究：指标大全换到 4 小时图（631 条，BTC）
+
+**测了什么。**
+
+- 规则：前三批测过的日线指标规则，参数不变、按 K 线根数，原样用到 BTCUSDT 现货的 4 小时 K 线上。很多人在 TradingView 上就是这么用的。
+  - 三批分别是：第三轮去掉日历类的 450 条、第二十一轮 145 条、第二十二轮 TradingView 社区热门脚本 36 条；
+  - 一共 631 条，74 类。
+- 规则清单和通过标准是事先登记的（[事先登记_第二十三轮.md](https://github.com/runningshark/h4_indicator_zoo_failureprove/blob/master/事先登记_第二十三轮.md)）。登记里的另一组（ETH）没有放进失败档案。（[档案](https://github.com/runningshark/h4_indicator_zoo_failureprove/blob/master/reports/122_A_btc_4h_indicator_zoo.md)）
+
+**结果。**
+
+- 累计 118 个事先登记的检验，Reality Check 的门槛是 p < 0.000212。数据由 Binance Vision 的 1 小时 K 线合成；单边成本 0.10%。
+- **最好的一条经不起"试了 631 条"的校正。** t 最高的是"250 根涨幅 > 0% 持有"（大约 42 天的动量），t 3.16。全靠运气时，最大 t 的 95% 分位是 3.50；Reality Check 的 p = 0.125。
+- **到验证段就没了。** 训练段最好的也是这一条（训练段 t 3.12），验证段超额 +11.7%/年，t 0.87。训练段前 10% 合在一起，验证段 t 0.54。成本翻倍时 p = 0.333；零成本时 p = 0.025。
+- **剩下的线索。** 和日线一样：
+  - 顺势的几类作为一类是正的：双均线交叉、OBV 均线、SuperTrend、通道突破；
+  - 抄底的几类明显是负的：KD、连跌接多、Connors RSI、RSI(2)；
+  - 单独哪一条都和运气分不出来。
+
+```bash
+git clone https://github.com/runningshark/h4_indicator_zoo_failureprove
+cd h4_indicator_zoo_failureprove
+py verify.py
+```
+
 ### 124 · 第二十四轮事先登记的研究：山寨币暴涨之后做空（TradingView 热门见顶脚本）
 
 **起因。** 用户问：PORTALUSDT 2026-11-27 一天涨了两倍多，11-28 凌晨冲到 0.05699 之后，一小时跌掉七成。能不能在 TradingView 里找到抓这种行情的指标？一次行情，事后总能挑出一个"刚好准"的指标，所以这一轮把指标放到同类行情里普遍测。
@@ -2237,7 +2263,7 @@ py verify.py
 - **PORTAL 这次。**
   - 看着最准的是 Boom Hunter 见顶点和 Exhaustion 9。两者分别在 11-28 01:00 和 11-27 17:00、都在 0.0386 开空。中途都浮亏 48%，按 04:30 的价格算 +57%。
   - 放到 268 次暴涨里，持有 72 小时，Boom Hunter 见顶点平均 −0.2%，Exhaustion 9 平均 −3.0%。
-- 第 122–123 条留给第二十三轮（4 小时 K 线的指标大全），档案还在整理。
+- 第 122 条是第二十三轮（4 小时 K 线的指标大全）的 BTC 组；第 123 条留给同一轮的另一组，它没有放进失败档案。
 
 ```bash
 git clone https://github.com/runningshark/pump_fade_tradingview_failureprove
